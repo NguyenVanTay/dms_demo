@@ -14,7 +14,8 @@ class _RegisterState extends State<Register> {
   TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
@@ -107,6 +108,6 @@ class _RegisterState extends State<Register> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

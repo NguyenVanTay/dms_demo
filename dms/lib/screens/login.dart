@@ -14,7 +14,8 @@ class _LoginState extends State<Login> {
   TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
@@ -93,6 +94,6 @@ class _LoginState extends State<Login> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, unused_local_variable
 import 'package:flutter/material.dart';
-import '../widgets/task.dart';
+import '../widgets/taskwidget.dart';
 
 class AllTasks extends StatefulWidget {
   @override
@@ -24,7 +24,7 @@ class _AllTasksState extends State<AllTasks> {
         ),
         leading: IconButton(
           onPressed: () {},
-          icon: Icon(Icons.arrow_back_ios_new),
+          icon: Icon(Icons.arrow_back_outlined),
           splashColor: Colors.grey,
           color: Colors.black,
           //style: ButtonStyle(backgroundColor: Colors.black),

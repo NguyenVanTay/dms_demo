@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../widgets/task.dart';
+import '../widgets/taskwidget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,7 +17,8 @@ class _HomePageState extends State<HomePage> {
 
     //int currentSelectionItem = 0;
 
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -140,11 +141,13 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Container(
+                    
                     height: 30,
                     width: 30,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Color.fromRGBO(146, 252, 161, 1),
+                      //boxShadow: BoxShadow(blurRadius: 2,spreadRadius: 2,offset: 0)
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -478,6 +481,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

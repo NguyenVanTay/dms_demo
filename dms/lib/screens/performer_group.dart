@@ -12,7 +12,8 @@ class PerformerGroup extends StatefulWidget {
 class _PerformerGroupState extends State<PerformerGroup> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -36,6 +37,6 @@ class _PerformerGroupState extends State<PerformerGroup> {
       //   child: ,
       // ),
       bottomNavigationBar: null,
-    );
+    ));
   }
 }
