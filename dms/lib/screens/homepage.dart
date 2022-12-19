@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
             color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromRGBO(255, 250, 160, 1),
       ),
       body: Container(
         padding: EdgeInsets.only(top: 10),
@@ -124,9 +124,12 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     children: [
                       Text(
+                        overflow: TextOverflow.ellipsis,
                         "MoonSoon Festival Spring 2022 ",
                         style: TextStyle(
-                            fontSize: 16, fontStyle: FontStyle.italic),
+                          fontSize: 16,
+                          fontStyle: FontStyle.italic,
+                        ),
                       ),
                       Icon(Icons.expand_more),
                     ],
@@ -141,7 +144,6 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Container(
-                    
                     height: 30,
                     width: 30,
                     decoration: BoxDecoration(
@@ -155,8 +157,6 @@ class _HomePageState extends State<HomePage> {
                         Column(
                           children: [
                             Container(
-                              height: 38,
-                              width: 38,
                               margin: EdgeInsets.only(top: 10, right: 60),
                               //padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
@@ -173,6 +173,7 @@ class _HomePageState extends State<HomePage> {
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
+                            overflow: TextOverflow.ellipsis,
                             "On Processing",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
@@ -198,8 +199,6 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Container(
-                    height: 30,
-                    width: 30,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Color.fromRGBO(255, 124, 124, 0.8),
@@ -208,22 +207,21 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          height: 38,
-                          width: 38,
                           margin: EdgeInsets.only(top: 10, right: 60),
                           //padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.white,
                           ),
-                          child: Icon(
-                            size: 36,
-                            Icons.notification_important_outlined,
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.notification_important_outlined),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(right: 35),
                           child: Text(
+                            overflow: TextOverflow.ellipsis,
                             "Overdue",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
@@ -249,8 +247,6 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Container(
-                    height: 30,
-                    width: 30,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Color.fromRGBO(255, 250, 152, 1),
@@ -259,22 +255,21 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          height: 38,
-                          width: 38,
                           margin: EdgeInsets.only(top: 10, right: 60),
                           //padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.white,
                           ),
-                          child: Icon(
-                            size: 36,
-                            Icons.exit_to_app_outlined,
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.exit_to_app_outlined),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
+                            overflow: TextOverflow.ellipsis,
                             "Not accepted",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
@@ -300,8 +295,6 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Container(
-                    height: 30,
-                    width: 30,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Color.fromRGBO(185, 247, 255, 1),
@@ -310,22 +303,21 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          height: 38,
-                          width: 38,
                           margin: EdgeInsets.only(top: 10, right: 60),
                           //padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.white,
                           ),
-                          child: Icon(
-                            size: 36,
-                            Icons.hourglass_top_outlined,
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.hourglass_top_outlined),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15),
                           child: Text(
+                            overflow: TextOverflow.ellipsis,
                             "Pending approve",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
@@ -351,8 +343,6 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Container(
-                    height: 30,
-                    width: 30,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Color.fromRGBO(255, 225, 190, 1),
@@ -361,22 +351,21 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          height: 38,
-                          width: 38,
                           margin: EdgeInsets.only(top: 10, right: 60),
                           //padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.white,
                           ),
-                          child: Icon(
-                            size: 36,
-                            Icons.logout_outlined,
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.logout_outlined),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
+                            overflow: TextOverflow.ellipsis,
                             "Task from me",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
@@ -402,8 +391,6 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Container(
-                    height: 30,
-                    width: 30,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Color.fromRGBO(146, 252, 161, 1),
@@ -412,21 +399,25 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          height: 38,
-                          width: 38,
+                          //height: 38,
+                          //  width: 38,
                           margin: EdgeInsets.only(top: 10, right: 60),
-                          //padding: EdgeInsets.all(10),
+
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.white,
                           ),
-                          child: Icon(
-                              size: 36,
-                              Icons.playlist_add_check_circle_outlined),
+
+                          child: IconButton(
+                            onPressed: () {},
+                            icon:
+                                Icon(Icons.playlist_add_check_circle_outlined),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(right: 50),
                           child: Text(
+                            overflow: TextOverflow.ellipsis,
                             "Verify",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),

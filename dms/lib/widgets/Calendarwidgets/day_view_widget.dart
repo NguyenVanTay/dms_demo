@@ -6,7 +6,6 @@ import '../../models/event.dart';
 class DayViewWidget extends StatelessWidget {
   final GlobalKey<DayViewState>? state;
   final double? width;
-  // final
 
   const DayViewWidget({
     Key? key,
@@ -16,12 +15,9 @@ class DayViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      child: DayView<Event>(
-        key: state,
-        width: width,
-      ),
+    return DayView<Event>(
+      key: state,
+      width: width,
     );
   }
 }
