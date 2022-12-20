@@ -15,7 +15,7 @@ class _AllTasksState extends State<AllTasks> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Task List",
+          "Tasks Managements",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -23,55 +23,69 @@ class _AllTasksState extends State<AllTasks> {
           ),
         ),
         leading: IconButton(
-          onPressed: () {},
+          color: Colors.black,
           icon: Icon(Icons.arrow_back_outlined),
           splashColor: Colors.grey,
-          color: Colors.black,
-          //style: ButtonStyle(backgroundColor: Colors.black),
+          onPressed: () {},
         ),
-        backgroundColor: Color.fromRGBO(255, 250, 160, 1),
-      ),
-      body: Container(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Tất cả",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10, right: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(45),
-                    color: Colors.grey.withOpacity(0.2),
-                  ),
-                  child: IconButton(
-                      onPressed: () {}, icon: Icon(Icons.filter_list_outlined)),
-                ),
-              ],
+        actions: [
+          CircleAvatar(
+            backgroundColor: Colors.grey[50],
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.more_vert),
+              color: Colors.black,
             ),
-            Container(
-              height: 640,
-              margin: EdgeInsets.only(top: 10),
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: items,
-                itemBuilder: (context, index) => Stack(
-                  children: [
-                    Column(
-                      children: [task],
+          )
+        ],
+        backgroundColor: Colors.white,
+        //backgroundColor: Color.fromRGBO(255, 250, 160, 1),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "All",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                  ],
-                ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10, right: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(45),
+                      color: Colors.grey.withOpacity(0.2),
+                    ),
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.filter_list_outlined)),
+                  ),
+                ],
               ),
-            )
-          ],
+              Container(
+                height: 640,
+                margin: EdgeInsets.only(top: 10),
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: items,
+                  itemBuilder: (context, index) => Stack(
+                    children: [
+                      Column(
+                        children: [task],
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

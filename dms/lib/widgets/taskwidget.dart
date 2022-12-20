@@ -38,18 +38,18 @@ Widget task = Container(
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Text(
-                    "Task name",
+                    "Develope a master plan",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Text(
-                  "Status: received",
+                  "On processing",
                   style: TextStyle(
                     fontSize: 16,
                   ),
                 ),
                 Text(
-                  "Test dealine : 15:00 ngày 01.01.2022",
+                  "Dealine : 15:00 October 01,2022",
                   style: TextStyle(
                     fontSize: 16,
                   ),

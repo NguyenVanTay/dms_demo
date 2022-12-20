@@ -42,6 +42,9 @@ dependencies:
   syncfusion_flutter_calendar: ^20.3.61
   calendar_view: ^1.0.1
   flutter_colorpicker: ^1.0.3
+  material_design_icons_flutter: ^6.0.7096
+  iconify_flutter: ^0.0.5
+  carbon_icons: ^0.0.1+2
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -19,8 +19,8 @@ class _DayViewPageDemoState extends State<DayViewPageDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
-        heroTag: 'addevent',
         child: Icon(Icons.add),
         elevation: 8,
         onPressed: () async {

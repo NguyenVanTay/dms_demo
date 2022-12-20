@@ -44,55 +44,57 @@ class _ProjectState extends State<Project> {
                 ),
               )
             ],
-            backgroundColor: Color.fromRGBO(255, 250, 160, 1),
+            backgroundColor: Colors.white,
           ),
-          body: Container(
-            child: Column(children: [
-              Container(
-                margin:
-                    EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 300),
-                height: 35,
-                width: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color.fromRGBO(146, 252, 161, 1),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Icon(
-                      Icons.add,
-                      size: 24,
-                      color: Color.fromRGBO(0, 169, 0, 1),
-                    ),
-                    Text(
-                      "Create",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+          body: SingleChildScrollView(
+            child: Container(
+              child: Column(children: [
+                Container(
+                  margin: EdgeInsets.only(
+                      top: 10, bottom: 10, left: 10, right: 300),
+                  height: 35,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color.fromRGBO(146, 252, 161, 1),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(
+                        Icons.add,
+                        size: 24,
                         color: Color.fromRGBO(0, 169, 0, 1),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: height * 0.75,
-                margin: EdgeInsets.only(top: 10),
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: items,
-                  itemBuilder: (context, index) => Stack(
-                    children: [
-                      Column(
-                        children: [projectwidget],
+                      Text(
+                        "Create",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(0, 169, 0, 1),
+                        ),
                       ),
                     ],
                   ),
                 ),
-              )
-            ]),
+                Container(
+                  height: height * 0.75,
+                  margin: EdgeInsets.only(top: 10),
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: items,
+                    itemBuilder: (context, index) => Stack(
+                      children: [
+                        Column(
+                          children: [projectwidget],
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ]),
+            ),
           )),
     );
   }
