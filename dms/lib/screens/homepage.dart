@@ -2,6 +2,7 @@
 
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import '../widgets/taskwidget.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,43 +30,44 @@ class _HomePageState extends State<HomePage> {
       //       color: Colors.black,
       //     ),
       //   ),
-      //   backgroundColor: Color.fromRGBO(255, 250, 160, 1),
+      //   backgroundColor: Color.fromRGBO(248,248,248, 1),
       // ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(top: 10),
+          padding: EdgeInsets.only(top: 0),
           child: Column(
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 //margin: EdgeInsets.only(top: ),
-                height: size.height / 8,
+                height: size.height / 12,
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Row(
                       children: [
                         Column(
                           children: [
                             CircleAvatar(
-                              backgroundColor: Colors.white70,
-                              radius: 40,
-                              child: CircleAvatar(
-                                backgroundImage: AssetImage("images/dog.jpg"),
-                                radius: 38,
-                              ),
+                              backgroundImage: AssetImage("images/dog.jpg"),
+                              radius: 28,
+                              // child: CircleAvatar(
+                              //   backgroundImage: AssetImage("images/dog.jpg"),
+                              //   radius: 30,
+                              // ),
                             ),
                           ],
                         ),
-                        SizedBox(width: 5),
+                        SizedBox(width: 8),
                         Row(
                           children: [
                             Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Admin",
+                                  "Ly Tran Thanh Thao",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -96,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                               IconButton(
                                 onPressed: () {},
                                 icon: const Icon(
-                                  Icons.circle_notifications_outlined,
+                                  Icons.notifications,
                                   color: Colors.black,
                                   size: 36,
                                 ),
@@ -118,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               Container(
                 child: Row(
@@ -318,10 +320,10 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 15),
+                            padding: const EdgeInsets.only(left: 0),
                             child: Text(
                               overflow: TextOverflow.ellipsis,
-                              "Pending approve",
+                              "Pending approval",
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
@@ -436,22 +438,25 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
 
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Text(
-                      "Tasks Manager:",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              Container(
+                height: size.height * 0.05,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        "Tasks Management",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
               //list task
               Container(
-                height: size.height * 0.35,
+                height: size.height * 0.45,
                 //margin: EdgeInsets.only(top: 0),
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,

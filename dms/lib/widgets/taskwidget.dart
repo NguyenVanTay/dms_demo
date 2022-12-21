@@ -8,7 +8,7 @@ Widget task = Container(
   width: 391,
   decoration: BoxDecoration(
     borderRadius: BorderRadius.circular(10),
-    color: Color.fromRGBO(217, 217, 217, 1),
+    color: Color.fromRGBO(255, 124, 124, 0.3),
     boxShadow: [
       BoxShadow(
         blurRadius: 0.05,
@@ -23,7 +23,7 @@ Widget task = Container(
         width: 10,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.red,
+          color: Color.fromRGBO(255, 124, 124, 1),
         ),
       ),
       Column(
@@ -35,11 +35,10 @@ Widget task = Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    "Develope a master plan",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                Text(
+                  "Build a plan",
+                  style: TextStyle(
+                    fontSize: 16,
                   ),
                 ),
                 Text(
