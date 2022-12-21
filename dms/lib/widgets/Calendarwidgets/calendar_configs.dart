@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:calendar_view/calendar_view.dart';
-import 'package:dms/sources/extension.dart';
+import 'package:dms/sources/CalendarSource/extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/event.dart';
-import '../../sources/app_colors.dart';
-import '../../sources/enumerations.dart';
+import '../../sources/CalendarSource/app_colors.dart';
+import '../../sources/CalendarSource/enumerations.dart';
 
 import 'add_event_widget.dart';
 
@@ -92,7 +92,6 @@ class CalendarConfig extends StatelessWidget {
                 SizedBox(
                   height: 40,
                 ),
-               
                 Text(
                   "Add Event: ",
                   style: TextStyle(

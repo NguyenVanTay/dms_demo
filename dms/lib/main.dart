@@ -68,7 +68,7 @@ class _PageState extends State<Page> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       body: _itemWidget.elementAt(_selectIndex),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -80,12 +80,10 @@ class _PageState extends State<Page> {
           BottomNavigationBarItem(
             icon: Icon(Icons.task_outlined),
             label: 'Task',
-            backgroundColor: Colors.purple,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month_outlined),
             label: 'Calendar',
-            backgroundColor: Colors.pink,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.article_outlined),
@@ -95,7 +93,6 @@ class _PageState extends State<Page> {
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),
             label: 'Account',
-            backgroundColor: Colors.pink,
           ),
         ],
         currentIndex: _selectIndex,

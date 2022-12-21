@@ -1,10 +1,9 @@
-// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, duplicate_ignore
 
-import 'package:dms/sources/extension.dart';
+import 'package:dms/sources/CalendarSource/extension.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/Calendarwidgets/add_event_widget.dart';
-
+import '../../widgets/Calendarwidgets/add_event_widget.dart';
 import 'app_colors.dart';
 
 class CreateEventPage extends StatefulWidget {
@@ -29,11 +28,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -54,10 +50,12 @@ class _CreateEventPageState extends State<CreateEventPage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: AddEventWidget(
-          onEventAdd: context.pop,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: AddEventWidget(
+            onEventAdd: context.pop,
+          ),
         ),
       ),
     );

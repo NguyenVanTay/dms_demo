@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import '../../sources/app_colors.dart';
+import '../../sources/CalendarSource/app_colors.dart';
+import '../../sources/CalendarSource/enumerations.dart';
+
 import 'day_view_widget.dart';
+import 'month_view_widget.dart';
+import 'week_view_widget.dart';
 
 class CalendarViews extends StatelessWidget {
   final CalendarView view;
@@ -24,9 +27,18 @@ class CalendarViews extends StatelessWidget {
       width: double.infinity,
       color: AppColors.grey,
       child: Center(
-          child: DayViewWidget(
-        width: width,
-      )),
+        child: view == CalendarView.month
+            ? MonthViewWidget(
+                width: width,
+              )
+            : view == CalendarView.day
+                ? DayViewWidget(
+                    width: width,
+                  )
+                : WeekViewWidget(
+                    width: width,
+                  ),
+      ),
     );
   }
 }

@@ -1,15 +1,13 @@
-// ignore_for_file: curly_braces_in_flow_control_structures, prefer_const_constructors
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, curly_braces_in_flow_control_structures
 
 import 'package:calendar_view/calendar_view.dart';
-import 'package:dms/sources/extension.dart';
+import 'package:dms/sources/CalendarSource/extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../models/event.dart';
-import '../../sources/app_colors.dart';
-import '../../sources/constants.dart';
-
+import '../../sources/CalendarSource/app_colors.dart';
+import '../../sources/CalendarSource/constants.dart';
 import 'custom_button.dart';
 import 'date_time_selector.dart';
 
@@ -82,191 +80,182 @@ class _AddEventWidgetState extends State<AddEventWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints viewportConstraints) {
-      return SingleChildScrollView(
-          child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: viewportConstraints.maxHeight,
-        ),
-        child: Form(
-          key: _form,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+    return Form(
+      key: _form,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextFormField(
+            decoration: AppConstants.inputDecoration.copyWith(
+              labelText: "Event Title",
+            ),
+            style: TextStyle(
+              color: AppColors.black,
+              fontSize: 17.0,
+            ),
+            onSaved: (value) => _title = value?.trim() ?? "",
+            validator: (value) {
+              if (value == null || value == "")
+                return "Please enter event title.";
+
+              return null;
+            },
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.next,
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Row(
             children: [
-              TextFormField(
-                decoration: AppConstants.inputDecoration.copyWith(
-                  labelText: "Event Title",
-                ),
-                style: TextStyle(
-                  color: AppColors.black,
-                  fontSize: 17.0,
-                ),
-                onSaved: (value) => _title = value?.trim() ?? "",
-                validator: (value) {
-                  if (value == null || value == "")
-                    return "Please enter event title.";
-
-                  return null;
-                },
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: DateTimeSelectorFormField(
-                      controller: _startDateController,
-                      decoration: AppConstants.inputDecoration.copyWith(
-                        labelText: "Start Date",
-                      ),
-                      validator: (value) {
-                        if (value == null || value == "")
-                          return "Please select date.";
-
-                        return null;
-                      },
-                      textStyle: TextStyle(
-                        color: AppColors.black,
-                        fontSize: 17.0,
-                      ),
-                      onSave: (date) => _startDate = date,
-                      type: DateTimeSelectionType.date,
-                    ),
+              Expanded(
+                child: DateTimeSelectorFormField(
+                  controller: _startDateController,
+                  decoration: AppConstants.inputDecoration.copyWith(
+                    labelText: "Start Date",
                   ),
-                  SizedBox(width: 20.0),
-                  Expanded(
-                    child: DateTimeSelectorFormField(
-                      controller: _endDateController,
-                      decoration: AppConstants.inputDecoration.copyWith(
-                        labelText: "End Date",
-                      ),
-                      validator: (value) {
-                        if (value == null || value == "")
-                          return "Please select date.";
+                  validator: (value) {
+                    if (value == null || value == "")
+                      return "Please select date.";
 
-                        return null;
-                      },
-                      textStyle: TextStyle(
-                        color: AppColors.black,
-                        fontSize: 17.0,
-                      ),
-                      onSave: (date) => _endDate = date,
-                      type: DateTimeSelectionType.date,
-                    ),
+                    return null;
+                  },
+                  textStyle: TextStyle(
+                    color: AppColors.black,
+                    fontSize: 17.0,
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: DateTimeSelectorFormField(
-                      controller: _startTimeController,
-                      decoration: AppConstants.inputDecoration.copyWith(
-                        labelText: "Start Time",
-                      ),
-                      validator: (value) {
-                        if (value == null || value == "")
-                          return "Please select start time.";
-
-                        return null;
-                      },
-                      onSave: (date) => _startTime = date,
-                      textStyle: TextStyle(
-                        color: AppColors.black,
-                        fontSize: 17.0,
-                      ),
-                      type: DateTimeSelectionType.time,
-                    ),
-                  ),
-                  SizedBox(width: 20.0),
-                  Expanded(
-                    child: DateTimeSelectorFormField(
-                      controller: _endTimeController,
-                      decoration: AppConstants.inputDecoration.copyWith(
-                        labelText: "End Time",
-                      ),
-                      validator: (value) {
-                        if (value == null || value == "")
-                          return "Please select end time.";
-
-                        return null;
-                      },
-                      onSave: (date) => _endTime = date,
-                      textStyle: TextStyle(
-                        color: AppColors.black,
-                        fontSize: 17.0,
-                      ),
-                      type: DateTimeSelectionType.time,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              TextFormField(
-                focusNode: _descriptionNode,
-                style: TextStyle(
-                  color: AppColors.black,
-                  fontSize: 17.0,
-                ),
-                keyboardType: TextInputType.multiline,
-                textInputAction: TextInputAction.newline,
-                selectionControls: MaterialTextSelectionControls(),
-                minLines: 1,
-                maxLines: 10,
-                maxLength: 1000,
-                validator: (value) {
-                  if (value == null || value.trim() == "")
-                    return "Please enter event description.";
-
-                  return null;
-                },
-                onSaved: (value) => _description = value?.trim() ?? "",
-                decoration: AppConstants.inputDecoration.copyWith(
-                  hintText: "Event Description",
+                  onSave: (date) => _startDate = date,
+                  type: DateTimeSelectionType.date,
                 ),
               ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Row(
-                children: [
-                  Text(
-                    "Event Color: ",
-                    style: TextStyle(
-                      color: AppColors.black,
-                      fontSize: 17,
-                    ),
+              SizedBox(width: 20.0),
+              Expanded(
+                child: DateTimeSelectorFormField(
+                  controller: _endDateController,
+                  decoration: AppConstants.inputDecoration.copyWith(
+                    labelText: "End Date",
                   ),
-                  GestureDetector(
-                    onTap: _displayColorPicker,
-                    child: CircleAvatar(
-                      radius: 15,
-                      backgroundColor: _color,
-                    ),
+                  validator: (value) {
+                    if (value == null || value == "")
+                      return "Please select date.";
+
+                    return null;
+                  },
+                  textStyle: TextStyle(
+                    color: AppColors.black,
+                    fontSize: 17.0,
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              CustomButton(
-                onTap: _createEvent,
-                title: "Add Event",
+                  onSave: (date) => _endDate = date,
+                  type: DateTimeSelectionType.date,
+                ),
               ),
             ],
           ),
-        ),
-      ));
-    });
+          SizedBox(
+            height: 15,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: DateTimeSelectorFormField(
+                  controller: _startTimeController,
+                  decoration: AppConstants.inputDecoration.copyWith(
+                    labelText: "Start Time",
+                  ),
+                  validator: (value) {
+                    if (value == null || value == "")
+                      return "Please select start time.";
+
+                    return null;
+                  },
+                  onSave: (date) => _startTime = date,
+                  textStyle: TextStyle(
+                    color: AppColors.black,
+                    fontSize: 17.0,
+                  ),
+                  type: DateTimeSelectionType.time,
+                ),
+              ),
+              SizedBox(width: 20.0),
+              Expanded(
+                child: DateTimeSelectorFormField(
+                  controller: _endTimeController,
+                  decoration: AppConstants.inputDecoration.copyWith(
+                    labelText: "End Time",
+                  ),
+                  validator: (value) {
+                    if (value == null || value == "")
+                      return "Please select end time.";
+
+                    return null;
+                  },
+                  onSave: (date) => _endTime = date,
+                  textStyle: TextStyle(
+                    color: AppColors.black,
+                    fontSize: 17.0,
+                  ),
+                  type: DateTimeSelectionType.time,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          TextFormField(
+            focusNode: _descriptionNode,
+            style: TextStyle(
+              color: AppColors.black,
+              fontSize: 17.0,
+            ),
+            keyboardType: TextInputType.multiline,
+            textInputAction: TextInputAction.newline,
+            selectionControls: MaterialTextSelectionControls(),
+            minLines: 1,
+            maxLines: 10,
+            maxLength: 1000,
+            validator: (value) {
+              if (value == null || value.trim() == "")
+                return "Please enter event description.";
+
+              return null;
+            },
+            onSaved: (value) => _description = value?.trim() ?? "",
+            decoration: AppConstants.inputDecoration.copyWith(
+              hintText: "Event Description",
+            ),
+          ),
+          SizedBox(
+            height: 15.0,
+          ),
+          Row(
+            children: [
+              Text(
+                "Event Color: ",
+                style: TextStyle(
+                  color: AppColors.black,
+                  fontSize: 17,
+                ),
+              ),
+              GestureDetector(
+                onTap: _displayColorPicker,
+                child: CircleAvatar(
+                  radius: 15,
+                  backgroundColor: _color,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          CustomButton(
+            onTap: _createEvent,
+            title: "Add Event",
+          ),
+        ],
+      ),
+    );
   }
 
   void _createEvent() {
