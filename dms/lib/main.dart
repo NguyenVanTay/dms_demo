@@ -1,18 +1,17 @@
-// // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, sort_child_properties_last, use_key_in_widget_constructors, sized_box_for_whitespace, prefer_final_fields, unused_element, unused_field
-
-// ignore_for_file: prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables
-
+// ignore_for_file: prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_element, unnecessary_new, unused_field, unused_import
 import 'package:calendar_view/calendar_view.dart';
-import 'package:dms/models/event.dart';
-import 'package:dms/screens/calendar.dart';
-
+import 'package:dms/routers/router.dart';
+import 'package:dms/screens/detail_task.dart';
+import 'package:dms/screens/login.dart';
+import 'package:dms/screens/register.dart';
+import 'package:dms/sources/CalendarSource/calendar.dart';
 import 'package:dms/screens/project.dart';
-
 import 'package:flutter/gestures.dart';
-
+import 'package:get/get.dart';
 import './screens/all_tasks.dart';
 import './screens/homepage.dart';
 import 'package:flutter/material.dart';
+import 'models/event.dart';
 
 DateTime get _now => DateTime.now();
 void main(List<String> args) {
@@ -24,10 +23,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CalendarControllerProvider(
+    return CalendarControllerProvider<Event>(
       controller: EventController(),
-      child: MaterialApp(
-        home: Page(),
+      child: GetMaterialApp(
+        //home: HomePage(),
         debugShowCheckedModeBanner: false,
         scrollBehavior: ScrollBehavior().copyWith(
           dragDevices: {
@@ -36,6 +35,7 @@ class MyApp extends StatelessWidget {
             PointerDeviceKind.touch,
           },
         ),
+        home: DetailTask(),
       ),
     );
   }

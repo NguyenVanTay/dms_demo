@@ -4,6 +4,7 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:dms/sources/CalendarSource/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:get/get.dart';
 
 import '../../models/event.dart';
 import '../../sources/CalendarSource/app_colors.dart';
@@ -334,7 +335,7 @@ class _AddEventWidgetState extends State<AddEventWidget> {
                     setState(() {
                       _color = color;
                     });
-                  context.pop();
+                  Navigator.of(context, rootNavigator: true).pop();
                 },
               ),
             ),

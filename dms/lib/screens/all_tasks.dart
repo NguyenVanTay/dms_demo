@@ -1,7 +1,13 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, unused_local_variable
-import 'package:flutter/material.dart';
-import '../widgets/taskwidget.dart';
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, unused_local_variable, unnecessary_new, unused_import
 
+import 'package:flutter/material.dart';
+import '../routers/router.dart';
+import '../widgets/taskwidget.dart';
+import 'package:get/get.dart';
+
+
+
+//screen  All task
 class AllTasks extends StatefulWidget {
   @override
   State<AllTasks> createState() => _AllTasksState();
@@ -78,7 +84,14 @@ class _AllTasksState extends State<AllTasks> {
                   itemBuilder: (context, index) => Stack(
                     children: [
                       Column(
-                        children: [task],
+                        children: [
+                          // use widget TaskWidget with items count = 10
+                          TaskWidget(
+                              taskName: "On Process",
+                              status: "status",
+                          
+                              dealine: DateTime.now())
+                        ],
                       ),
                     ],
                   ),

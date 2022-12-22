@@ -45,6 +45,9 @@ dependencies:
   material_design_icons_flutter: ^6.0.7096
   iconify_flutter: ^0.0.5
   carbon_icons: ^0.0.1+2
+  intl: ^0.17.0
+  percent_indicator: ^4.2.2
+  face_pile: ^0.0.2
 
 
   # The following adds the Cupertino Icons font to your application.
