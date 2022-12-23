@@ -198,15 +198,30 @@ class _DetailTaskState extends State<DetailTask> {
                 ),
               ),
               Container(
+                margin: EdgeInsets.only(top: 20),
                 //decoration: BoxDecoration(border: BorderRadius()),
-                child: TextField(
-                  decoration: InputDecoration(
-                      hintText: "Please enter a lot of text",
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(width: 1, color: Colors.blue))),
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
+                child: Container(
+                  height: 80.0,
+                  decoration: BoxDecoration(
+                    // adding borders around the widget
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1.0,
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    // for Vertical scrolling
+                    scrollDirection: Axis.vertical,
+                    child: Text(
+                      "We wish you a merry Christmas We wish you a merry Christmas We wish you a merry Christmas and a happy new year Good tidings we bring to you and your kin We wish you a merry Christmas and a happy new year Oh, bring us some figgy pudding Oh, bring us some figgy pudding Oh, bring us some figgy pudding And bring it right here",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                        letterSpacing: 3,
+                        wordSpacing: 2,
+                      ),
+                    ),
+                  ),
                 ),
               ),
               Container(
@@ -263,20 +278,30 @@ class _DetailTaskState extends State<DetailTask> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 10),
-                //decoration: BoxDecoration(border: BorderRadius()),
-                child: TextField(
-                  decoration: InputDecoration(
-                      hintText: "Please enter a lot of text",
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(width: 1, color: Colors.blue))),
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
+                height: 80,
+                decoration: BoxDecoration(
+                  // adding borders around the widget
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  // for Vertical scrolling
+                  scrollDirection: Axis.vertical,
+                  child: Text(
+                    "We wish you a merry Christmas We wish you a merry Christmas We wish you a merry Christmas and a happy new year Good tidings we bring to you and your kin We wish you a merry Christmas and a happy new year Oh, bring us some figgy pudding Oh, bring us some figgy pudding Oh, bring us some figgy pudding And bring it right here",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16.0,
+                      letterSpacing: 3,
+                      wordSpacing: 2,
+                    ),
+                  ),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 20),
+                margin: EdgeInsets.only(top: 10),
                 child: Divider(
                   height: 1,
                   thickness: 0.2,
@@ -286,22 +311,24 @@ class _DetailTaskState extends State<DetailTask> {
                 ),
               ),
               Container(
-                  margin: EdgeInsets.only(top: 40),
+                  margin: EdgeInsets.only(top: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Container(
-                        height: 60,
-                        width: 160,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Color.fromRGBO(185, 247, 255, 1),
                         ),
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              top: 20, bottom: 20, left: 30, right: 20),
+                        //  color: Color.fromRGBO(),
+                        child: TextButton(
+                          style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.black),
+                          ),
+                          onPressed: () {},
                           child: Text(
-                            "Performed",
+                            'Performed',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -312,15 +339,20 @@ class _DetailTaskState extends State<DetailTask> {
                           borderRadius: BorderRadius.circular(20),
                           color: Color.fromRGBO(146, 252, 161, 1),
                         ),
-                        height: 60,
-                        width: 240,
-                        child: Container(
-                          margin: EdgeInsets.all(20),
-                          child: Text("Accept for completion",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold)),
+                        //  color: Color.fromRGBO(),
+                        child: TextButton(
+                          style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.black),
+                          ),
+                          onPressed: () {},
+                          child: Text(
+                            'Accept for completion',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      )
+                      ),
                     ],
                   )),
             ],

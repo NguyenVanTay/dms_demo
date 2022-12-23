@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_element, unnecessary_new, unused_field, unused_import
 import 'package:calendar_view/calendar_view.dart';
 import 'package:dms/routers/router.dart';
+import 'package:dms/screens/detail_performers.dart';
 import 'package:dms/screens/detail_task.dart';
 import 'package:dms/screens/login.dart';
 import 'package:dms/screens/register.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
             PointerDeviceKind.touch,
           },
         ),
-        home: DetailTask(),
+        home: DetailPeformer(),
       ),
     );
   }
