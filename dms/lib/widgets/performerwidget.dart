@@ -37,6 +37,7 @@ class Performerwidget extends StatelessWidget {
                     margin: EdgeInsets.only(bottom: 30, left: 10),
                     child: CircleAvatar(
                       radius: 28,
+                      backgroundColor: Colors.grey,
                     ),
                   ),
                 ],
@@ -85,11 +86,14 @@ class Performerwidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              StepProgressIndicator(
-                totalSteps: 3,
-                currentStep: 2,
-                selectedColor: Colors.green,
-                unselectedColor: Colors.grey,
+              Container(
+                child: StepProgressIndicator(
+                  totalSteps: 3,
+                  currentStep: 2,
+                  selectedColor: Colors.green,
+                  unselectedColor: Colors.grey,
+                  fallbackLength: 300,
+                ),
               )
             ],
           ),

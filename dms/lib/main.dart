@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             PointerDeviceKind.touch,
           },
         ),
-        home: DetailPeformer(),
+        home: DetailTask(),
       ),
     );
   }
