@@ -49,6 +49,7 @@ dependencies:
   percent_indicator: ^4.2.2
   face_pile: ^0.0.2
   step_progress_indicator: ^1.0.2
+  gantt_chart: ^0.1.0
 
 
   # The following adds the Cupertino Icons font to your application.

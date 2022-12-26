@@ -5,7 +5,7 @@ import '../routers/router.dart';
 import '../widgets/taskwidget.dart';
 import 'package:get/get.dart';
 
-
+enum SampleItem { itemOne, itemTwo, itemThree }
 
 //screen  All task
 class AllTasks extends StatefulWidget {
@@ -14,6 +14,7 @@ class AllTasks extends StatefulWidget {
 }
 
 class _AllTasksState extends State<AllTasks> {
+  SampleItem? selectedMenu;
   int items = 10;
   @override
   Widget build(BuildContext context) {
@@ -35,13 +36,31 @@ class _AllTasksState extends State<AllTasks> {
           onPressed: () {},
         ),
         actions: [
-          CircleAvatar(
-            backgroundColor: Colors.grey[50],
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.more_vert),
+          PopupMenuButton<SampleItem>(
+            initialValue: selectedMenu,
+            icon: Icon(
+              Icons.more_vert,
               color: Colors.black,
             ),
+            onSelected: (SampleItem item) {
+              setState(() {
+                selectedMenu = item;
+              });
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+              const PopupMenuItem<SampleItem>(
+                value: SampleItem.itemOne,
+                child: Text('Item 1'),
+              ),
+              const PopupMenuItem<SampleItem>(
+                value: SampleItem.itemTwo,
+                child: Text('Item 2'),
+              ),
+              const PopupMenuItem<SampleItem>(
+                value: SampleItem.itemThree,
+                child: Text('Item 3'),
+              ),
+            ],
           )
         ],
         backgroundColor: Colors.white,
@@ -89,7 +108,6 @@ class _AllTasksState extends State<AllTasks> {
                           TaskWidget(
                               taskName: "On Process",
                               status: "status",
-                          
                               dealine: DateTime.now())
                         ],
                       ),

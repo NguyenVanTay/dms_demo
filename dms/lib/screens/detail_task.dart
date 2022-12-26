@@ -5,6 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:face_pile/face_pile.dart';
 
+enum SampleItem { itemOne, itemTwo, itemThree }
+
+SampleItem? selectedMenu;
 class DetailTask extends StatefulWidget {
   const DetailTask({super.key});
 
@@ -15,6 +18,8 @@ class DetailTask extends StatefulWidget {
 class _DetailTaskState extends State<DetailTask> {
   @override
   Widget build(BuildContext context) {
+    double maxheight = MediaQuery.of(context).size.height;
+    double maxwidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -34,15 +39,33 @@ class _DetailTaskState extends State<DetailTask> {
             onPressed: () {},
           ),
           actions: [
-            CircleAvatar(
-              backgroundColor: Colors.grey[50],
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.more_vert),
-                color: Colors.black,
+          PopupMenuButton<SampleItem>(
+            initialValue: selectedMenu,
+            icon: Icon(
+              Icons.more_vert,
+              color: Colors.black,
+            ),
+            onSelected: (SampleItem item) {
+              setState(() {
+                selectedMenu = item;
+              });
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+              const PopupMenuItem<SampleItem>(
+                value: SampleItem.itemOne,
+                child: Text('Item 1'),
               ),
-            )
-          ],
+              const PopupMenuItem<SampleItem>(
+                value: SampleItem.itemTwo,
+                child: Text('Item 2'),
+              ),
+              const PopupMenuItem<SampleItem>(
+                value: SampleItem.itemThree,
+                child: Text('Item 3'),
+              ),
+            ],
+          )
+        ],
           backgroundColor: Colors.white,
           //backgroundColor: Color.fromRGBO(255, 250, 160, 1),
         ),
@@ -129,14 +152,14 @@ class _DetailTaskState extends State<DetailTask> {
                       child: Text(
                         "Performers: ",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 10),
                       child: FacePile(
-                        radius: 32,
-                        space: 40,
+                        radius: 24,
+                        space: 35,
                         images: [
                           NetworkImage("https://i.pravatar.cc/300?img=1"),
                           NetworkImage("https://i.pravatar.cc/300?img=2"),
@@ -165,12 +188,12 @@ class _DetailTaskState extends State<DetailTask> {
                       child: Text(
                         "Status: ",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 20),
-                      child: Text("On Process", style: TextStyle(fontSize: 20)),
+                      child: Text("On Process", style: TextStyle(fontSize: 18)),
                     ),
                   ],
                 ),
@@ -191,14 +214,14 @@ class _DetailTaskState extends State<DetailTask> {
                       child: Text(
                         "Description: ",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 20),
+                margin: EdgeInsets.all(5),
                 //decoration: BoxDecoration(border: BorderRadius()),
                 child: Container(
                   height: 80.0,
@@ -212,13 +235,16 @@ class _DetailTaskState extends State<DetailTask> {
                   child: SingleChildScrollView(
                     // for Vertical scrolling
                     scrollDirection: Axis.vertical,
-                    child: Text(
-                      "We wish you a merry Christmas We wish you a merry Christmas We wish you a merry Christmas and a happy new year Good tidings we bring to you and your kin We wish you a merry Christmas and a happy new year Oh, bring us some figgy pudding Oh, bring us some figgy pudding Oh, bring us some figgy pudding And bring it right here",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.0,
-                        letterSpacing: 3,
-                        wordSpacing: 2,
+                    child: Container(
+                      height: maxheight,
+                      width: maxwidth,
+                      margin: EdgeInsets.only(left: 10),
+                      child: Text(
+                        "We wish you a merry Christmas We wish you a merry Christmas We wish you a merry Christmas and a happy new year Good tidings we bring to you and your kin We wish you a merry Christmas and a happy new year Oh, bring us some figgy pudding Oh, bring us some figgy pudding Oh, bring us some figgy pudding And bring it right here",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16.0,
+                        ),
                       ),
                     ),
                   ),
@@ -240,7 +266,7 @@ class _DetailTaskState extends State<DetailTask> {
                       child: Text(
                         "Checker: ",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
@@ -248,7 +274,7 @@ class _DetailTaskState extends State<DetailTask> {
                       child: Text(
                         "Admin: ",
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                     ),
@@ -271,13 +297,14 @@ class _DetailTaskState extends State<DetailTask> {
                       child: Text(
                         "Process: ",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
                 ),
               ),
               Container(
+                margin: EdgeInsets.all(5),
                 height: 80,
                 decoration: BoxDecoration(
                   // adding borders around the widget
@@ -289,13 +316,16 @@ class _DetailTaskState extends State<DetailTask> {
                 child: SingleChildScrollView(
                   // for Vertical scrolling
                   scrollDirection: Axis.vertical,
-                  child: Text(
-                    "We wish you a merry Christmas We wish you a merry Christmas We wish you a merry Christmas and a happy new year Good tidings we bring to you and your kin We wish you a merry Christmas and a happy new year Oh, bring us some figgy pudding Oh, bring us some figgy pudding Oh, bring us some figgy pudding And bring it right here",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                      letterSpacing: 3,
-                      wordSpacing: 2,
+                  child: Container(
+                    height: maxheight,
+                    width: maxwidth,
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      "We wish you a merry Christmas We wish you a merry Christmas We wish you a merry Christmas and a happy new year Good tidings we bring to you and your kin We wish you a merry Christmas and a happy new year Oh, bring us some figgy pudding Oh, bring us some figgy pudding Oh, bring us some figgy pudding And bring it right here",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                      ),
                     ),
                   ),
                 ),
@@ -330,7 +360,7 @@ class _DetailTaskState extends State<DetailTask> {
                           child: Text(
                             'Performed',
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                                fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -349,7 +379,7 @@ class _DetailTaskState extends State<DetailTask> {
                           child: Text(
                             'Accept for completion',
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                                fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),

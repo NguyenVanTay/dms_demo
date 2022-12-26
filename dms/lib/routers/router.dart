@@ -6,6 +6,7 @@ import 'package:dms/screens/homepage.dart';
 import 'package:dms/screens/login.dart';
 import 'package:dms/screens/project.dart';
 import 'package:dms/screens/register.dart';
+import 'package:dms/screens/task_manager.dart';
 import 'package:get/get.dart';
 
 class RoutesClass {
@@ -15,8 +16,10 @@ class RoutesClass {
   static String projects = "/project";
   static String register = "/register";
   static String calendar = "/homecalendar";
+  static String taskmanager = "/task_manager";
 
   static String getHomeRoute() => home;
+  static String getTaskManagerRoute() => taskmanager;
 
   static List<GetPage> routes = [
     GetPage(name: home, page: () => HomePage()),
@@ -40,5 +43,9 @@ class RoutesClass {
       name: projects,
       page: () => Project(),
     ),
+    GetPage(
+      name: taskmanager,
+      page: () => TaskManager(),
+    )
   ];
 }

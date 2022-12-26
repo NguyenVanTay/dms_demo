@@ -59,24 +59,24 @@ class Performerwidget extends StatelessWidget {
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
                 ),
                 Container(
-                    margin: EdgeInsets.only(right: 170, top: 10),
-                    child: OutlinedButton(
-                      onPressed: () {
-                        //debugPrint('Received click');
-                      },
-                      child: Text(
-                        namefile,
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                  margin: EdgeInsets.only(right: 170, top: 10),
+                  child: OutlinedButton(
+                    onPressed: () {
+                      //debugPrint('Received click');
+                    },
+                    child: Text(
+                      namefile,
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                    )),
+                    ),
+                  ),
+                ),
               ],
             ),
           ],
@@ -90,7 +90,7 @@ class Performerwidget extends StatelessWidget {
                 child: StepProgressIndicator(
                   totalSteps: 3,
                   currentStep: 2,
-                  selectedColor: Colors.green,
+                  selectedColor: Color.fromRGBO(0, 255, 36, 1),
                   unselectedColor: Colors.grey,
                   fallbackLength: 300,
                 ),

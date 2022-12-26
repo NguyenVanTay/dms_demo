@@ -1,8 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable, avoid_unnecessary_containers, unused_field, prefer_final_fields
 
+import 'package:dms/screens/task_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/simple/list_notifier.dart';
 
-class Box extends StatelessWidget {
+class Box extends StatefulWidget {
   String title;
   Icon icon;
   Color color;
@@ -14,12 +17,27 @@ class Box extends StatelessWidget {
       super.key});
 
   @override
+  State<Box> createState() => _BoxState();
+}
+
+class _BoxState extends State<Box> {
+  int _selectIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectIndex = index;
+    });
+  }
+
+  List<Widget> _itemWidget = [
+    Container(),
+  ];
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: 5, right: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: color,
+        color: widget.color,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.black54, blurRadius: 5.0, offset: Offset(0.0, 0.25))
@@ -43,8 +61,10 @@ class Box extends StatelessWidget {
                     child: Stack(
                       children: [
                         IconButton(
-                          onPressed: () {},
-                          icon: icon,
+                          onPressed: () {
+                            Navigator.of(context).pushNamed("");
+                          },
+                          icon: widget.icon,
                         ),
                       ],
                     ),
@@ -58,7 +78,7 @@ class Box extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(left: 20),
                 child: Text(
-                  title,
+                  widget.title,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
