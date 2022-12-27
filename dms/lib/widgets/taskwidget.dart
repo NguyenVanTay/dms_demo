@@ -17,6 +17,7 @@ class TaskWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -47,6 +48,7 @@ class TaskWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
+                    
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Text(
                         taskName,

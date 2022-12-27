@@ -37,6 +37,7 @@ class _AddEventWidgetState extends State<AddEventWidget> {
   String _description = "";
 
   Color _color = Colors.blue;
+  
 
   late FocusNode _titleNode;
 
