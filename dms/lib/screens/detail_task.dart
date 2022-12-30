@@ -232,7 +232,8 @@ class _DetailTaskState extends State<DetailTask> {
                       width: 1.0,
                     ),
                   ),
-                  child: SingleChildScrollView(
+                  child: SingleChildScrollView
+                  (
                     // for Vertical scrolling
                     scrollDirection: Axis.vertical,
                     child: Container(

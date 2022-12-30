@@ -1,15 +1,15 @@
 // ignore_for_file: prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_element, unnecessary_new, unused_field, unused_import
 import 'package:calendar_view/calendar_view.dart';
+import 'package:dms/providers/event_provider.dart';
 import 'package:dms/routers/router.dart';
-import 'package:dms/screens/Calendar/meeting%20_provider.dart';
-import 'package:dms/screens/calendar_widget.dart';
+import 'package:dms/screens/Calendar/calendar_widget.dart';
 import 'package:dms/screens/detail_performers.dart';
 import 'package:dms/screens/detail_task.dart';
 import 'package:dms/screens/login.dart';
 import 'package:dms/screens/register.dart';
 import 'package:dms/screens/send_task.dart';
 import 'package:dms/screens/verify_task.dart';
-import 'package:dms/sources/CalendarSource/calendar.dart';
+
 import 'package:dms/screens/project.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
@@ -17,7 +17,6 @@ import 'package:provider/provider.dart';
 import './screens/all_tasks.dart';
 import './screens/homepage.dart';
 import 'package:flutter/material.dart';
-import 'models/event.dart';
 
 DateTime get _now => DateTime.now();
 void main(List<String> args) {
@@ -30,23 +29,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => MeetingProvider())
-      ],
-      child: CalendarControllerProvider<Event>(
-        controller: EventController(),
-        child: GetMaterialApp(
-          //home: HomePage(),
-          debugShowCheckedModeBanner: false,
-          scrollBehavior: ScrollBehavior().copyWith(
-            dragDevices: {
-              PointerDeviceKind.trackpad,
-              PointerDeviceKind.mouse,
-              PointerDeviceKind.touch,
-            },
-          ),
-          home: Page(),
-        ),
+      providers: [ChangeNotifierProvider(create: (context) => EventProvider())],
+      child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Page(),
       ),
     );
   }

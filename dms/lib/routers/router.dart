@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:dms/screens/all_tasks.dart';
-import 'package:dms/screens/homecalendar.dart';
 import 'package:dms/screens/homepage.dart';
 import 'package:dms/screens/login.dart';
 import 'package:dms/screens/project.dart';
@@ -26,10 +25,6 @@ class RoutesClass {
     GetPage(
       name: allTask,
       page: () => AllTasks(),
-    ),
-    GetPage(
-      name: calendar,
-      page: () => HomeCalendar(),
     ),
     GetPage(
       name: register,
