@@ -15,13 +15,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.0"
-  animated_horizontal_calendar:
-    dependency: "direct main"
-    description:
-      name: animated_horizontal_calendar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.3"
   args:
     dependency: transitive
     description:
@@ -211,6 +204,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.4"
+  date_utils:
+    dependency: "direct main"
+    description:
+      name: date_utils
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   face_pile:
     dependency: "direct main"
     description:
@@ -305,13 +305,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
-  horizontal_calendar:
-    dependency: "direct main"
-    description:
-      name: horizontal_calendar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   http_multi_server:
     dependency: transitive
     description:
@@ -410,13 +403,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-  nepali_utils:
-    dependency: transitive
-    description:
-      name: nepali_utils
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.3"
   nested:
     dependency: transitive
     description:
@@ -494,6 +480,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.1"
+  quiver:
+    dependency: "direct dev"
+    description:
+      name: quiver
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.1"
   salomon_bottom_bar:
     dependency: "direct main"
     description:

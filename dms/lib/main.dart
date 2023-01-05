@@ -3,13 +3,13 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:dms/providers/event_provider.dart';
 import 'package:dms/routers/router.dart';
 import 'package:dms/screens/Calendar/calendar_widget.dart';
+import 'package:dms/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/screens/detail_performers.dart';
 import 'package:dms/screens/detail_task.dart';
 import 'package:dms/screens/login.dart';
 import 'package:dms/screens/register.dart';
 import 'package:dms/screens/send_task.dart';
 import 'package:dms/screens/verify_task.dart';
-
 import 'package:dms/screens/project.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import './screens/all_tasks.dart';
 import './screens/homepage.dart';
 import 'package:flutter/material.dart';
+
+import 'screens/Gantt_chart_demo/gantt_chart_screen.dart';
 
 DateTime get _now => DateTime.now();
 void main(List<String> args) {
@@ -31,11 +33,22 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (context) => EventProvider())],
       child: GetMaterialApp(
+        scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
-        home: Page(),
+        home: GranttChartScreen(),
       ),
     );
   }
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  // Override behavior methods and getters like dragDevices
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        // etc.
+      };
 }
 
 class Page extends StatefulWidget {
