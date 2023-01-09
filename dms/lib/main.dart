@@ -4,6 +4,7 @@ import 'package:dms/providers/event_provider.dart';
 import 'package:dms/routers/router.dart';
 import 'package:dms/screens/Calendar/calendar_widget.dart';
 import 'package:dms/screens/GanttChart/gantt_chart.dart';
+
 import 'package:dms/screens/detail_performers.dart';
 import 'package:dms/screens/detail_task.dart';
 import 'package:dms/screens/login.dart';
@@ -17,8 +18,6 @@ import 'package:provider/provider.dart';
 import './screens/all_tasks.dart';
 import './screens/homepage.dart';
 import 'package:flutter/material.dart';
-
-import 'screens/Gantt_chart_demo/gantt_chart_screen.dart';
 
 DateTime get _now => DateTime.now();
 void main(List<String> args) {
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
-        home: GranttChartScreen(),
+        home: GanttChart(),
       ),
     );
   }

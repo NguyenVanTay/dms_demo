@@ -1,18 +1,15 @@
 enum WeekDay {
-  
-  //các ngày trong tuần 
-  monday(DateTime.monday, 'Monday'),
-  tuesday(DateTime.tuesday, 'Tuesday'),
-  wednesday(DateTime.wednesday, 'Wednesday'),
-  thursday(DateTime.thursday, 'Thursday'),
-  friday(DateTime.friday, 'Friday'),
-  saturday(DateTime.saturday, 'Saturday'),
-  sunday(DateTime.sunday, 'Sunday');
-  
+  monday(DateTime.monday, 'Mon'),
+  tuesday(DateTime.tuesday, 'Tue'),
+  wednesday(DateTime.wednesday, 'Wed'),
+  thursday(DateTime.thursday, 'Thu'),
+  friday(DateTime.friday, 'Fri'),
+  saturday(DateTime.saturday, 'Sat'),
+  sunday(DateTime.sunday, 'Sun');
+
   factory WeekDay.fromIntWeekday(int weekDay) {
     return WeekDay.values[weekDay - 1];
   }
-  
   factory WeekDay.fromDateTime(DateTime day) {
     return WeekDay.values[day.weekday - 1];
   }
@@ -23,5 +20,4 @@ enum WeekDay {
 
   @override
   String toString() => '$name ($number)';
-
 }

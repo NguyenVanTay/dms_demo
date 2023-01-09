@@ -85,6 +85,7 @@ class _AllTasksState extends State<AllTasks> {
                     margin: EdgeInsets.only(top: 10, right: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(45),
+                      
                       color: Colors.grey.withOpacity(0.2),
                     ),
                     child: IconButton(

@@ -1,7 +1,8 @@
-// ignore_for_file: unnecessary_new, prefer_const_constructors, use_key_in_widget_constructors, must_be_immutable, curly_braces_in_flow_control_structures, sized_box_for_whitespace, avoid_unnecessary_containers, prefer_is_empty, sort_child_properties_last, prefer_contains, unused_import, duplicate_import, depend_on_referenced_packages
+// ignore_for_file: unnecessary_new, prefer_const_constructors, use_key_in_widget_constructors, must_be_immutable, curly_braces_in_flow_control_structures, sized_box_for_whitespace, avoid_unnecessary_containers, prefer_is_empty, sort_child_properties_last, prefer_contains, unused_import, duplicate_import, depend_on_referenced_packages, avoid_print, unnecessary_string_interpolations
 
 import 'package:dms/utils/utilstTime.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'dart:math';
 import 'models.dart';
 import 'package:date_utils/date_utils.dart';
@@ -100,7 +101,7 @@ class GanttChart extends StatelessWidget {
   }
 
   int calculateNumberOfMonthsBetween(DateTime from, DateTime to) {
-    return (to.month - from.month + 12 * (to.year - from.year)) * 4 + 1;
+    return (to.month - from.month + 12 * (to.year - from.year)) + 1;
   }
 
   int calculateDistanceToLeftBorder(DateTime projectStartedAt) {
@@ -168,7 +169,6 @@ class GanttChart extends StatelessWidget {
         ));
       }
     }
-
     return chartBars;
   }
 
@@ -191,8 +191,9 @@ class GanttChart extends StatelessWidget {
     for (int i = 0; i < viewRange; i++) {
       headerItems.add(Container(
         width: chartViewWidth / viewRangeToFitScreen,
-        child: new Text(
-          '${tempDate.day}/${tempDate.year}',
+        // child: Text('${DateFormat.yMMM().format(tempDate)}'),
+        child: Text(
+          '${DateFormat.yMMM().format(tempDate)}',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 10,
@@ -373,4 +374,16 @@ var projects = [
       startTime: DateTime(2018, 5, 1),
       endTime: DateTime(2018, 12, 1),
       participants: [1, 2, 4]),
+  // Project(
+  //     id: 8,
+  //     name: 'product manager',
+  //     startTime: DateTime(2017, 3, 1),
+  //     endTime: DateTime(2018, 6, 1),
+  //     participants: [1, 2, 3]),
+  // Project(
+  //     id: 9,
+  //     name: 'product',
+  //     startTime: DateTime(2017, 3, 1),
+  //     endTime: DateTime(2018, 6, 1),
+  //     participants: [1, 2, 3]),
 ];
