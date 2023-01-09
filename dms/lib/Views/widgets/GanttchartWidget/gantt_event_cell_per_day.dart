@@ -1,8 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import '../../providers/event_gantt_chart.dart';
-
+import '../../../controllers/providers/event_gantt_chart.dart';
 
 class GanttEventCellPerDay extends StatelessWidget {
   const GanttEventCellPerDay({

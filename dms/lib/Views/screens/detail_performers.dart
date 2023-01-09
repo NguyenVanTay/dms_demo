@@ -1,27 +1,29 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_new, unused_local_variable, unused_import
 
-import 'package:dms/widgets/projectwidget.dart';
+import 'package:dms/Views/widgets/projectwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../routers/router.dart';
+import '../../routers/router.dart';
+import '../widgets/performerwidget.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
-class Project extends StatefulWidget {
-  const Project({super.key});
+
+class DetailPeformer extends StatefulWidget {
+  const DetailPeformer({super.key});
 
   @override
-  State<Project> createState() => _ProjectState();
+  State<DetailPeformer> createState() => _DetailPeformerState();
 }
 
-class _ProjectState extends State<Project> {
+class _DetailPeformerState extends State<DetailPeformer> {
   int items = 10;
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    double maxheight = MediaQuery.of(context).size.height;
+    double maxwidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -31,7 +33,7 @@ class _ProjectState extends State<Project> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            "Projects",
+            "Detail Performers",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -44,34 +46,35 @@ class _ProjectState extends State<Project> {
             splashColor: Colors.grey,
             onPressed: () {},
           ),
-         actions: [
-          PopupMenuButton<SampleItem>(
-            initialValue: selectedMenu,
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.black,
-            ),
-            onSelected: (SampleItem item) {
-              setState(() {
-                selectedMenu = item;
-              });
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-              const PopupMenuItem<SampleItem>(
-                value: SampleItem.itemOne,
-                child: Text('Item 1'),
+          actions: [
+            PopupMenuButton<SampleItem>(
+              initialValue: selectedMenu,
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.black,
               ),
-              const PopupMenuItem<SampleItem>(
-                value: SampleItem.itemTwo,
-                child: Text('Item 2'),
-              ),
-              const PopupMenuItem<SampleItem>(
-                value: SampleItem.itemThree,
-                child: Text('Item 3'),
-              ),
-            ],
-          )
-        ],
+              onSelected: (SampleItem item) {
+                setState(() {
+                  selectedMenu = item;
+                });
+              },
+              itemBuilder: (BuildContext context) =>
+                  <PopupMenuEntry<SampleItem>>[
+                const PopupMenuItem<SampleItem>(
+                  value: SampleItem.itemOne,
+                  child: Text('Item 1'),
+                ),
+                const PopupMenuItem<SampleItem>(
+                  value: SampleItem.itemTwo,
+                  child: Text('Item 2'),
+                ),
+                const PopupMenuItem<SampleItem>(
+                  value: SampleItem.itemThree,
+                  child: Text('Item 3'),
+                ),
+              ],
+            )
+          ],
           backgroundColor: Colors.white,
         ),
         body: SingleChildScrollView(
@@ -84,38 +87,44 @@ class _ProjectState extends State<Project> {
                 width: 100,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Color.fromRGBO(146, 252, 161, 1),
+                  color: Color.fromRGBO(255, 124, 124, 0.3),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Icon(
-                      Icons.add,
-                      size: 24,
-                      color: Color.fromRGBO(0, 169, 0, 1),
-                    ),
                     Text(
-                      "Create",
+                      "Overdue",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(0, 169, 0, 1),
+                        color: Color.fromRGBO(214, 70, 70, 1),
                       ),
                     ),
                   ],
                 ),
               ),
               Container(
-                height: height * 0.75,
-                margin: EdgeInsets.only(top: 10),
+                margin: EdgeInsets.only(top: 10, left: 10),
+                child: Text(
+                  "Develop a detailed plan for the program",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                height: maxheight,
+                margin: EdgeInsets.only(
+                  top: 10,
+                ),
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: items,
                   itemBuilder: (context, index) => Stack(
                     children: [
-                      Column(
-                        children: [ProjectWidget()],
+                      Performerwidget(
+                        name: "Nguyen Van Hien",
+                        taskName: "Build a plan for phase 1 and phase 2",
+                        namefile: "namefile.doc",
                       ),
                     ],
                   ),

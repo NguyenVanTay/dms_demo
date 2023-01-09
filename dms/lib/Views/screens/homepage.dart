@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:intl/intl.dart';
-import '../routers/router.dart';
+import '../../routers/router.dart';
 import '../widgets/boxwidget.dart';
 import '../widgets/taskwidget.dart';
 

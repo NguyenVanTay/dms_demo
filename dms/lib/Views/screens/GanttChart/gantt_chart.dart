@@ -4,8 +4,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../../models/ganttchart_weekday.dart';
-import '../../providers/event_gantt_chart.dart';
+import '../../../models/ganttchart_weekday.dart';
+import '../../../controllers/providers/event_gantt_chart.dart';
 import 'gantt_chart_view.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
@@ -187,6 +187,36 @@ class _GanttChartState extends State<GanttChart> {
                     displayName: '7',
                   ),
                   GanttRelativeEvent(
+                    relativeToStart: const Duration(days: 7),
+                    duration: const Duration(days: 12),
+                    durationcomplete: const Duration(days: 4),
+                    displayName: '8',
+                  ),
+                   GanttRelativeEvent(
+                    relativeToStart: const Duration(days: 7),
+                    duration: const Duration(days: 12),
+                    durationcomplete: const Duration(days: 4),
+                    displayName: '8',
+                  ),
+                   GanttRelativeEvent(
+                    relativeToStart: const Duration(days: 7),
+                    duration: const Duration(days: 12),
+                    durationcomplete: const Duration(days: 4),
+                    displayName: '8',
+                  ),
+                   GanttRelativeEvent(
+                    relativeToStart: const Duration(days: 7),
+                    duration: const Duration(days: 12),
+                    durationcomplete: const Duration(days: 4),
+                    displayName: '8',
+                  ),
+                   GanttRelativeEvent(
+                    relativeToStart: const Duration(days: 7),
+                    duration: const Duration(days: 12),
+                    durationcomplete: const Duration(days: 4),
+                    displayName: '8',
+                  ),
+                   GanttRelativeEvent(
                     relativeToStart: const Duration(days: 7),
                     duration: const Duration(days: 12),
                     durationcomplete: const Duration(days: 4),

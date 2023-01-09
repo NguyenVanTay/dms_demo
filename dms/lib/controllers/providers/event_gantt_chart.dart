@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../models/ganttchart_weekday.dart';
-import '../screens/GanttChart/gantt_chart_view.dart';
+import '../../models/ganttchart_weekday.dart';
+import '../../Views/screens/GanttChart/gantt_chart_view.dart';
 
 
 /// *d* workdays starting from [start] (includes start if it was a work day)

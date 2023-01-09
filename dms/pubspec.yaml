@@ -51,6 +51,8 @@ dependencies:
   provider: ^6.0.5
   date_utils: ^0.2.0
   syncfusion_flutter_charts: ^20.4.42
+  comment_tree: ^0.3.0
+  reaction_askany: ^0.1.0
 
 
 

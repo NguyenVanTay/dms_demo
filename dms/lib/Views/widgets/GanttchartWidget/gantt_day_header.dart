@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../models/ganttchart_weekday.dart';
+import '../../../models/ganttchart_weekday.dart';
 
 
 

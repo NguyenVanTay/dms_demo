@@ -2,14 +2,14 @@
 
 import 'dart:math';
 
-import 'package:dms/providers/event_provider.dart';
-import 'package:dms/screens/Calendar/event_editing_screen.dart';
+import 'package:dms/controllers/providers/event_provider.dart';
+import 'package:dms/Views/screens/Calendar/event_editing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../models/event_calendar.dart';
+import '../../../models/event_calendar.dart';
 
 class EventViewingScreen extends StatelessWidget {
   final Event event;

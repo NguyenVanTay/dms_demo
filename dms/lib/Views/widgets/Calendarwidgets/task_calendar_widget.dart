@@ -2,12 +2,12 @@
 
 import 'package:dms/models/event_calendar.dart';
 import 'package:dms/models/event_data_source.dart';
-import 'package:dms/screens/Calendar/event_viewing_screen.dart';
+import 'package:dms/Views/screens/Calendar/event_viewing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import '../../providers/event_provider.dart';
+import '../../../controllers/providers/event_provider.dart';
 
 class TaskCalendarWidget extends StatefulWidget {
   @override

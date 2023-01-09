@@ -1,10 +1,11 @@
-// ignore_for_file: depend_on_referenced_packages, avoid_unnecessary_containers, prefer_const_constructors
+// ignore_for_file: depend_on_referenced_packages, avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
-import '../../models/ganttchart_weekday.dart';
-import '../../providers/event_gantt_chart.dart';
+import '../../../models/ganttchart_weekday.dart';
+import '../../../controllers/providers/event_gantt_chart.dart';
 import '../../widgets/GanttchartWidget/gantt_day_header.dart';
 import '../../widgets/GanttchartWidget/gantt_event_row_per_week.dart';
 import '../../widgets/GanttchartWidget/gantt_week_header.dart';
@@ -186,7 +187,7 @@ class GanttChartViewState extends State<GanttChartView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(2),
+      margin: EdgeInsets.all(8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -199,13 +200,72 @@ class GanttChartViewState extends State<GanttChartView> {
                   //
                   SizedBox(
                     height: widget.weekHeaderHeight,
-                    child: widget.stickyAreaWeekBuilder?.call(context),
+                    child: Container(
+                      margin: EdgeInsets.only(right: 5),
+                      child: ListView(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        //padding: const EdgeInsets.all(8),
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: AssetImage("images/dog.jpg"),
+                            radius: 25,
+                          ),
+                          CircleAvatar(
+                            backgroundImage: AssetImage("images/dog.jpg"),
+                            radius: 25,
+                          ),
+                          CircleAvatar(
+                            backgroundImage: AssetImage("images/dog.jpg"),
+                            radius: 25,
+                          ),
+                          CircleAvatar(
+                            backgroundImage: AssetImage("images/dog.jpg"),
+                            radius: 25,
+                          ),
+                          CircleAvatar(
+                            backgroundImage: AssetImage("images/dog.jpg"),
+                            radius: 25,
+                          )
+                        ],
+                        // child: Container(
+                        //   margin: EdgeInsets.only(right: 5),
+                        //   child: Row(
+                        //       mainAxisAlignment: MainAxisAlignment.start,
+                        //       mainAxisSize: MainAxisSize.min,
+                        //       children: [
+
+                        //       ]),
+                        // ),
+                      ),
+                    ),
+                    // child: Container(
+                    //   margin: EdgeInsets.only(left: 5),
+                    //   child: FacePile(
+                    //     radius: 20,
+                    //     space: 20,
+                    //     images: [
+                    //       AssetImage("images/dog.jpg"),
+                    //       AssetImage("images/dog.jpg"),
+                    //       AssetImage("images/dog.jpg"),
+                    //       AssetImage("images/dog.jpg"),
+                    //       AssetImage("images/dog.jpg"),
+                    //       // NetworkImage("https://i.pravatar.cc/300?img=1"),
+                    //       // NetworkImage("https://i.pravatar.cc/300?img=2"),
+                    //       // NetworkImage("https://i.pravatar.cc/300?img=3"),
+                    //       // NetworkImage("https://i.pravatar.cc/300?img=4"),
+                    //       // NetworkImage("https://i.pravatar.cc/300?img=5")
+                    //     ],
+                    //   ),
+                    // ),
+                    // widget.stickyAreaWeekBuilder?.call(context),
                   ),
                   if (widget.showDays)
                     SizedBox(
                       height: widget.dayHeaderHeight,
                       child: widget.stickyAreaDayBuilder?.call(context),
                     ),
+
                   ...widget.events.mapIndexed((index, event) {
                     final eventColor = eventColors[index];
                     return SizedBox(

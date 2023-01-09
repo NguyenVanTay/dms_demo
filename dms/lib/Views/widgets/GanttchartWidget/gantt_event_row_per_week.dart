@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-
-import '../../providers/event_gantt_chart.dart';
+import '../../../controllers/providers/event_gantt_chart.dart';
 import '../../screens/GanttChart/gantt_chart_view.dart';
 import 'gantt_event_cell_per_day.dart';
-
 
 class GantEventRowPerWeek extends StatelessWidget {
   const GantEventRowPerWeek({

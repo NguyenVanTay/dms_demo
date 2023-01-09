@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, unused_element, sized_box_for_whitespace, sort_child_properties_last, use_build_context_synchronously, avoid_unnecessary_containers, unused_local_variable
 import 'package:dms/models/event_data_source.dart';
-import 'package:dms/providers/event_provider.dart';
+import 'package:dms/controllers/providers/event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';

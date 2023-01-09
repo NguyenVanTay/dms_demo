@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, unused_element, dead_code, unnecessary_import, must_call_super, unused_local_variable, body_might_complete_normally_nullable, prefer_const_declarations, curly_braces_in_flow_control_structures
 
 import 'package:dms/models/event_calendar.dart';
-import 'package:dms/providers/event_provider.dart';
+import 'package:dms/controllers/providers/event_provider.dart';
 import 'package:dms/utils/utilstTime.dart';
-import 'package:dms/widgets/Calendarwidgets/custtom_button.dart';
+import 'package:dms/Views/widgets/Calendarwidgets/custtom_button.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:provider/provider.dart';
 
-import '../../sources/app_colors.dart';
+import '../../../sources/app_colors.dart';
 
 class EventEditingScreen extends StatefulWidget {
   // const EventEditingScreen({super.key});

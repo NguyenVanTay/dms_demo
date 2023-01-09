@@ -1,22 +1,24 @@
 // ignore_for_file: prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_element, unnecessary_new, unused_field, unused_import
 import 'package:calendar_view/calendar_view.dart';
-import 'package:dms/providers/event_provider.dart';
+import 'package:dms/Views/screens/discussion.dart';
+import 'package:dms/controllers/providers/event_provider.dart';
 import 'package:dms/routers/router.dart';
-import 'package:dms/screens/Calendar/calendar_widget.dart';
-import 'package:dms/screens/GanttChart/gantt_chart.dart';
+import 'package:dms/Views/screens/Calendar/calendar_widget.dart';
+import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
+import 'package:dms/Views/screens/GanttChart/gantt_chart_view.dart';
 
-import 'package:dms/screens/detail_performers.dart';
-import 'package:dms/screens/detail_task.dart';
-import 'package:dms/screens/login.dart';
-import 'package:dms/screens/register.dart';
-import 'package:dms/screens/send_task.dart';
-import 'package:dms/screens/verify_task.dart';
-import 'package:dms/screens/project.dart';
+import 'package:dms/Views/screens/detail_performers.dart';
+import 'package:dms/Views/screens/detail_task.dart';
+import 'package:dms/Views/screens/login.dart';
+import 'package:dms/Views/screens/register.dart';
+import 'package:dms/Views/screens/send_task.dart';
+import 'package:dms/Views/screens/verify_task.dart';
+import 'package:dms/Views/screens/project.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import './screens/all_tasks.dart';
-import './screens/homepage.dart';
+import 'Views/screens/all_tasks.dart';
+import 'Views/screens/homepage.dart';
 import 'package:flutter/material.dart';
 
 DateTime get _now => DateTime.now();
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
-        home: GanttChart(),
+        home: VerifyTask(),
       ),
     );
   }

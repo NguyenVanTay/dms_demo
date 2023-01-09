@@ -176,6 +176,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.3"
+  comment_tree:
+    dependency: "direct main"
+    description:
+      name: comment_tree
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   convert:
     dependency: transitive
     description:
@@ -487,6 +494,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.1"
+  reaction_askany:
+    dependency: "direct main"
+    description:
+      name: reaction_askany
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   salomon_bottom_bar:
     dependency: "direct main"
     description:
