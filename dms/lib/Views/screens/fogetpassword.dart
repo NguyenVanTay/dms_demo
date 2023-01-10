@@ -1,21 +1,20 @@
 // ignore_for_file: sort_child_properties_last, avoid_print, prefer_const_constructors
 
 import 'package:dms/Views/screens/login.dart';
+import 'package:dms/Views/screens/register.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'fogetpassword.dart';
 
-class Register extends StatefulWidget {
-  const Register({super.key});
+class ForgetPassword extends StatefulWidget {
+  const ForgetPassword({super.key});
 
   @override
-  State<Register> createState() => _RegisterState();
+  State<ForgetPassword> createState() => _ForgetPasswordState();
 }
 
-class _RegisterState extends State<Register> {
+class _ForgetPasswordState extends State<ForgetPassword> {
   final _formKey = GlobalKey<FormState>();
   final _userController = TextEditingController();
-  final _passWordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class _RegisterState extends State<Register> {
               child: Column(
                 children: [
                   Text(
-                    "Register Dms System",
+                    "Forget Password Dms System",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 22,
@@ -45,8 +44,8 @@ class _RegisterState extends State<Register> {
                     keyboardType: TextInputType.text,
                     controller: _userController,
                     decoration: InputDecoration(
-                      labelText: 'User Name',
-                      hintText: 'Enter User Name',
+                      labelText: 'Email',
+                      hintText: 'Enter Email',
                       prefixIcon: Align(
                         widthFactor: 1.0,
                         child: Icon(Icons.person_outline),
@@ -60,70 +59,10 @@ class _RegisterState extends State<Register> {
                       ),
                       contentPadding: EdgeInsets.all(16),
                     ),
-                    // validator: MultiValidator(
-                    //   [
-                    //     RequiredValidator(errorText: '*Required'),
-                    //     EmailValidator(errorText: "errorText")
-                    //   ],
-                    // ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  TextFormField(
-                    controller: _passWordController,
-                    decoration: InputDecoration(
-                      labelText: 'Pass Word',
-                      hintText: 'Enter PassWord',
-                      prefixIcon: Align(
-                        widthFactor: 1.0,
-                        child: Icon(Icons.password_outlined),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          width: 1,
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                      fillColor: Colors.blue,
-                      filled: false,
-                      contentPadding: EdgeInsets.all(16),
-                    ),
                     validator: MultiValidator(
                       [
                         RequiredValidator(errorText: '*Required'),
-                        MinLengthValidator(8, errorText: "errorText")
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  TextFormField(
-                    controller: _passWordController,
-                    decoration: InputDecoration(
-                      labelText: 'Confirm Password',
-                      hintText: 'Enter PassWord',
-                      prefixIcon: Align(
-                        widthFactor: 1.0,
-                        child: Icon(Icons.password_outlined),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          width: 1,
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                      fillColor: Colors.blue,
-                      filled: false,
-                      contentPadding: EdgeInsets.all(16),
-                    ),
-                    validator: MultiValidator(
-                      [
-                        RequiredValidator(errorText: '*Required'),
-                        MinLengthValidator(8, errorText: "errorText")
+                        EmailValidator(errorText: "errorText")
                       ],
                     ),
                   ),
@@ -136,20 +75,20 @@ class _RegisterState extends State<Register> {
                     child: ElevatedButton.icon(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          print('Validated');
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Login()),
+                            MaterialPageRoute(
+                                builder: (context) => Container()),
                           );
                         }
                       },
                       icon: Icon(
-                        Icons.app_registration_outlined,
+                        Icons.question_mark,
                         color: Colors.white,
                         size: 30,
                       ),
                       label: Text(
-                        'Register',
+                        'Forget Password',
                         style: TextStyle(fontSize: 20),
                       ),
                       style: ElevatedButton.styleFrom(
@@ -184,12 +123,11 @@ class _RegisterState extends State<Register> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ForgetPassword()),
+                          MaterialPageRoute(builder: (context) => Register()),
                         );
                       },
                       child: Text(
-                        'Forget Password ?',
+                        'Sign Up New Account ?',
                         style: TextStyle(fontSize: 18, color: Colors.blue),
                       ))
                 ],
