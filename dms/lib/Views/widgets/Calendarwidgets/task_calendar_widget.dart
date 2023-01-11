@@ -18,21 +18,21 @@ class _TaskCalendarWidgetState extends State<TaskCalendarWidget> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<EventProvider>(context);
-   
-      return SfCalendar(
-        view: CalendarView.timelineDay,
-        dataSource: EventDataSource(provider.events),
-        initialDisplayDate: provider.selectedDate,
-        initialSelectedDate: provider.selectedDate,
-        appointmentBuilder: appointmentBuider,
-        todayHighlightColor: Colors.teal,
-        onTap: (details) {
-          if (details.appointments == null) return;
-          final event = details.appointments!.first;
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => EventViewingScreen(event: event)));
-        },
-      );
+
+    return SfCalendar(
+      view: CalendarView.timelineDay,
+      dataSource: EventDataSource(provider.events),
+      initialDisplayDate: provider.selectedDate,
+      initialSelectedDate: provider.selectedDate,
+      appointmentBuilder: appointmentBuider,
+      todayHighlightColor: Colors.teal,
+      onTap: (details) {
+        if (details.appointments == null) return;
+        final event = details.appointments!.first;
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => EventViewingScreen(event: event)));
+      },
+    );
   }
 }
 

@@ -2,11 +2,14 @@
 import 'package:dms/models/event_data_source.dart';
 import 'package:dms/controllers/providers/event_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+
+import '../../models/event_calendar.dart';
 import '../../widgets/Calendarwidgets/task_calendar_widget.dart';
 import 'event_editing_screen.dart';
-
+import 'event_viewing_screen.dart';
 
 enum ItemViewCalendar { dayView, weekView, monthView, timelinemonth }
 

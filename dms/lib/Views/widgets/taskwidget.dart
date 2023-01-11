@@ -17,15 +17,13 @@ class TaskWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Color.fromARGB(249, 170, 232, 204),
+        color: Color.fromRGBO(212, 254, 218, 1),
         boxShadow: [
           BoxShadow(
-            blurRadius: 0.05,
-          ),
+              color: Colors.black12, blurRadius: 4.0, offset: Offset(4.0, 4.0)),
         ],
       ),
       child: Row(
@@ -36,6 +34,12 @@ class TaskWidget extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Color.fromRGBO(146, 252, 161, 1),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 4.0,
+                    offset: Offset(2.0, 0.0)),
+              ],
             ),
           ),
           Column(
@@ -48,7 +52,6 @@ class TaskWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                    
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Text(
                         taskName,

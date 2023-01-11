@@ -34,13 +34,16 @@ class _BoxState extends State<Box> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 5, right: 5),
+      //height: 120,
+      //width: 40,
+      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 5),
+      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: widget.color,
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.black54, blurRadius: 5.0, offset: Offset(0.0, 0.25))
+              color: Colors.black12, blurRadius: 4.0, offset: Offset(4.0, 4.0))
         ],
       ),
       child: Column(
@@ -53,7 +56,7 @@ class _BoxState extends State<Box> {
                   Container(
                     height: 40,
                     width: 40,
-                    margin: EdgeInsets.only(top: 10, left: 20),
+                    //margin: EdgeInsets.only(top: 10, left: 20),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.white,
@@ -76,25 +79,26 @@ class _BoxState extends State<Box> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 20),
+                //margin: EdgeInsets.only(left: 20),
                 child: Text(
                   widget.title,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                 ),
               ),
             ],
           ),
           Container(
-            margin: EdgeInsets.only(left: 20),
+            //margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "3 Tasks",
-                  style: TextStyle(fontSize: 18),
+                  "3 tasks",
+                  style: TextStyle(fontSize: 16),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 80),
+                  //margin: EdgeInsets.only(left: 50),
                   child: Icon(Icons.arrow_forward),
                 )
               ],
