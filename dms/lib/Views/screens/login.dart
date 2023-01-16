@@ -1,17 +1,13 @@
 // ignore_for_file: sort_child_properties_last, avoid_print, prefer_final_fields, unused_field, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
 
-
 import 'package:dms/Views/screens/homepage.dart';
 import 'package:dms/Views/screens/project.dart';
 import 'package:dms/Views/screens/register.dart';
 import 'package:flutter/material.dart';
 
-
 import 'Calendar/calendar_widget.dart';
 import 'all_tasks.dart';
 import 'fogetpassword.dart';
-
-
 
 class Page extends StatefulWidget {
   const Page({super.key});
@@ -60,7 +56,7 @@ class _PageState extends State<Page> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.article_outlined),
-            label: 'Article',
+            label: 'Project',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),
