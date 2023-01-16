@@ -1,170 +1,17 @@
 // ignore_for_file: sort_child_properties_last, avoid_print, prefer_final_fields, unused_field, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
 
-import 'package:auto_route/annotations.dart';
+
 import 'package:dms/Views/screens/homepage.dart';
 import 'package:dms/Views/screens/project.dart';
 import 'package:dms/Views/screens/register.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
+
 
 import 'Calendar/calendar_widget.dart';
 import 'all_tasks.dart';
 import 'fogetpassword.dart';
 
-// class Login extends StatefulWidget {
-//   const Login({super.key});
 
-//   @override
-//   State<Login> createState() => _LoginState();
-// }
-
-// class _LoginState extends State<Login> {
-//   bool _showPassword = false;
-
-//   TextEditingController nameController = TextEditingController();
-//   TextEditingController passwordController = TextEditingController();
-
-//   final _formKey = GlobalKey<FormState>();
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Scaffold(
-//         body: SingleChildScrollView(
-//             child: Padding(
-//           padding:
-//               const EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 10),
-//           child: Form(
-//               child: Column(
-//             children: <Widget>[
-//               Container(
-//                   alignment: Alignment.center,
-//                   padding: const EdgeInsets.all(10),
-//                   child: const Text(
-//                     'WELCOME DMS SYSTEMS',
-//                     style: TextStyle(
-//                         color: Colors.blue,
-//                         fontWeight: FontWeight.w500,
-//                         fontSize: 24),
-//                   )),
-//               Container(
-//                   alignment: Alignment.center,
-//                   padding: const EdgeInsets.all(10),
-//                   child: const Text(
-//                     'Sign in',
-//                     style: TextStyle(fontSize: 20),
-//                   )),
-//               Container(
-//                 padding: const EdgeInsets.only(
-//                     top: 20, left: 10, right: 10, bottom: 10),
-//                 child: TextField(
-//                   controller: nameController,
-//                   decoration: const InputDecoration(
-//                     border: OutlineInputBorder(),
-//                     labelText: 'User Name',
-//                   ),
-//                 ),
-//               ),
-//               Padding(
-//                 padding: const EdgeInsets.only(
-//                     top: 20, left: 10, right: 10, bottom: 10),
-//                 child: Stack(
-//                   alignment: AlignmentDirectional.centerEnd,
-//                   children: <Widget>[
-//                     Container(
-//                       // padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-//                       child: TextField(
-//                         obscureText: !_showPassword,
-//                         controller: passwordController,
-//                         decoration: const InputDecoration(
-//                           border: OutlineInputBorder(),
-//                           labelText: 'Password',
-//                           // errorText: _passWordInvalid ? _passWordErr : null,
-//                         ),
-//                       ),
-//                     ),
-//                     Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: GestureDetector(
-//                         onTap: onToggleShowPass,
-//                         child: Text(
-//                           _showPassword ? "HIDE" : "SHOW",
-//                           style: TextStyle(
-//                               color: Colors.blue,
-//                               fontSize: 13,
-//                               fontWeight: FontWeight.bold),
-//                         ),
-//                       ),
-//                     )
-//                   ],
-//                 ),
-//               ),
-//               TextButton(
-//                 onPressed: () {
-//                   //forgot password screen
-//                 },
-//                 child: const Text(
-//                   'Forgot Password',
-//                 ),
-//               ),
-//               Container(
-//                   height: 50,
-//                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-//                   child: ElevatedButton(
-//                     child: const Text('Login'),
-//                     onPressed: () {
-//                       print(nameController.text);
-//                       print(passwordController.text);
-//                     },
-//                   )),
-//               Container(
-//                 margin: EdgeInsets.only(top: 20),
-//                 child: Row(
-//                   children: <Widget>[
-//                     InkWell(
-//                       onTap: () {},
-//                       child: Text.rich(
-//                         TextSpan(
-//                           text: "Does not have Account ",
-//                           style: TextStyle(fontSize: 18),
-//                           children: const [
-//                             TextSpan(
-//                               text: " SignUP",
-//                               style: TextStyle(
-//                                   fontSize: 18,
-//                                   color: Colors.blue,
-//                                   fontWeight: FontWeight.bold),
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                     ),
-//                     // const Text('Does not have account?'),
-//                     // TextButton(
-//                     //   child: const Text(
-//                     //     'Register',
-//                     //     style: TextStyle(fontSize: 20),
-//                     //   ),
-//                     //   onPressed: () {
-//                     //     //signup screen
-//                     //   },
-//                     // )
-//                   ],
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                 ),
-//               ),
-//             ],
-//           )),
-//         )),
-//       ),
-//     );
-//   }
-
-//   void onToggleShowPass() {
-//     setState(() {
-//       _showPassword = !_showPassword;
-//     });
-//   }
-// }
 
 class Page extends StatefulWidget {
   const Page({super.key});
@@ -175,6 +22,7 @@ class Page extends StatefulWidget {
 
 class _PageState extends State<Page> {
   int _selectIndex = 0;
+
   void _onItemTapped(int index) {
     setState(() {
       _selectIndex = index;
@@ -239,6 +87,13 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _userController = TextEditingController();
   final _passWordController = TextEditingController();
+  bool _showPassword = false;
+
+  void onToggleShowPass() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -293,30 +148,52 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 30,
                   ),
-                  TextFormField(
-                      controller: _passWordController,
-                      decoration: InputDecoration(
-                        labelText: 'Pass Word',
-                        hintText: 'Enter PassWord',
-                        prefixIcon: Align(
-                          widthFactor: 1.0,
-                          child: Icon(Icons.password_outlined),
+                  Stack(
+                    alignment: AlignmentDirectional.centerEnd,
+                    children: <Widget>[
+                      TextFormField(
+                        controller: _passWordController,
+                        obscureText: _showPassword,
+                        decoration: InputDecoration(
+                          labelText: 'Pass Word',
+                          hintText: 'Enter PassWord',
+                          prefixIcon: Align(
+                            widthFactor: 1.0,
+                            child: Icon(Icons.password_outlined),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          fillColor: Colors.blue,
+                          filled: false,
+                          contentPadding: EdgeInsets.all(16),
                         ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            width: 1,
-                            style: BorderStyle.solid,
+                        // validator: MultiValidator(
+                        //   [
+                        //     RequiredValidator(errorText: '*Required'),
+                        //     MinLengthValidator(8, errorText: "errorText")
+                        //   ],
+                        // ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: onToggleShowPass,
+                          child: Text(
+                            _showPassword ? "HIDE" : "SHOW",
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
-                        fillColor: Colors.blue,
-                        filled: false,
-                        contentPadding: EdgeInsets.all(16),
                       ),
-                      validator: MultiValidator([
-                        RequiredValidator(errorText: '*Required'),
-                        MinLengthValidator(8, errorText: "errorText")
-                      ])),
+                    ],
+                  ),
                   SizedBox(
                     height: 30,
                   ),

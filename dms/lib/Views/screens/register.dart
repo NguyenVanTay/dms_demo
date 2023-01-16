@@ -2,7 +2,7 @@
 
 import 'package:dms/Views/screens/login.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
+
 import 'fogetpassword.dart';
 
 class Register extends StatefulWidget {
@@ -16,6 +16,13 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   final _userController = TextEditingController();
   final _passWordController = TextEditingController();
+  bool _showPassword = false;
+
+  void onToggleShowPass() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,62 +77,100 @@ class _RegisterState extends State<Register> {
                   SizedBox(
                     height: 30,
                   ),
-                  TextFormField(
-                    controller: _passWordController,
-                    decoration: InputDecoration(
-                      labelText: 'Pass Word',
-                      hintText: 'Enter PassWord',
-                      prefixIcon: Align(
-                        widthFactor: 1.0,
-                        child: Icon(Icons.password_outlined),
+                  Stack(
+                    alignment: AlignmentDirectional.centerEnd,
+                    children: <Widget>[
+                      TextFormField(
+                        controller: _passWordController,
+                        obscureText: _showPassword,
+                        decoration: InputDecoration(
+                          labelText: 'Pass Word',
+                          hintText: 'Enter PassWord',
+                          prefixIcon: Align(
+                            widthFactor: 1.0,
+                            child: Icon(Icons.password_outlined),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          fillColor: Colors.blue,
+                          filled: false,
+                          contentPadding: EdgeInsets.all(16),
+                        ),
+                        // validator: MultiValidator(
+                        //   [
+                        //     RequiredValidator(errorText: '*Required'),
+                        //     MinLengthValidator(8, errorText: "errorText")
+                        //   ],
+                        // ),
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          width: 1,
-                          style: BorderStyle.solid,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: onToggleShowPass,
+                          child: Text(
+                            _showPassword ? "HIDE" : "SHOW",
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                      fillColor: Colors.blue,
-                      filled: false,
-                      contentPadding: EdgeInsets.all(16),
-                    ),
-                    validator: MultiValidator(
-                      [
-                        RequiredValidator(errorText: '*Required'),
-                        MinLengthValidator(8, errorText: "errorText")
-                      ],
-                    ),
+                    ],
                   ),
                   SizedBox(
                     height: 30,
                   ),
-                  TextFormField(
-                    controller: _passWordController,
-                    decoration: InputDecoration(
-                      labelText: 'Confirm Password',
-                      hintText: 'Enter PassWord',
-                      prefixIcon: Align(
-                        widthFactor: 1.0,
-                        child: Icon(Icons.password_outlined),
+                  Stack(
+                    alignment: AlignmentDirectional.centerEnd,
+                    children: <Widget>[
+                      TextFormField(
+                        controller: _passWordController,
+                        obscureText: _showPassword,
+                        decoration: InputDecoration(
+                          labelText: 'Confirm PassWord',
+                          hintText: 'Enter PassWord',
+                          prefixIcon: Align(
+                            widthFactor: 1.0,
+                            child: Icon(Icons.password_outlined),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              width: 1,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          fillColor: Colors.blue,
+                          filled: false,
+                          contentPadding: EdgeInsets.all(16),
+                        ),
+                        // validator: MultiValidator(
+                        //   [
+                        //     RequiredValidator(errorText: '*Required'),
+                        //     MinLengthValidator(8, errorText: "errorText")
+                        //   ],
+                        // ),
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          width: 1,
-                          style: BorderStyle.solid,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: onToggleShowPass,
+                          child: Text(
+                            _showPassword ? "HIDE" : "SHOW",
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                      fillColor: Colors.blue,
-                      filled: false,
-                      contentPadding: EdgeInsets.all(16),
-                    ),
-                    validator: MultiValidator(
-                      [
-                        RequiredValidator(errorText: '*Required'),
-                        MinLengthValidator(8, errorText: "errorText")
-                      ],
-                    ),
+                    ],
                   ),
                   SizedBox(
                     height: 30,
