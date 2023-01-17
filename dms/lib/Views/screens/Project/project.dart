@@ -1,14 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_new, unused_local_variable, unused_import
 
-import 'package:dms/Views/widgets/projectwidget.dart';
+import 'package:dms/Views/widgets/Project/projectwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../routers/router.dart';
+import '../../../routers/router.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
+
 class Project extends StatefulWidget {
   const Project({super.key});
 
@@ -44,34 +45,35 @@ class _ProjectState extends State<Project> {
             splashColor: Colors.grey,
             onPressed: () {},
           ),
-         actions: [
-          PopupMenuButton<SampleItem>(
-            initialValue: selectedMenu,
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.black,
-            ),
-            onSelected: (SampleItem item) {
-              setState(() {
-                selectedMenu = item;
-              });
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-              const PopupMenuItem<SampleItem>(
-                value: SampleItem.itemOne,
-                child: Text('Item 1'),
+          actions: [
+            PopupMenuButton<SampleItem>(
+              initialValue: selectedMenu,
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.black,
               ),
-              const PopupMenuItem<SampleItem>(
-                value: SampleItem.itemTwo,
-                child: Text('Item 2'),
-              ),
-              const PopupMenuItem<SampleItem>(
-                value: SampleItem.itemThree,
-                child: Text('Item 3'),
-              ),
-            ],
-          )
-        ],
+              onSelected: (SampleItem item) {
+                setState(() {
+                  selectedMenu = item;
+                });
+              },
+              itemBuilder: (BuildContext context) =>
+                  <PopupMenuEntry<SampleItem>>[
+                const PopupMenuItem<SampleItem>(
+                  value: SampleItem.itemOne,
+                  child: Text('Item 1'),
+                ),
+                const PopupMenuItem<SampleItem>(
+                  value: SampleItem.itemTwo,
+                  child: Text('Item 2'),
+                ),
+                const PopupMenuItem<SampleItem>(
+                  value: SampleItem.itemThree,
+                  child: Text('Item 3'),
+                ),
+              ],
+            )
+          ],
           backgroundColor: Colors.white,
         ),
         body: SingleChildScrollView(

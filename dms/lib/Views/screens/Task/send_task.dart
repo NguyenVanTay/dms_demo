@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, unnecessary_new, sized_box_for_whitespace, unused_import
 
+import 'dart:ffi';
+
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -179,27 +181,33 @@ class _SendTaskState extends State<SendTask> {
               ),
             ),
             Container(
-              margin: EdgeInsets.all(10),
-              height: 120,
-              decoration: BoxDecoration(
-                // adding borders around the widget
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1.0,
+              margin: EdgeInsets.all(5),
+              //decoration: BoxDecoration(border: BorderRadius()),
+              child: Container(
+                margin: EdgeInsets.only(left: 10, right: 10),
+                height: 100.0,
+                width: 400,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  // adding borders around the widget
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
                 ),
-              ),
-              child: SingleChildScrollView(
-                // for Vertical scrolling
-                scrollDirection: Axis.vertical,
-                child: Container(
-                  height: maxheight,
-                  width: maxwidth,
-                  margin: EdgeInsets.all(5),
-                  child: Text(
-                    "We wish you a merry Christmas We wish you a merry Christmas We wish you a merry Christmas and a happy new year Good tidings we bring to you and your kin We wish you a merry Christmas and a happy new year Oh, bring us some figgy pudding Oh, bring us some figgy pudding Oh, bring us some figgy pudding And bring it right here",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
+                child: SingleChildScrollView(
+                  // for Vertical scrolling
+                  scrollDirection: Axis.vertical,
+                  child: Container(
+                    // height: maxheight,
+                    // width: maxwidth,
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      "Project Moonsoon",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                      ),
                     ),
                   ),
                 ),
@@ -277,25 +285,29 @@ class _SendTaskState extends State<SendTask> {
                 color: Colors.black,
               ),
             ),
-            Container(
-              padding: EdgeInsets.only(left: 150, right: 150),
-              margin: EdgeInsets.only(top: 120),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Color.fromRGBO(146, 252, 161, 1),
-              ),
-              //  color: Color.fromRGBO(),
-              child: TextButton(
-                style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
-                ),
+            SizedBox(
+              height: 50,
+            ),
+            SizedBox(
+              height: 50,
+              width: 380,
+              child: ElevatedButton(
                 onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    elevation: 20,
+                    // : BorderRadius.circular(10),
+                    backgroundColor: Color.fromRGBO(146, 252, 161, 1)),
                 child: Text(
-                  'Send',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  'Create Project',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
+            ),
+            SizedBox(
+              height: 20,
             ),
           ],
         ),

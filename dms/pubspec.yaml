@@ -54,6 +54,7 @@ dependencies:
   comment_tree: ^0.3.0
   reaction_askany: ^0.1.0
   form_field_validator: ^1.1.0
+  dropdown_formfield: ^0.1.4
 
 
 

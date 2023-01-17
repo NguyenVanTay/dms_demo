@@ -1,11 +1,11 @@
-// ignore_for_file: unused_element
+/// ignore_for_file: unused_element
+
+import 'package:dms/Views/screens/Task/create_task.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-
 import 'Views/screens/GanttChart/gantt_chart.dart';
-import 'Views/screens/login.dart';
 import 'controllers/providers/event_provider.dart';
 
 DateTime get _now => DateTime.now();
@@ -23,19 +23,8 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
-        home: const Login(),
+        home: const CreateTask(),
       ),
     );
   }
 }
-
-// class MyCustomScrollBehavior extends MaterialScrollBehavior {
-//   // Override behavior methods and getters like dragDevices
-//   @override
-//   Set<PointerDeviceKind> get dragDevices => {
-//         PointerDeviceKind.touch,
-//         PointerDeviceKind.mouse,
-//         // etc.
-//       };
-// }
-

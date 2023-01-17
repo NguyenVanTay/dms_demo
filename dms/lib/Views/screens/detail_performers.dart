@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_new, unused_local_variable, unused_import
 
-import 'package:dms/Views/widgets/projectwidget.dart';
+import 'package:dms/Views/widgets/Project/projectwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

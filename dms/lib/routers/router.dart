@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:dms/Views/screens/all_tasks.dart';
+import 'package:dms/Views/screens/Task/all_tasks.dart';
 import 'package:dms/Views/screens/homepage.dart';
 import 'package:dms/Views/screens/login.dart';
-import 'package:dms/Views/screens/project.dart';
+import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/register.dart';
-import 'package:dms/Views/screens/task_manager.dart';
+import 'package:dms/Views/screens/Task/task_manager.dart';
 import 'package:get/get.dart';
 
 class RoutesClass {

@@ -59,35 +59,35 @@ class _GanttChartState extends State<GanttChart> {
           leading: CloseButton(
             color: Colors.black,
           ),
-          actions: [
-            PopupMenuButton<SampleItem>(
-              initialValue: selectedMenu,
-              icon: Icon(
-                Icons.more_vert,
-                color: Colors.black,
-              ),
-              onSelected: (SampleItem item) {
-                setState(() {
-                  selectedMenu = item;
-                });
-              },
-              itemBuilder: (BuildContext context) =>
-                  <PopupMenuEntry<SampleItem>>[
-                const PopupMenuItem<SampleItem>(
-                  value: SampleItem.itemOne,
-                  child: Text('Item 1'),
-                ),
-                const PopupMenuItem<SampleItem>(
-                  value: SampleItem.itemTwo,
-                  child: Text('Item 2'),
-                ),
-                const PopupMenuItem<SampleItem>(
-                  value: SampleItem.itemThree,
-                  child: Text('Item 3'),
-                ),
-              ],
-            )
-          ],
+          // actions: [
+          //   PopupMenuButton<SampleItem>(
+          //     initialValue: selectedMenu,
+          //     icon: Icon(
+          //       Icons.more_vert,
+          //       color: Colors.black,
+          //     ),
+          //     onSelected: (SampleItem item) {
+          //       setState(() {
+          //         selectedMenu = item;
+          //       });
+          //     },
+          //     itemBuilder: (BuildContext context) =>
+          //         <PopupMenuEntry<SampleItem>>[
+          //       const PopupMenuItem<SampleItem>(
+          //         value: SampleItem.itemOne,
+          //         child: Text('Item 1'),
+          //       ),
+          //       const PopupMenuItem<SampleItem>(
+          //         value: SampleItem.itemTwo,
+          //         child: Text('Item 2'),
+          //       ),
+          //       const PopupMenuItem<SampleItem>(
+          //         value: SampleItem.itemThree,
+          //         child: Text('Item 3'),
+          //       ),
+          //     ],
+          //   )
+          // ],
         ),
         body: SingleChildScrollView(
           child: Column(
