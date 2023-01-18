@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables
 
+import 'package:dms/Views/screens/Task/all_tasks.dart';
 import 'package:dms/models/projectmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
@@ -27,7 +29,7 @@ class _ProjectWidgetState extends State<ProjectWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print("123");
+        Get.to(AllTasks());
       },
       child: Container(
         margin: EdgeInsets.all(10),
