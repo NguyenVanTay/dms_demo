@@ -33,7 +33,9 @@ class _AllTasksState extends State<AllTasks> {
           color: Colors.black,
           icon: Icon(Icons.arrow_back_outlined),
           splashColor: Colors.grey,
-          onPressed: () {},
+          onPressed: () {
+            Get.back();
+          },
         ),
         actions: [
           PopupMenuButton<SampleItem>(
@@ -85,7 +87,6 @@ class _AllTasksState extends State<AllTasks> {
                     margin: EdgeInsets.only(top: 10, right: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(45),
-                      
                       color: Colors.grey.withOpacity(0.2),
                     ),
                     child: IconButton(

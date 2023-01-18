@@ -1,5 +1,9 @@
 // ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace
 
+import 'dart:convert';
+
+import 'package:dms/Views/screens/Project/project.dart';
+import 'package:dms/network/network_request.dart';
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,10 +18,10 @@ SampleItem? selectedMenu;
 
 List<DropdownMenuItem<String>> get dropdownStatusItems {
   List<DropdownMenuItem<String>> statusItem = [
-    DropdownMenuItem(child: Text("Initial"), value: "Initial"),
-    DropdownMenuItem(child: Text("Canada"), value: "Canada"),
-    DropdownMenuItem(child: Text("Brazil"), value: "Brazil"),
-    DropdownMenuItem(child: Text("England"), value: "England"),
+    DropdownMenuItem(child: Text("Initiated"), value: "Initiated"),
+    DropdownMenuItem(child: Text("Planning"), value: "Planning"),
+    DropdownMenuItem(child: Text("Performing"), value: "Performing"),
+    DropdownMenuItem(child: Text("Finished"), value: "Finished"),
   ];
   return statusItem;
 }
@@ -25,9 +29,7 @@ List<DropdownMenuItem<String>> get dropdownStatusItems {
 List<DropdownMenuItem<String>> get dropdownTypeItems {
   List<DropdownMenuItem<String>> typeItems = [
     DropdownMenuItem(child: Text("General"), value: "General"),
-    DropdownMenuItem(child: Text("Canada"), value: "Canada"),
-    DropdownMenuItem(child: Text("Brazil"), value: "Brazil"),
-    DropdownMenuItem(child: Text("England"), value: "England"),
+    DropdownMenuItem(child: Text("Development"), value: "Development"),
   ];
   return typeItems;
 }
@@ -68,8 +70,8 @@ class _CreateProjectState extends State<CreateProject> {
   late TextEditingController _endDateController;
   late TextEditingController _controller;
 
-  String status = 'Initial';
-  String type = 'General';
+  String status = 'Initiated';
+  String type = 'Development';
 
   @override
   void initState() {
@@ -166,6 +168,8 @@ class _CreateProjectState extends State<CreateProject> {
     super.dispose();
   }
 
+  String projectName = "";
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -255,11 +259,17 @@ class _CreateProjectState extends State<CreateProject> {
                           // height: maxheight,
                           // width: maxwidth,
                           margin: EdgeInsets.all(7),
-                          child: Text(
-                            "Project Moonsoon",
+                          child: TextFormField(
+                            controller: _controller,
+                            onSaved: (newValue) {
+                              // setState(() {
+                              //   projectName = newValue??"";
+                              // });
+                            },
+                            maxLines: 2,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 14.0,
+                              fontSize: 16.0,
                             ),
                           ),
                         ),
@@ -299,11 +309,11 @@ class _CreateProjectState extends State<CreateProject> {
                         scrollDirection: Axis.vertical,
                         child: Container(
                           margin: EdgeInsets.all(7),
-                          child: Text(
-                            "Project Moonsoon",
+                          child: TextFormField(
+                            maxLines: 2,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 14.0,
+                              fontSize: 16.0,
                             ),
                           ),
                         ),
@@ -601,7 +611,7 @@ class _CreateProjectState extends State<CreateProject> {
                     //decoration: BoxDecoration(border: BorderRadius()),
                     child: Container(
                       margin: EdgeInsets.only(left: 10, right: 10),
-                      height: 100.0,
+                      // height: 100.0,
                       width: 400,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -618,8 +628,8 @@ class _CreateProjectState extends State<CreateProject> {
                           // height: maxheight,
                           // width: maxwidth,
                           margin: EdgeInsets.only(left: 10),
-                          child: Text(
-                            "Project Moonsoon",
+                          child: TextFormField(
+                            maxLines: 6,
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 16.0,
@@ -636,7 +646,39 @@ class _CreateProjectState extends State<CreateProject> {
                     height: 50,
                     width: 380,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        Map data = {
+                          "ProjectName": _controller.text,
+                          "BeginPlan": "20230117150000",
+                          "FinalPlan": "20230117150000",
+                          "LongDesc": "Chúc mọi người năm mới vui vẻ",
+                          "State": "Initiated",
+                          "Manager": "Trịnh Vân Thương",
+                          "ProjectType": "Development project",
+                          "ProjecTeamList":
+                              "Trịnh Vân Thương-Leader,Chung Thành Bảo Long-Project Owner,Thuong TV-Dev"
+                        };
+                        print(jsonEncode(data));
+                        var result =
+                            await Networking.getInstance().createProject(data);
+                        if (result) {
+                          await showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text("Success"),
+                                  ));
+                          Navigator.pushNamed(context, "/project");
+
+                          //handle
+                        }else{
+ showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text("false"),
+                                ));
+                        }
+                       
+                      },
                       child: Text(
                         'Create Project',
                         style: TextStyle(

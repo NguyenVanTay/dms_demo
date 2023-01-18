@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_new, unused_local_variable, unused_import
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_new, unused_local_variable, unused_import, avoid_print
 
+import 'package:dms/Views/screens/Task/all_tasks.dart';
 import 'package:dms/Views/widgets/Project/projectwidget.dart';
 import 'package:dms/models/projectmodel.dart';
 import 'package:dms/network/network_request.dart';
@@ -37,7 +38,7 @@ class _ProjectState extends State<Project> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    
+
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -133,6 +134,22 @@ class _ProjectState extends State<Project> {
                     children: [
                       Column(
                         children: [
+                          //ElevatedButton(
+                          //   onPressed: () async {
+                          //     var data = await Get.to(
+                          //         // Using widget function indtead of widget
+                          //         // fully guarantees that the widget and its controllers
+                          //         // will be removed from memory when they are no longer us
+                          //         () => const NextScreen(),
+                          //         transition: Transition.leftToRight,
+                          //         duration: const Duration(seconds: 1),
+                          //         curve: Curves.easeInOut,
+                          //         arguments: 'Hello World from Get.to()');
+                          //     debugPrint(data);
+                          //   },
+                          //   child: const Text('Get.to(NextScreen())'),
+                          // ),
+
                           ProjectWidget(
                             project: projects[index],
                           )

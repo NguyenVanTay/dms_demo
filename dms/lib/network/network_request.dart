@@ -2,8 +2,10 @@
 
 import 'dart:convert';
 
-import 'package:auto_route/annotations.dart';
 import 'package:dms/models/projectmodel.dart';
+import 'package:dms/models/statusmodel.dart';
+import 'package:dms/models/typemodel.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class Networking {
@@ -34,13 +36,6 @@ class Networking {
     return _instance;
   }
 
-  static List<ProjectModel> pareseProject(String reponseBody) {
-    var list = json.decode(reponseBody) as List<dynamic>;
-    List<ProjectModel> projects =
-        list.map((model) => ProjectModel.fromJson(model)).toList();
-    return projects;
-  }
-
   Future<List<ProjectModel>> getAllProject() async {
     String basicAuth =
         'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
@@ -54,12 +49,77 @@ class Networking {
         headers: requestHeaders);
 
     if (response.statusCode == 200) {
-      for (var project in jsonDecode(response.body)) {
-        projects.add(ProjectModel.fromJson(project));
+      for (var projectItem in jsonDecode(response.body)) {
+        projects.add(ProjectModel.fromJson(projectItem));
       }
       return projects;
     } else {
       throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
+    }
+  }
+
+  Future<List<StatusModel>> getAllStatus() async {
+    String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
+    Map<String, String> requestHeaders = {'authorization': basicAuth};
+    List<StatusModel> status = [];
+
+    final response = await http.get(
+        Uri.parse(
+          '$host/v1/ProjectStates',
+        ),
+        headers: requestHeaders);
+
+    if (response.statusCode == 200) {
+      for (var statusItem in jsonDecode(response.body)) {
+        status.add(StatusModel.fromJson(statusItem));
+      }
+      return status;
+    } else {
+      throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
+    }
+  }
+
+  Future<List<TypeModel>> getAllType() async {
+    String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
+    Map<String, String> requestHeaders = {'authorization': basicAuth};
+    List<TypeModel> types = [];
+
+    final response = await http.get(
+        Uri.parse(
+          '$host/v1/ProjectStates',
+        ),
+        headers: requestHeaders);
+
+    if (response.statusCode == 200) {
+      for (var typeItem in jsonDecode(response.body)) {
+        types.add(TypeModel.fromJson(typeItem));
+      }
+      return types;
+    } else {
+      throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
+    }
+  }
+
+  Future<bool> createProject(Map body) async {
+    String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
+    Map<String, String> requestHeaders = {'authorization': basicAuth};
+    List<TypeModel> types = [];
+
+    final response = await http.post(
+        Uri.parse(
+          '$host/v1/Projects',
+        ),
+        headers: requestHeaders,
+        body: jsonEncode(body));
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      // throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
+      return false;
     }
   }
 }
