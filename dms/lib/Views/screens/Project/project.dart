@@ -5,6 +5,7 @@ import 'package:dms/models/projectmodel.dart';
 import 'package:dms/network/network_request.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../routers/router.dart';
 
@@ -32,12 +33,23 @@ class _ProjectState extends State<Project> {
     });
   }
 
+  ProjectModel formatDate(ProjectModel project) {
+    project.beginPlan = new DateFormat("yyyy-MM-dd")
+        .parse(project.beginPlan.toString())
+        .toString()
+        .substring(0, 10);
+    project.finalPlan = new DateFormat("yyyy-MM-dd")
+        .parse(project.finalPlan.toString())
+        .toString()
+        .substring(0, 10);
+    return project;
+  }
+
   int items = 10;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -134,7 +146,7 @@ class _ProjectState extends State<Project> {
                       Column(
                         children: [
                           ProjectWidget(
-                            project: projects[index],
+                            project: formatDate(projects[index]),
                           )
                         ],
                       ),
