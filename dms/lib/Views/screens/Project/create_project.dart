@@ -65,8 +65,7 @@ class _CreateProjectState extends State<CreateProject> {
   final GlobalKey<FormState> _form = GlobalKey();
 
   late TextEditingController _startDateController;
-  late TextEditingController _startTimeController;
-  late TextEditingController _endTimeController;
+
   late TextEditingController _endDateController;
   late TextEditingController _controller;
 
@@ -83,75 +82,9 @@ class _CreateProjectState extends State<CreateProject> {
 
     _startDateController = TextEditingController();
     _endDateController = TextEditingController();
-    _startTimeController = TextEditingController();
-    _endTimeController = TextEditingController();
+
     _controller = TextEditingController();
-    WidgetsBinding.instance!.addPostFrameCallback((_) => showOverlay());
   }
-
-  void showOverlay() {
-    final overlay = Overlay.of(context)!;
-    final renderBox = context.findRenderObject() as RenderBox;
-    final size = renderBox.size;
-    final offset = renderBox.localToGlobal(Offset.zero);
-    entry = OverlayEntry(
-      builder: (context) => Positioned(
-        left: offset.dx,
-        top: offset.dy + size.height + 8,
-        width: size.width,
-        child: buildOverlay(),
-      ),
-    );
-    overlay.insert(entry!);
-  }
-
-  Widget buildOverlay() => Material(
-        elevation: 8,
-        child: Column(
-          children: <Widget>[
-            ListTile(
-              leading: Image.network(
-                "https://i.pravatar.cc/300?img=1",
-                fit: BoxFit.cover,
-              ),
-              title: Text('Trinh Van Thuong'),
-              subtitle: Text('Developer'),
-            ),
-            ListTile(
-              leading: Image.network(
-                "https://i.pravatar.cc/300?img=2",
-                fit: BoxFit.cover,
-              ),
-              title: Text('Jimmy'),
-              subtitle: Text('Developer'),
-            ),
-            ListTile(
-              leading: Image.network(
-                "https://i.pravatar.cc/300?img=3",
-                fit: BoxFit.cover,
-              ),
-              title: Text('Juliwan'),
-              subtitle: Text('Designer'),
-            ),
-            ListTile(
-              leading: Image.network(
-                "https://i.pravatar.cc/300?img=4",
-                fit: BoxFit.cover,
-              ),
-              title: Text('steafun'),
-              subtitle: Text('leader Developer'),
-            ),
-            ListTile(
-              leading: Image.network(
-                "https://i.pravatar.cc/300?img=5",
-                fit: BoxFit.cover,
-              ),
-              title: Text('Trinh Van Thuong'),
-              subtitle: Text('Developer'),
-            ),
-          ],
-        ),
-      );
 
   @override
   void dispose() {
@@ -162,8 +95,6 @@ class _CreateProjectState extends State<CreateProject> {
 
     _startDateController.dispose();
     _endDateController.dispose();
-    _startTimeController.dispose();
-    _endTimeController.dispose();
 
     super.dispose();
   }
@@ -188,7 +119,9 @@ class _CreateProjectState extends State<CreateProject> {
               color: Colors.black,
               icon: const Icon(Icons.arrow_back_outlined),
               splashColor: Colors.grey,
-              onPressed: () {},
+              onPressed: () {
+                Get.back();
+              },
             ),
             actions: [
               PopupMenuButton<SampleItem>(
@@ -658,7 +591,7 @@ class _CreateProjectState extends State<CreateProject> {
                           "ProjecTeamList":
                               "Trịnh Vân Thương-Leader,Chung Thành Bảo Long-Project Owner,Thuong TV-Dev"
                         };
-                        print(jsonEncode(data));
+                        //print(jsonEncode(data));
                         var result =
                             await Networking.getInstance().createProject(data);
                         if (result) {
@@ -667,17 +600,17 @@ class _CreateProjectState extends State<CreateProject> {
                               builder: (context) => AlertDialog(
                                     title: Text("Success"),
                                   ));
-                          Navigator.pushNamed(context, "/project");
+                          // Navigator.pushNamed(context, "/project");
+                          Get.to(Project());
 
                           //handle
-                        }else{
- showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  title: Text("false"),
-                                ));
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text("false"),
+                                  ));
                         }
-                       
                       },
                       child: Text(
                         'Create Project',

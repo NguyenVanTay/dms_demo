@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
@@ -38,7 +39,9 @@ class _VerifyTaskState extends State<VerifyTask> {
             color: Colors.black,
             icon: Icon(Icons.arrow_back_outlined),
             splashColor: Colors.grey,
-            onPressed: () {},
+            onPressed: () {
+              Get.back();
+            },
           ),
           actions: [
             PopupMenuButton<SampleItem>(

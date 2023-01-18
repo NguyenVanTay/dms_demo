@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:face_pile/face_pile.dart';
 
@@ -37,7 +38,9 @@ class _DetailTaskState extends State<DetailTask> {
             color: Colors.black,
             icon: Icon(Icons.arrow_back_outlined),
             splashColor: Colors.grey,
-            onPressed: () {},
+            onPressed: () {
+              Get.back();
+            },
           ),
           actions: [
             PopupMenuButton<SampleItem>(

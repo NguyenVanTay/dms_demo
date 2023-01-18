@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../routers/router.dart';
-import '../../widgets/taskwidget.dart';
+import '../../widgets/Task/taskwidget.dart';
 import 'package:get/get.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }

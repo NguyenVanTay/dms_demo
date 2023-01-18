@@ -2,6 +2,7 @@
 
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../sources/app_colors.dart';
 import '../../widgets/Project/constants.dart';
@@ -114,7 +115,9 @@ class _CreateTaskState extends State<CreateTask> {
               color: Colors.black,
               icon: const Icon(Icons.arrow_back_outlined),
               splashColor: Colors.grey,
-              onPressed: () {},
+              onPressed: () {
+                Get.back();
+              },
             ),
             actions: [
               PopupMenuButton<SampleItem>(

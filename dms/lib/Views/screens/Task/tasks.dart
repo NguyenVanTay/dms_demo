@@ -2,6 +2,7 @@
 
 import 'package:dms/Views/screens/Project/create_project.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
+import 'package:dms/Views/screens/Task/create_task.dart';
 import 'package:dms/Views/widgets/Project/projectwidget.dart';
 import 'package:dms/models/projectmodel.dart';
 import 'package:dms/network/network_request.dart';
@@ -10,19 +11,20 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../routers/router.dart';
+import '../../widgets/Task/task_widget.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
 
-class Project extends StatefulWidget {
-  const Project({super.key});
+class Tasks extends StatefulWidget {
+  const Tasks({super.key});
 
   @override
-  State<Project> createState() => _ProjectState();
+  State<Tasks> createState() => _TasksState();
 }
 
-class _ProjectState extends State<Project> {
+class _TasksState extends State<Tasks> {
   List<ProjectModel> projects = <ProjectModel>[];
   @override
   void initState() {
@@ -55,16 +57,16 @@ class _ProjectState extends State<Project> {
 
     return SafeArea(
       child: Scaffold(
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     Get.to(CreateProject());
-        //   },
-        //   child: Icon(Icons.add),
-        // ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Get.to(CreateTask());
+          },
+          child: Icon(Icons.add),
+        ),
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            "Projects",
+            "Tasks",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -75,7 +77,9 @@ class _ProjectState extends State<Project> {
             color: Colors.black,
             icon: Icon(Icons.arrow_back_outlined),
             splashColor: Colors.grey,
-            onPressed: () {},
+            onPressed: () {
+              Get.back();
+            },
           ),
           actions: [
             PopupMenuButton<SampleItem>(
@@ -111,53 +115,28 @@ class _ProjectState extends State<Project> {
         body: SingleChildScrollView(
           child: Container(
             child: Column(children: [
-              GestureDetector(
-                onTap: () {
-                  Get.to(CreateProject());
-                },
-                child: Container(
-                  margin: EdgeInsets.only(
-                      top: 10, bottom: 10, left: 10, right: 300),
-                  height: 35,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Color.fromRGBO(146, 252, 161, 1),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.add,
-                        size: 24,
-                        color: Color.fromRGBO(0, 169, 0, 1),
-                      ),
-                      Text(
-                        "Create",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(0, 169, 0, 1),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              Container(
+                  margin: EdgeInsets.all(10),
+                  child: const Text(
+                    'Project "MoonSoon Festival Summer 2022 "',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 2,
+                  )),
               Container(
                 height: height * 0.75,
                 margin: EdgeInsets.only(top: 10),
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: projects.length,
+                  itemCount: 10,
                   itemBuilder: (context, index) => Stack(
                     children: [
                       Column(
                         children: [
-                          ProjectWidget(
-                            project: formatDate(projects[index]),
-                          )
+                          TasksWidget(),
                         ],
                       ),
                     ],

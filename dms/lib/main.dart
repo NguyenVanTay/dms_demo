@@ -1,6 +1,7 @@
 import 'package:dms/Views/screens/Project/create_project.dart';
 import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
+import 'package:dms/Views/screens/Task/tasks.dart';
 import 'package:dms/Views/screens/homepage.dart';
 
 import 'package:flutter/material.dart';

@@ -7,7 +7,7 @@ import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:intl/intl.dart';
 import '../../routers/router.dart';
 import '../widgets/boxwidget.dart';
-import '../widgets/taskwidget.dart';
+import '../widgets/Task/taskwidget.dart';
 
 class HomePage extends StatefulWidget {
   @override

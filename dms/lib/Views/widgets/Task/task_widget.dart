@@ -1,14 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables, must_be_immutable
 
-import 'package:dms/Views/screens/Task/all_tasks.dart';
-import 'package:dms/Views/widgets/Task/taskwidget.dart';
-import 'package:dms/models/projectmodel.dart';
+import 'package:dms/Views/screens/Task/create_task.dart';
+import 'package:dms/Views/screens/Task/detail_task.dart';
+import 'package:face_pile/face_pile.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:step_progress_indicator/step_progress_indicator.dart';
-
-import '../../screens/Task/tasks.dart';
 
 double? height;
 double? width;
@@ -17,22 +14,21 @@ enum SampleItem { itemOne, itemTwo, itemThree, itemFour }
 
 SampleItem? selectedMenu;
 
-class ProjectWidget extends StatefulWidget {
-  final ProjectModel project;
-
-  const ProjectWidget({required this.project, super.key});
+class TasksWidget extends StatefulWidget {
+  const TasksWidget({super.key});
 
   @override
-  State<ProjectWidget> createState() => _ProjectWidgetState();
+  State<TasksWidget> createState() => _TasksWidgetState();
 }
 
-class _ProjectWidgetState extends State<ProjectWidget> {
+class _TasksWidgetState extends State<TasksWidget> {
   var gender;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(Tasks());
+        Get.to(DetailTask());
       },
       child: Container(
         margin: EdgeInsets.all(10),
@@ -60,7 +56,7 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        "${widget.project.description}",
+                        "Develop a master",
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -108,34 +104,6 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                     )
                   ],
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: 5, right: 5, bottom: 10),
-                  child: StepProgressIndicator(
-                    totalSteps: 100,
-                    currentStep: 50,
-                    size: 8,
-                    padding: 0,
-                    selectedColor: Color.fromRGBO(73, 198, 70, 1),
-                    unselectedColor: Color.fromRGBO(217, 217, 217, 1),
-                    roundedEdges: Radius.circular(10),
-                    selectedGradientColor: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color.fromRGBO(73, 198, 70, 1),
-                        Color.fromRGBO(73, 198, 70, 1)
-                      ],
-                    ),
-                    unselectedGradientColor: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color.fromRGBO(217, 217, 217, 1),
-                        Color.fromRGBO(217, 217, 217, 1)
-                      ],
-                    ),
-                  ),
-                ),
                 const Divider(
                   thickness: 0.1,
                   indent: 0,
@@ -151,18 +119,28 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
-                        "${widget.project.beginPlan} -  ${widget.project.finalPlan}",
+                        "01-01-2022 02-02-2022",
                         style: TextStyle(
                           fontSize: 16,
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 120, bottom: 5),
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage("images/dog.jpg"),
-                      ),
-                    )
+                    Container(
+                      margin: EdgeInsets.all(20),
+                      child: Row(children: [
+                        FacePile(
+                          radius: 20,
+                          space: 20,
+                          images: [
+                            NetworkImage("https://i.pravatar.cc/300?img=1"),
+                            NetworkImage("https://i.pravatar.cc/300?img=2"),
+                            NetworkImage("https://i.pravatar.cc/300?img=3"),
+                            NetworkImage("https://i.pravatar.cc/300?img=4"),
+                            NetworkImage("https://i.pravatar.cc/300?img=5"),
+                          ],
+                        ),
+                      ]),
+                    ),
                   ],
                 ),
               ],
