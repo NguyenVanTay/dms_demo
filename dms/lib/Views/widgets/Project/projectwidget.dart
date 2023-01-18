@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables
 
+import 'package:dms/models/projectmodel.dart';
 import 'package:flutter/material.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -12,7 +13,9 @@ enum SampleItem { itemOne, itemTwo, itemThree, itemFour }
 SampleItem? selectedMenu;
 
 class ProjectWidget extends StatefulWidget {
-  const ProjectWidget({super.key});
+  final ProjectModel project;
+
+  const ProjectWidget({required this.project, super.key});
 
   @override
   State<ProjectWidget> createState() => _ProjectWidgetState();
@@ -52,7 +55,7 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        "Moonsoon Festival Summer 2022",
+                        "${widget.project.description}",
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -143,7 +146,8 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
-                        "01.01.2022 - 02.02.2022",
+                        // "01.01.2022 - 02.02.2022",
+                        "${widget.project.beginPlan} -  ${widget.project.finalPlan}",
                         style: TextStyle(
                           fontSize: 16,
                         ),

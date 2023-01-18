@@ -1,7 +1,8 @@
-// ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
+// ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace
 
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../sources/app_colors.dart';
 import '../../widgets/Project/constants.dart';
@@ -51,6 +52,7 @@ class _CreateProjectState extends State<CreateProject> {
   String _description = "";
 
   Color _color = Colors.blue;
+  OverlayEntry? entry;
 
   late FocusNode _titleNode;
 
@@ -64,6 +66,7 @@ class _CreateProjectState extends State<CreateProject> {
   late TextEditingController _startTimeController;
   late TextEditingController _endTimeController;
   late TextEditingController _endDateController;
+  late TextEditingController _controller;
 
   String status = 'Initial';
   String type = 'General';
@@ -80,13 +83,80 @@ class _CreateProjectState extends State<CreateProject> {
     _endDateController = TextEditingController();
     _startTimeController = TextEditingController();
     _endTimeController = TextEditingController();
+    _controller = TextEditingController();
+    WidgetsBinding.instance!.addPostFrameCallback((_) => showOverlay());
   }
+
+  void showOverlay() {
+    final overlay = Overlay.of(context)!;
+    final renderBox = context.findRenderObject() as RenderBox;
+    final size = renderBox.size;
+    final offset = renderBox.localToGlobal(Offset.zero);
+    entry = OverlayEntry(
+      builder: (context) => Positioned(
+        left: offset.dx,
+        top: offset.dy + size.height + 8,
+        width: size.width,
+        child: buildOverlay(),
+      ),
+    );
+    overlay.insert(entry!);
+  }
+
+  Widget buildOverlay() => Material(
+        elevation: 8,
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              leading: Image.network(
+                "https://i.pravatar.cc/300?img=1",
+                fit: BoxFit.cover,
+              ),
+              title: Text('Trinh Van Thuong'),
+              subtitle: Text('Developer'),
+            ),
+            ListTile(
+              leading: Image.network(
+                "https://i.pravatar.cc/300?img=2",
+                fit: BoxFit.cover,
+              ),
+              title: Text('Jimmy'),
+              subtitle: Text('Developer'),
+            ),
+            ListTile(
+              leading: Image.network(
+                "https://i.pravatar.cc/300?img=3",
+                fit: BoxFit.cover,
+              ),
+              title: Text('Juliwan'),
+              subtitle: Text('Designer'),
+            ),
+            ListTile(
+              leading: Image.network(
+                "https://i.pravatar.cc/300?img=4",
+                fit: BoxFit.cover,
+              ),
+              title: Text('steafun'),
+              subtitle: Text('leader Developer'),
+            ),
+            ListTile(
+              leading: Image.network(
+                "https://i.pravatar.cc/300?img=5",
+                fit: BoxFit.cover,
+              ),
+              title: Text('Trinh Van Thuong'),
+              subtitle: Text('Developer'),
+            ),
+          ],
+        ),
+      );
 
   @override
   void dispose() {
     _titleNode.dispose();
     _descriptionNode.dispose();
     _dateNode.dispose();
+    _controller.dispose();
 
     _startDateController.dispose();
     _endDateController.dispose();
@@ -326,7 +396,107 @@ class _CreateProjectState extends State<CreateProject> {
                               margin: EdgeInsets.only(left: 5),
                               child: FloatingActionButton(
                                 backgroundColor: Colors.grey,
-                                onPressed: () {},
+                                onPressed: () {
+                                  Future.delayed(const Duration(seconds: 0),
+                                      () async {
+                                    await Get.dialog(AlertDialog(
+                                      //title: const Text("Members"),
+                                      content: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.75,
+                                        height: 300,
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            children: <Widget>[
+                                              Stack(
+                                                alignment: AlignmentDirectional
+                                                    .centerEnd,
+                                                children: <Widget>[
+                                                  TextFormField(
+                                                    decoration: InputDecoration(
+                                                      labelText: 'Name',
+                                                      hintText: 'Enter Name',
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12),
+                                                        borderSide: BorderSide(
+                                                          width: 1,
+                                                          style:
+                                                              BorderStyle.solid,
+                                                        ),
+                                                      ),
+                                                      fillColor: Colors.blue,
+                                                      filled: false,
+                                                      contentPadding:
+                                                          EdgeInsets.all(16),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: IconButton(
+                                                      icon: Icon(Icons.search),
+                                                      onPressed: () {},
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              ListTile(
+                                                onTap: () {},
+                                                leading: Image.network(
+                                                  "https://i.pravatar.cc/300?img=1",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                title: Text('Trinh Van Thuong'),
+                                                subtitle: Text('Developer'),
+                                              ),
+                                              ListTile(
+                                                onTap: () {},
+                                                leading: Image.network(
+                                                  "https://i.pravatar.cc/300?img=2",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                title: Text('Jimmy'),
+                                                subtitle: Text('Developer'),
+                                              ),
+                                              ListTile(
+                                                onTap: () {},
+                                                leading: Image.network(
+                                                  "https://i.pravatar.cc/300?img=3",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                title: Text('Juliwan'),
+                                                subtitle: Text('Designer'),
+                                              ),
+                                              ListTile(
+                                                onTap: () {},
+                                                leading: Image.network(
+                                                  "https://i.pravatar.cc/300?img=4",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                title: Text('steafun'),
+                                                subtitle:
+                                                    Text('leader Developer'),
+                                              ),
+                                              ListTile(
+                                                leading: Image.network(
+                                                  "https://i.pravatar.cc/300?img=5",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                title: Text('Trinh Van Thuong'),
+                                                subtitle: Text('Developer'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ));
+                                  });
+                                },
                                 child: Icon(
                                   Icons.add,
                                   size: 40,

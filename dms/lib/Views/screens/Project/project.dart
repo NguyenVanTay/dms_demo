@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_new, unused_local_variable, unused_import
 
 import 'package:dms/Views/widgets/Project/projectwidget.dart';
+import 'package:dms/models/projectmodel.dart';
+import 'package:dms/network/network_request.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,11 +20,24 @@ class Project extends StatefulWidget {
 }
 
 class _ProjectState extends State<Project> {
+  List<ProjectModel> projects = <ProjectModel>[];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Networking.getInstance().getAllProject().then((projectData) {
+      setState(() {
+        projects = projectData;
+      });
+    });
+  }
+
   int items = 10;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -113,11 +128,15 @@ class _ProjectState extends State<Project> {
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: items,
+                  itemCount: projects.length,
                   itemBuilder: (context, index) => Stack(
                     children: [
                       Column(
-                        children: [ProjectWidget()],
+                        children: [
+                          ProjectWidget(
+                            project: projects[index],
+                          )
+                        ],
                       ),
                     ],
                   ),

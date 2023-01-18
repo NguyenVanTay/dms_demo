@@ -1,6 +1,5 @@
-/// ignore_for_file: unused_element
-
-import 'package:dms/Views/screens/Task/create_task.dart';
+import 'package:dms/Views/screens/Project/create_project.dart';
+import 'package:dms/Views/screens/Project/project.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
-        home: const CreateTask(),
+        home: const Project(),
       ),
     );
   }
