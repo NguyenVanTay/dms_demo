@@ -3,6 +3,7 @@ import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
 import 'package:dms/Views/screens/Task/tasks.dart';
 import 'package:dms/Views/screens/homepage.dart';
+import 'package:dms/Views/screens/login.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         ],
         scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
-        home: const Project(),
+        home: const Login(),
       ),
     );
   }

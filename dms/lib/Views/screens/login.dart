@@ -1,12 +1,13 @@
 // ignore_for_file: sort_child_properties_last, avoid_print, prefer_final_fields, unused_field, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
 
+import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/homepage.dart';
 import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/register.dart';
 import 'package:flutter/material.dart';
 
 import 'Calendar/calendar_widget.dart';
-import 'Task/all_tasks.dart';
+
 import 'fogetpassword.dart';
 
 class Page extends StatefulWidget {
@@ -27,7 +28,7 @@ class _PageState extends State<Page> {
 
   List<Widget> _itemWidget = [
     HomePage(),
-    AllTasks(),
+    GanttChart(),
     CalendarWidget(),
     Project(),
     Container(),
@@ -48,7 +49,7 @@ class _PageState extends State<Page> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.task_outlined),
-            label: 'Task',
+            label: 'Gantt Chart',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month_outlined),

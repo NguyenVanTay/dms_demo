@@ -3,6 +3,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../models/ganttchart_weekday.dart';
 import '../../../controllers/providers/event_gantt_chart.dart';
@@ -56,8 +57,13 @@ class _GanttChartState extends State<GanttChart> {
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
-          leading: CloseButton(
+          leading: IconButton(
             color: Colors.black,
+            icon: const Icon(Icons.arrow_back_outlined),
+            splashColor: Colors.grey,
+            onPressed: () {
+              Get.back();
+            },
           ),
           // actions: [
           //   PopupMenuButton<SampleItem>(
@@ -192,31 +198,31 @@ class _GanttChartState extends State<GanttChart> {
                     durationcomplete: const Duration(days: 4),
                     displayName: '8',
                   ),
-                   GanttRelativeEvent(
+                  GanttRelativeEvent(
                     relativeToStart: const Duration(days: 7),
                     duration: const Duration(days: 12),
                     durationcomplete: const Duration(days: 4),
                     displayName: '8',
                   ),
-                   GanttRelativeEvent(
+                  GanttRelativeEvent(
                     relativeToStart: const Duration(days: 7),
                     duration: const Duration(days: 12),
                     durationcomplete: const Duration(days: 4),
                     displayName: '8',
                   ),
-                   GanttRelativeEvent(
+                  GanttRelativeEvent(
                     relativeToStart: const Duration(days: 7),
                     duration: const Duration(days: 12),
                     durationcomplete: const Duration(days: 4),
                     displayName: '8',
                   ),
-                   GanttRelativeEvent(
+                  GanttRelativeEvent(
                     relativeToStart: const Duration(days: 7),
                     duration: const Duration(days: 12),
                     durationcomplete: const Duration(days: 4),
                     displayName: '8',
                   ),
-                   GanttRelativeEvent(
+                  GanttRelativeEvent(
                     relativeToStart: const Duration(days: 7),
                     duration: const Duration(days: 12),
                     durationcomplete: const Duration(days: 4),
@@ -239,10 +245,12 @@ class _GanttChartState extends State<GanttChart> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               FloatingActionButton(
+                heroTag: 1,
                 onPressed: onZoomOut,
                 child: Icon(Icons.zoom_out_outlined),
               ),
               FloatingActionButton(
+                heroTag: 2,
                 onPressed: onZoomIn,
                 child: Icon(Icons.zoom_in_outlined),
               )

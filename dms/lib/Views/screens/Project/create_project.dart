@@ -28,8 +28,9 @@ List<DropdownMenuItem<String>> get dropdownStatusItems {
 
 List<DropdownMenuItem<String>> get dropdownTypeItems {
   List<DropdownMenuItem<String>> typeItems = [
-    DropdownMenuItem(child: Text("General"), value: "General"),
-    DropdownMenuItem(child: Text("Development"), value: "Development"),
+    // DropdownMenuItem(child: Text("General"), value: "General"),
+    DropdownMenuItem(
+        child: Text("Development project"), value: "Development project"),
   ];
   return typeItems;
 }
@@ -70,7 +71,7 @@ class _CreateProjectState extends State<CreateProject> {
   late TextEditingController _controller;
 
   String status = 'Initiated';
-  String type = 'Development';
+  String type = 'Development project';
 
   @override
   void initState() {
@@ -582,24 +583,35 @@ class _CreateProjectState extends State<CreateProject> {
                       onPressed: () async {
                         Map data = {
                           "ProjectName": _controller.text,
-                          "BeginPlan": "20230117150000",
-                          "FinalPlan": "20230117150000",
-                          "LongDesc": "Chúc mọi người năm mới vui vẻ",
+                          "BeginPlan": "20230119150000",
+                          "FinalPlan": "20230120150000",
+                          "LongDesc": "Happy New Year",
                           "State": "Initiated",
-                          "Manager": "Trịnh Vân Thương",
+                          "Manager": "Administrator",
                           "ProjectType": "Development project",
                           "ProjecTeamList":
-                              "Trịnh Vân Thương-Leader,Chung Thành Bảo Long-Project Owner,Thuong TV-Dev"
+                              "Trịnh Vân Thương-Leader,Chung Thành Bảo Long-Project Owner,Thuong TV-Dev",
+                          "ProjectFolder": "Dự án tuần 1 - 2023"
                         };
                         //print(jsonEncode(data));
                         var result =
                             await Networking.getInstance().createProject(data);
                         if (result) {
                           await showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    title: Text("Success"),
-                                  ));
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Done'),
+                              content: Text('Add Success'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('Ok'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
                           // Navigator.pushNamed(context, "/project");
                           Get.to(Project());
 

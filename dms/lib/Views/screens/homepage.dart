@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_new, unused_import
 
 import 'package:carbon_icons/carbon_icons.dart';
+import 'package:dms/Views/screens/Task/all_tasks.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/default_transitions.dart';
@@ -166,16 +167,30 @@ class _HomePageState extends State<HomePage> {
 
                     //list task
                     Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Row(children: [
+                      margin: EdgeInsets.only(top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
                           Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(
-                                "Tasks Management",
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ))
-                        ])),
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              "Tasks Management",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: IconButton(
+                              icon: Icon(Icons.arrow_forward),
+                              onPressed: () {
+                                Get.to(AllTasks());
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
 
                     Container(
                         height: size.height * 0.45,
