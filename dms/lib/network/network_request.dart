@@ -106,15 +106,27 @@ class Networking {
         ),
         headers: requestHeaders);
 
+    // if (response.statusCode == 200) {
+    //   var jsonData = json.decode(response.body) as List;
+    //   for (var element in jsonData) {
+    //     statuses.add(element["ClassName"]);
+    //   }
+    //   return statuses;
+    // } else {
+    //   //Handle Errors
+    //   throw response.statusCode;
+    // }
     if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body) as List;
-      for (var element in jsonData) {
-        statuses.add(element["ClassName"]);
+      for (var statusItem in jsonDecode(response.body)) {
+        statuses.add(StatusModel.fromJson(statusItem));
       }
+
+      // clear all Type before add all Type.
+      UtilStorage.statuses.clear();
+      UtilStorage.statuses.addAll(statuses);
       return statuses;
     } else {
-      //Handle Errors
-      throw response.statusCode;
+      throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
     }
   }
 

@@ -606,12 +606,12 @@ class _CreateProjectState extends State<CreateProject> {
                       onPressed: () async {
                         Map data = {
                           "ProjectName": _projectnamecontroller.text,
-                          "BeginPlan": _startDateController,
-                          "FinalPlan": _endDateController,
+                          "BeginPlan": "20230131150000",
+                          "FinalPlan": "20230131150000",
                           "LongDesc": "Happy New Year",
-                          "State": _statuscontroller,
-                          "Manager": _projectmanagercontroller,
-                          "ProjectType": _typecontroller,
+                          "State": "Initiated",
+                          "Manager": "Administrator",
+                          "ProjectType": "Development project",
                           "ProjecTeamList":
                               "Trịnh Vân Thương-Leader,Chung Thành Bảo Long-Project Owner,Thuong TV-Dev",
                           "ProjectFolder": "Dự án tuần 1 - 2023"
