@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_this
+// ignore_for_file: unnecessary_this, unnecessary_new
 
 class StatusModel {
   String? state;
@@ -10,7 +10,7 @@ class StatusModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['State'] = this.state;
     return data;
   }

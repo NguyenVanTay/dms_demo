@@ -26,7 +26,6 @@ class _ProjectState extends State<Project> {
   List<ProjectModel> projects = <ProjectModel>[];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Networking.getInstance().getAllProject().then((projectData) {
       setState(() {
@@ -55,12 +54,6 @@ class _ProjectState extends State<Project> {
 
     return SafeArea(
       child: Scaffold(
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     Get.to(CreateProject());
-        //   },
-        //   child: Icon(Icons.add),
-        // ),
         appBar: AppBar(
           centerTitle: true,
           title: Text(

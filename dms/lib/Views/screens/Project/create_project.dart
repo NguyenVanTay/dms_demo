@@ -1,8 +1,10 @@
-// ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace
+// ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace, unused_import
 
 import 'dart:convert';
 
 import 'package:dms/Views/screens/Project/project.dart';
+import 'package:dms/models/statusmodel.dart';
+import 'package:dms/models/util_storage.dart';
 import 'package:dms/network/network_request.dart';
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
@@ -16,23 +18,40 @@ enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
 
+// List Status dropDown
 List<DropdownMenuItem<String>> get dropdownStatusItems {
-  List<DropdownMenuItem<String>> statusItem = [
-    DropdownMenuItem(child: Text("Initiated"), value: "Initiated"),
-    DropdownMenuItem(child: Text("Planning"), value: "Planning"),
-    DropdownMenuItem(child: Text("Performing"), value: "Performing"),
-    DropdownMenuItem(child: Text("Finished"), value: "Finished"),
-  ];
+  List<DropdownMenuItem<String>> statusItem = UtilStorage.statuses
+      .map(
+        (e) =>
+            DropdownMenuItem(child: Text(e.state ?? ""), value: e.state ?? ""),
+      )
+      .toList();
+
   return statusItem;
 }
 
+// List Type dropdown
 List<DropdownMenuItem<String>> get dropdownTypeItems {
-  List<DropdownMenuItem<String>> typeItems = [
-    // DropdownMenuItem(child: Text("General"), value: "General"),
-    DropdownMenuItem(
-        child: Text("Development project"), value: "Development project"),
-  ];
-  return typeItems;
+  List<DropdownMenuItem<String>> typeItem = UtilStorage.types
+      .map(
+        (e) => DropdownMenuItem(
+            child: Text(e.description ?? ""), value: e.description ?? ""),
+      )
+      .toList();
+
+  return typeItem;
+}
+
+// List User dropdown.
+List<DropdownMenuItem<String>> get dropdownUserItems {
+  List<DropdownMenuItem<String>> userItem = UtilStorage.users
+      .map(
+        (e) => DropdownMenuItem(
+            child: Text(e.description ?? ""), value: e.description ?? ""),
+      )
+      .toList();
+
+  return userItem;
 }
 
 class CreateProject extends StatefulWidget {
@@ -43,16 +62,14 @@ class CreateProject extends StatefulWidget {
 }
 
 class _CreateProjectState extends State<CreateProject> {
+  //List<StatusModel> statusList = <StatusModel>[];
+
   late DateTime _startDate;
   late DateTime _endDate;
 
   DateTime? _startTime;
 
   DateTime? _endTime;
-
-  String _title = "";
-
-  String _description = "";
 
   Color _color = Colors.blue;
   OverlayEntry? entry;
@@ -68,10 +85,17 @@ class _CreateProjectState extends State<CreateProject> {
   late TextEditingController _startDateController;
 
   late TextEditingController _endDateController;
-  late TextEditingController _controller;
 
-  String status = 'Initiated';
-  String type = 'Development project';
+  late TextEditingController _projectnamecontroller;
+  late TextEditingController _projectmanagercontroller;
+  late TextEditingController _statuscontroller;
+  late TextEditingController _typecontroller;
+
+  // decalre initial status, type, user, projectName
+  String? status = UtilStorage.statuses[0].state;
+  String? type = UtilStorage.types[0].description;
+  String? user = UtilStorage.users[0].description;
+  String projectName = "";
 
   @override
   void initState() {
@@ -84,7 +108,10 @@ class _CreateProjectState extends State<CreateProject> {
     _startDateController = TextEditingController();
     _endDateController = TextEditingController();
 
-    _controller = TextEditingController();
+    _projectnamecontroller = TextEditingController();
+    _projectmanagercontroller = TextEditingController();
+    _statuscontroller = TextEditingController();
+    _typecontroller = TextEditingController();
   }
 
   @override
@@ -92,15 +119,17 @@ class _CreateProjectState extends State<CreateProject> {
     _titleNode.dispose();
     _descriptionNode.dispose();
     _dateNode.dispose();
-    _controller.dispose();
+    _projectnamecontroller.dispose();
+
+    _projectmanagercontroller.dispose();
+    _statuscontroller.dispose();
+    _typecontroller.dispose();
 
     _startDateController.dispose();
     _endDateController.dispose();
 
     super.dispose();
   }
-
-  String projectName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +223,7 @@ class _CreateProjectState extends State<CreateProject> {
                           // width: maxwidth,
                           margin: EdgeInsets.all(7),
                           child: TextFormField(
-                            controller: _controller,
+                            controller: _projectnamecontroller,
                             onSaved: (newValue) {
                               // setState(() {
                               //   projectName = newValue??"";
@@ -223,36 +252,30 @@ class _CreateProjectState extends State<CreateProject> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(
-                        left: 10, right: 10, top: 10, bottom: 10),
-                    //decoration: BoxDecoration(border: BorderRadius()),
-                    child: Container(
-                      height: 60.0,
-                      width: 400,
-                      margin: EdgeInsets.only(bottom: 15),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        // adding borders around the widget
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: SingleChildScrollView(
-                        // for Vertical scrolling
-                        scrollDirection: Axis.vertical,
-                        child: Container(
-                          margin: EdgeInsets.all(7),
-                          child: TextFormField(
-                            maxLines: 2,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.0,
-                            ),
+                    margin: EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                    child: DropdownButtonFormField(
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 0.5),
+                            borderRadius: BorderRadius.circular(20),
                           ),
+                          border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 0.5),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
                         ),
-                      ),
-                    ),
+                        dropdownColor: Colors.white,
+                        value: user,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            user = newValue!;
+                          });
+                        },
+                        items: dropdownUserItems),
                   ),
                   Container(
                     margin: EdgeInsets.only(
@@ -582,18 +605,18 @@ class _CreateProjectState extends State<CreateProject> {
                     child: ElevatedButton(
                       onPressed: () async {
                         Map data = {
-                          "ProjectName": _controller.text,
-                          "BeginPlan": "20230119150000",
-                          "FinalPlan": "20230120150000",
+                          "ProjectName": _projectnamecontroller.text,
+                          "BeginPlan": _startDateController,
+                          "FinalPlan": _endDateController,
                           "LongDesc": "Happy New Year",
-                          "State": "Initiated",
-                          "Manager": "Administrator",
-                          "ProjectType": "Development project",
+                          "State": _statuscontroller,
+                          "Manager": _projectmanagercontroller,
+                          "ProjectType": _typecontroller,
                           "ProjecTeamList":
                               "Trịnh Vân Thương-Leader,Chung Thành Bảo Long-Project Owner,Thuong TV-Dev",
                           "ProjectFolder": "Dự án tuần 1 - 2023"
                         };
-                        //print(jsonEncode(data));
+                        // print(statusList);
                         var result =
                             await Networking.getInstance().createProject(data);
                         if (result) {
@@ -601,7 +624,7 @@ class _CreateProjectState extends State<CreateProject> {
                             context: context,
                             builder: (context) => AlertDialog(
                               title: Text('Done'),
-                              content: Text('Add Success'),
+                              content: Text('Create Success'),
                               actions: <Widget>[
                                 TextButton(
                                   child: Text('Ok'),
