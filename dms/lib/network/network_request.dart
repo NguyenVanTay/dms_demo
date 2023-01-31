@@ -66,39 +66,13 @@ class Networking {
   }
 
   // Get All Status
-  // Future<List<StatusModel>> getAllStatus() async {
-  //   String basicAuth =
-  //       'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
-  //   Map<String, String> requestHeaders = {'authorization': basicAuth};
-  //   List<StatusModel> status = [];
-
-  //   final response = await http.get(
-  //       Uri.parse(
-  //         '$host/v1/ProjectStates',
-  //       ),
-  //       headers: requestHeaders);
-
-  //   if (response.statusCode == 200) {
-
-  //     for (var statusItem in jsonDecode(response.body)) {
-
-  //       status.add(StatusModel.fromJson(statusItem));
-  //     }
-  //     // clear all status before add all status.
-  //     UtilStorage.statuses.clear();
-  //     UtilStorage.statuses.addAll(status);
-  //     return status;
-  //   } else {
-  //     throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
-  //   }
-  // }
 
   Future<List<StatusModel>> getAllStatus() async {
     String basicAuth =
         'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
     Map<String, String> requestHeaders = {'authorization': basicAuth};
 
-    List<StatusModel> statuses = [];
+    List<StatusModel> statusList = [];
 
     final response = await http.get(
         Uri.parse(
@@ -106,25 +80,15 @@ class Networking {
         ),
         headers: requestHeaders);
 
-    // if (response.statusCode == 200) {
-    //   var jsonData = json.decode(response.body) as List;
-    //   for (var element in jsonData) {
-    //     statuses.add(element["ClassName"]);
-    //   }
-    //   return statuses;
-    // } else {
-    //   //Handle Errors
-    //   throw response.statusCode;
-    // }
     if (response.statusCode == 200) {
       for (var statusItem in jsonDecode(response.body)) {
-        statuses.add(StatusModel.fromJson(statusItem));
+        statusList.add(StatusModel.fromJson(statusItem));
       }
 
       // clear all Type before add all Type.
       UtilStorage.statuses.clear();
-      UtilStorage.statuses.addAll(statuses);
-      return statuses;
+      UtilStorage.statuses.addAll(statusList);
+      return statusList;
     } else {
       throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
     }
@@ -177,7 +141,6 @@ class Networking {
     } else {
       // Faild
 
-      // throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
       return false;
     }
   }
@@ -214,7 +177,7 @@ class Networking {
     Map<String, String> requestHeaders = {'authorization': basicAuth};
 
     final response = await http.get(
-        Uri.parse('$host/v1/ProjectTasks?Code=$code'),
+        Uri.parse('$host/v1/ProjectTasks?Project=$code'),
         headers: requestHeaders);
 
     if (response.statusCode == 200) {

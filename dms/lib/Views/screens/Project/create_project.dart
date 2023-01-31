@@ -9,6 +9,7 @@ import 'package:dms/network/network_request.dart';
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../sources/app_colors.dart';
 import '../../widgets/Project/constants.dart';
@@ -64,8 +65,8 @@ class CreateProject extends StatefulWidget {
 class _CreateProjectState extends State<CreateProject> {
   //List<StatusModel> statusList = <StatusModel>[];
 
-  late DateTime _startDate;
-  late DateTime _endDate;
+  DateTime? _startDate;
+  DateTime? _endDate;
 
   DateTime? _startTime;
 
@@ -83,13 +84,12 @@ class _CreateProjectState extends State<CreateProject> {
   final GlobalKey<FormState> _form = GlobalKey();
 
   late TextEditingController _startDateController;
-
   late TextEditingController _endDateController;
 
+  late TextEditingController _endTimeController;
+  late TextEditingController _startTimeController;
+
   late TextEditingController _projectnamecontroller;
-  late TextEditingController _projectmanagercontroller;
-  late TextEditingController _statuscontroller;
-  late TextEditingController _typecontroller;
 
   // decalre initial status, type, user, projectName
   String? status = UtilStorage.statuses[0].state;
@@ -107,11 +107,10 @@ class _CreateProjectState extends State<CreateProject> {
 
     _startDateController = TextEditingController();
     _endDateController = TextEditingController();
+    _startTimeController = TextEditingController();
+    _endTimeController = TextEditingController();
 
     _projectnamecontroller = TextEditingController();
-    _projectmanagercontroller = TextEditingController();
-    _statuscontroller = TextEditingController();
-    _typecontroller = TextEditingController();
   }
 
   @override
@@ -121,12 +120,10 @@ class _CreateProjectState extends State<CreateProject> {
     _dateNode.dispose();
     _projectnamecontroller.dispose();
 
-    _projectmanagercontroller.dispose();
-    _statuscontroller.dispose();
-    _typecontroller.dispose();
-
     _startDateController.dispose();
     _endDateController.dispose();
+    _startTimeController.dispose();
+    _endTimeController.dispose();
 
     super.dispose();
   }
@@ -188,6 +185,7 @@ class _CreateProjectState extends State<CreateProject> {
             child: Container(
               child: Column(
                 children: [
+                  // Project Name
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
                     child: Row(
@@ -224,11 +222,6 @@ class _CreateProjectState extends State<CreateProject> {
                           margin: EdgeInsets.all(7),
                           child: TextFormField(
                             controller: _projectnamecontroller,
-                            onSaved: (newValue) {
-                              // setState(() {
-                              //   projectName = newValue??"";
-                              // });
-                            },
                             maxLines: 2,
                             style: TextStyle(
                               color: Colors.black,
@@ -239,6 +232,8 @@ class _CreateProjectState extends State<CreateProject> {
                       ),
                     ),
                   ),
+
+                  //Project Manager
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
                     child: Row(
@@ -282,50 +277,147 @@ class _CreateProjectState extends State<CreateProject> {
                       left: 20,
                       right: 20,
                     ),
-                    child: Row(
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: DateTimeSelectorFormField(
-                            controller: _startDateController,
-                            decoration: AppConstants.inputDecoration.copyWith(
-                              labelText: "Start Date",
-                            ),
-                            validator: (value) {
-                              if (value == null || value == "")
-                                return "Please select date.";
+                        Row(
+                          children: [
+                            //Start Time
+                            Expanded(
+                              child: DateTimeSelectorFormField(
+                                controller: _startTimeController,
+                                decoration:
+                                    AppConstants.inputDecorationTime.copyWith(
+                                  labelText: "Start Time",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value == "")
+                                    return "Please select start time.";
 
-                              return null;
-                            },
-                            textStyle: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 17.0,
+                                  return null;
+                                },
+                                textStyle: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 17.0,
+                                ),
+                                onSave: (startTime) {
+                                  setState(() {
+                                    _startTime = startTime;
+                                  });
+                                },
+                                onSelect: (startTime) {
+                                  setState(() {
+                                    _startTime = startTime;
+                                  });
+                                },
+                                type: DateTimeSelectionType.time,
+                              ),
                             ),
-                            onSave: (date) => _startDate = date,
-                            type: DateTimeSelectionType.date,
-                          ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            // Start Date
+                            Expanded(
+                              child: DateTimeSelectorFormField(
+                                controller: _startDateController,
+                                decoration:
+                                    AppConstants.inputDecoration.copyWith(
+                                  labelText: "Start Date",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value == "")
+                                    return "Please select date.";
+
+                                  return null;
+                                },
+                                textStyle: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 17.0,
+                                ),
+                                onSave: (startdate) {
+                                  setState(() {
+                                    _startDate = startdate;
+                                  });
+                                },
+                                onSelect: (startdate) {
+                                  setState(() {
+                                    _startDate = startdate;
+                                  });
+                                },
+                                type: DateTimeSelectionType.date,
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(
-                          width: 20,
+                          height: 20,
                         ),
-                        Expanded(
-                          child: DateTimeSelectorFormField(
-                            controller: _endDateController,
-                            decoration: AppConstants.inputDecoration.copyWith(
-                              labelText: "End Date",
-                            ),
-                            validator: (value) {
-                              if (value == null || value == "")
-                                return "Please select date.";
+                        Row(
+                          children: [
+                            Expanded(
+                              child: DateTimeSelectorFormField(
+                                controller: _endTimeController,
+                                decoration:
+                                    AppConstants.inputDecorationTime.copyWith(
+                                  labelText: "End Time",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value == "")
+                                    return "Please select end time.";
 
-                              return null;
-                            },
-                            textStyle: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 18.0,
+                                  return null;
+                                },
+                                textStyle: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 17.0,
+                                ),
+                                onSave: (endTime) {
+                                  setState(() {
+                                    _endTime = endTime;
+                                  });
+                                },
+                                onSelect: (endTime) {
+                                  setState(() {
+                                    _endTime = endTime;
+                                  });
+                                },
+                                type: DateTimeSelectionType.time,
+                              ),
                             ),
-                            onSave: (date) => _endDate = date,
-                            type: DateTimeSelectionType.date,
-                          ),
+                            //EnDate
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: DateTimeSelectorFormField(
+                                controller: _endDateController,
+                                decoration:
+                                    AppConstants.inputDecoration.copyWith(
+                                  labelText: "End Date",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value == "")
+                                    return "Please select date.";
+
+                                  return null;
+                                },
+                                textStyle: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 18.0,
+                                ),
+                                onSave: (endDate) {
+                                  setState(() {
+                                    _endDate = endDate;
+                                  });
+                                },
+                                onSelect: (endDate) {
+                                  setState(() {
+                                    _endDate = endDate;
+                                  });
+                                },
+                                type: DateTimeSelectionType.date,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -505,12 +597,12 @@ class _CreateProjectState extends State<CreateProject> {
                           fillColor: Colors.white,
                         ),
                         dropdownColor: Colors.white,
-                        value: status,
-                        onChanged: (String? newValue) {
+                        onChanged: (newValue) {
                           setState(() {
                             status = newValue!;
                           });
                         },
+                        value: status,
                         items: dropdownStatusItems),
                   ),
                   Container(
@@ -606,19 +698,24 @@ class _CreateProjectState extends State<CreateProject> {
                       onPressed: () async {
                         Map data = {
                           "ProjectName": _projectnamecontroller.text,
-                          "BeginPlan": "20230131150000",
-                          "FinalPlan": "20230131150000",
+                          "BeginPlan":
+                              DateFormat('yyyyMMdd').format(_startDate!) +
+                                  DateFormat('hhmmss').format(_startTime!),
+                          "FinalPlan":
+                              DateFormat('yyyyMMdd').format(_endDate!) +
+                                  DateFormat('hhmmss').format(_endTime!),
                           "LongDesc": "Happy New Year",
-                          "State": "Initiated",
-                          "Manager": "Administrator",
-                          "ProjectType": "Development project",
+                          "State": status,
+                          "Manager": user,
+                          "ProjectType": type,
                           "ProjecTeamList":
                               "Trịnh Vân Thương-Leader,Chung Thành Bảo Long-Project Owner,Thuong TV-Dev",
                           "ProjectFolder": "Dự án tuần 1 - 2023"
                         };
-                        // print(statusList);
+                        
                         var result =
                             await Networking.getInstance().createProject(data);
+
                         if (result) {
                           await showDialog(
                             context: context,
@@ -635,7 +732,7 @@ class _CreateProjectState extends State<CreateProject> {
                               ],
                             ),
                           );
-                          // Navigator.pushNamed(context, "/project");
+
                           Get.to(Project());
 
                           //handle

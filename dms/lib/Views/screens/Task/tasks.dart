@@ -26,6 +26,7 @@ class Tasks extends StatefulWidget {
 
 class _TasksState extends State<Tasks> {
   List<ProjectModel> projects = <ProjectModel>[];
+  
   @override
   void initState() {
     // TODO: implement initState
