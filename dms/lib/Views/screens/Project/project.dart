@@ -35,14 +35,8 @@ class _ProjectState extends State<Project> {
   }
 
   ProjectModel formatDate(ProjectModel project) {
-    project.beginPlan = new DateFormat("yyyy-MM-dd")
-        .parse(project.beginPlan.toString())
-        .toString()
-        .substring(0, 10);
-    project.finalPlan = new DateFormat("yyyy-MM-dd")
-        .parse(project.finalPlan.toString())
-        .toString()
-        .substring(0, 10);
+    project.beginPlan = project.beginPlan.toString().substring(0, 10);
+    project.finalPlan = project.finalPlan.toString().substring(0, 10);
     return project;
   }
 
