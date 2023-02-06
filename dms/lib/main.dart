@@ -3,6 +3,7 @@ import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
 import 'package:dms/Views/screens/Task/tasks.dart';
 import 'package:dms/Views/screens/homepage.dart';
+import 'package:dms/Views/screens/Account/accountpage.dart';
 import 'package:dms/Views/screens/login.dart';
 
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
           GetPage(name: '/', page: () => HomePage()),
           GetPage(name: '/alltask', page: () => AllTasks()),
           GetPage(name: '/project', page: () => const Project()),
+          GetPage(name: '/account', page: () => AccountPage()),
         ],
         scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,

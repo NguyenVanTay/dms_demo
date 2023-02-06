@@ -160,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                           Box(
                               title: "Verify",
                               icon: Icon(Icons.check_circle_outline),
-                              color: Color.fromRGBO(146, 252, 161, 1)),
+                              color: Color.fromRGBO(228, 228, 228, 1)),
                         ],
                       ),
                     ),

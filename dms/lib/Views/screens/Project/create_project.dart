@@ -2,11 +2,15 @@
 
 import 'dart:convert';
 
+import 'package:carbon_icons/carbon_icons.dart';
 import 'package:dms/Views/screens/Project/project.dart';
+import 'package:dms/Views/widgets/Task/task_widget.dart';
+import 'package:dms/models/foldermodel.dart';
 import 'package:dms/network/network_request.dart';
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
 
 import '../../../sources/app_colors.dart';
 import '../../widgets/Project/constants.dart';
@@ -43,6 +47,36 @@ class CreateProject extends StatefulWidget {
 }
 
 class _CreateProjectState extends State<CreateProject> {
+  List<FolderModel> folders = <FolderModel>[];
+  //----- Test area-------
+  late List _tempListOfCities;
+  //1
+  final _scaffoldKey = GlobalKey();
+  final TextEditingController textController = new TextEditingController();
+
+  //2
+  static List _listOfCities = [
+    "Tokyo",
+    "New York",
+    "London",
+    "Paris",
+    "Madrid",
+    "Dubai",
+    "Rome",
+    "Barcelona",
+    "Cologne",
+    "Monte Carlo",
+    "Puebla",
+    "Florence",
+    "Tokyo",
+    "New York",
+    "London",
+    "Paris",
+    "Madrid",
+    "Dubai",
+    "Rome",
+  ];
+//----- Test area-------
   late DateTime _startDate;
   late DateTime _endDate;
 
@@ -76,6 +110,11 @@ class _CreateProjectState extends State<CreateProject> {
   @override
   void initState() {
     super.initState();
+    Networking.getInstance().getAllFolder().then((folderData) {
+      setState(() {
+        folders = folderData;
+      });
+    });
 
     _titleNode = FocusNode();
     _descriptionNode = FocusNode();
@@ -176,7 +215,7 @@ class _CreateProjectState extends State<CreateProject> {
                         left: 10, right: 10, top: 10, bottom: 10),
                     //decoration: BoxDecoration(border: BorderRadius()),
                     child: Container(
-                      height: 60.0,
+                      height: 52.0,
                       width: 400,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -192,7 +231,7 @@ class _CreateProjectState extends State<CreateProject> {
                         child: Container(
                           // height: maxheight,
                           // width: maxwidth,
-                          margin: EdgeInsets.all(7),
+                          margin: EdgeInsets.all(3),
                           child: TextFormField(
                             controller: _controller,
                             onSaved: (newValue) {
@@ -200,10 +239,10 @@ class _CreateProjectState extends State<CreateProject> {
                               //   projectName = newValue??"";
                               // });
                             },
-                            maxLines: 2,
+                            maxLines: 1,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 16.0,
+                              fontSize: 18.0,
                             ),
                           ),
                         ),
@@ -227,7 +266,7 @@ class _CreateProjectState extends State<CreateProject> {
                         left: 10, right: 10, top: 10, bottom: 10),
                     //decoration: BoxDecoration(border: BorderRadius()),
                     child: Container(
-                      height: 60.0,
+                      height: 52.0,
                       width: 400,
                       margin: EdgeInsets.only(bottom: 15),
                       decoration: BoxDecoration(
@@ -242,12 +281,12 @@ class _CreateProjectState extends State<CreateProject> {
                         // for Vertical scrolling
                         scrollDirection: Axis.vertical,
                         child: Container(
-                          margin: EdgeInsets.all(7),
+                          margin: EdgeInsets.all(3),
                           child: TextFormField(
                             maxLines: 2,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 16.0,
+                              fontSize: 18.0,
                             ),
                           ),
                         ),
@@ -457,38 +496,33 @@ class _CreateProjectState extends State<CreateProject> {
                     child: Row(
                       children: [
                         Text(
-                          "Status",
+                          "Folder",
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: DropdownButtonFormField(
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 0.5),
-                            borderRadius: BorderRadius.circular(20),
+                  InkWell(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 10, right: 10),
+                      child: Container(
+                        height: 52.0,
+                        width: 400,
+                        margin: EdgeInsets.only(bottom: 15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          // adding borders around the widget
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1.0,
                           ),
-                          border: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 0.5),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
                         ),
-                        dropdownColor: Colors.white,
-                        value: status,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            status = newValue!;
-                          });
-                        },
-                        items: dropdownStatusItems),
+                      ),
+                    ),
+                    onTap: () {
+                      _showModal(context);
+                    },
                   ),
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
@@ -591,7 +625,7 @@ class _CreateProjectState extends State<CreateProject> {
                           "ProjectType": "Development project",
                           "ProjecTeamList":
                               "Trịnh Vân Thương-Leader,Chung Thành Bảo Long-Project Owner,Thuong TV-Dev",
-                          "ProjectFolder": "Dự án tuần 1 - 2023"
+                          "ProjectFolder": "Dự án tuần 2 - 2023"
                         };
                         //print(jsonEncode(data));
                         var result =
@@ -645,5 +679,106 @@ class _CreateProjectState extends State<CreateProject> {
             ),
           )),
     );
+  }
+
+  //----
+
+  void _showModal(context) {
+    showModalBottomSheet<void>(
+      // isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 1000,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: TextField(
+                                  controller: textController,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(8),
+                                    border: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(15.0),
+                                      borderSide: new BorderSide(),
+                                    ),
+                                    prefixIcon: Icon(Icons.search),
+                                  ),
+                                  onChanged: (value) {
+                                    //4
+                                    setState(() {
+                                      _tempListOfCities =
+                                          _buildSearchList(value);
+                                    });
+                                  })),
+                          IconButton(
+                              icon: Icon(Icons.add_box_outlined),
+                              color: Color(0xFF1F91E7),
+                              onPressed: () {
+                                // setState(() {
+                                //   textController.clear();
+                                //   _tempListOfCities.clear();
+                                // });
+                              }),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 400,
+                      child: ListView.separated(
+                          itemCount: folders.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: InkWell(
+                                child:
+                                    _showBottomSheetWithSearch(index, folders),
+                                onTap: () {},
+                              ),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) =>
+                              const Divider()),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _showBottomSheetWithSearch(int index, List listOfCities) {
+    return Text(listOfCities[index].description,
+        style: TextStyle(color: Colors.black, fontSize: 16),
+        textAlign: TextAlign.center);
+  }
+
+  //9
+  List _buildSearchList(String userSearchTerm) {
+    final _searchList = List.filled(3, null, growable: false);
+
+    for (int i = 0; i < _listOfCities.length; i++) {
+      String name = _listOfCities[i];
+      if (name.toLowerCase().contains(userSearchTerm.toLowerCase())) {
+        _searchList.add(_listOfCities[i]);
+      }
+    }
+    return _searchList;
   }
 }

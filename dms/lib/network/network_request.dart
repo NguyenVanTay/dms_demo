@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:dms/models/foldermodel.dart';
 import 'package:dms/models/projectmodel.dart';
 import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/typemodel.dart';
@@ -97,6 +98,28 @@ class Networking {
         types.add(TypeModel.fromJson(typeItem));
       }
       return types;
+    } else {
+      throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
+    }
+  }
+
+  Future<List<FolderModel>> getAllFolder() async {
+    String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
+    Map<String, String> requestHeaders = {'authorization': basicAuth};
+    List<FolderModel> folders = [];
+
+    final response = await http.get(
+        Uri.parse(
+          '$host/v1/ProjectFolders',
+        ),
+        headers: requestHeaders);
+
+    if (response.statusCode == 200) {
+      for (var projectItem in jsonDecode(response.body)) {
+        folders.add(FolderModel.fromJson(projectItem));
+      }
+      return folders;
     } else {
       throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
     }
