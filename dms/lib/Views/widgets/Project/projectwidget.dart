@@ -59,10 +59,9 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        padding: const EdgeInsets.only(left: 10),
                         child: Text(
                           "${widget.project.description}",
-                          //"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
