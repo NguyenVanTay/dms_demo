@@ -15,6 +15,8 @@ import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
+
 import '../../../sources/app_colors.dart';
 import '../../widgets/Project/constants.dart';
 import '../../widgets/Project/date_time_selector.dart';
@@ -67,6 +69,10 @@ class CreateProject extends StatefulWidget {
 }
 
 class _CreateProjectState extends State<CreateProject> {
+  //List<StatusModel> statusList = <StatusModel>[];
+
+  DateTime? _startDate;
+  DateTime? _endDate;
   List<FolderModel> folders = <FolderModel>[];
   //----- Test area-------
   late List _tempListOfCities;
@@ -97,8 +103,6 @@ class _CreateProjectState extends State<CreateProject> {
     "Rome",
   ];
 //----- Test area-------
-  late DateTime _startDate;
-  late DateTime _endDate;
 
   DateTime? _startTime;
 
@@ -384,7 +388,7 @@ class _CreateProjectState extends State<CreateProject> {
                                 },
                                 onSelect: (startdate) {
                                   setState(() {
-                                    //_startDate = startdate;
+                                    _startDate = startdate;
                                   });
                                 },
                                 type: DateTimeSelectionType.date,
@@ -455,7 +459,7 @@ class _CreateProjectState extends State<CreateProject> {
                                 },
                                 onSelect: (endDate) {
                                   setState(() {
-                                    //_endDate = endDate;
+                                    _endDate = endDate;
                                   });
                                 },
                                 type: DateTimeSelectionType.date,
