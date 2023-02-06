@@ -72,30 +72,10 @@ class CreateProject extends StatefulWidget {
 
 class _CreateProjectState extends State<CreateProject> {
   //List<StatusModel> statusList = <StatusModel>[];
+  String projectfolder = "";
   List<FolderModel> folders = <FolderModel>[];
   final TextEditingController textController = new TextEditingController();
-  //2
-  static List _listOfCities = [
-    "Tokyo",
-    "New York",
-    "London",
-    "Paris",
-    "Madrid",
-    "Dubai",
-    "Rome",
-    "Barcelona",
-    "Cologne",
-    "Monte Carlo",
-    "Puebla",
-    "Florence",
-    "Tokyo",
-    "New York",
-    "London",
-    "Paris",
-    "Madrid",
-    "Dubai",
-    "Rome",
-  ];
+
 //----- Test area-------
   late DateTime _startDate;
   late DateTime _endDate;
@@ -637,6 +617,19 @@ class _CreateProjectState extends State<CreateProject> {
                             width: 1.0,
                           ),
                         ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              projectfolder,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     onTap: () {
@@ -748,7 +741,7 @@ class _CreateProjectState extends State<CreateProject> {
                           "ProjectType": type,
                           "ProjecTeamList":
                               "Trịnh Vân Thương-Leader,Chung Thành Bảo Long-Project Owner,Thuong TV-Dev",
-                          "ProjectFolder": "Dự án tuần 2 - 2023"
+                          "ProjectFolder": projectfolder
                         };
 
                         var result =
@@ -870,7 +863,12 @@ class _CreateProjectState extends State<CreateProject> {
                               child: InkWell(
                                 child:
                                     _showBottomSheetWithSearch(index, folders),
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    projectfolder = folders[index].description!;
+                                  });
+                                  Navigator.of(context).pop();
+                                },
                               ),
                             );
                           },
@@ -897,12 +895,12 @@ class _CreateProjectState extends State<CreateProject> {
   List _buildSearchList(String userSearchTerm) {
     final _searchList = List.filled(3, null, growable: false);
 
-    for (int i = 0; i < _listOfCities.length; i++) {
-      String name = _listOfCities[i];
-      if (name.toLowerCase().contains(userSearchTerm.toLowerCase())) {
-        _searchList.add(_listOfCities[i]);
-      }
-    }
+    // for (int i = 0; i < _listOfCities.length; i++) {
+    //   String name = _listOfCities[i];
+    //   if (name.toLowerCase().contains(userSearchTerm.toLowerCase())) {
+    //     _searchList.add(_listOfCities[i]);
+    //   }
+    // }
     return _searchList;
   }
 }
