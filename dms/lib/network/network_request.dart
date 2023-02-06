@@ -1,7 +1,8 @@
-// ignore_for_file: unnecessary_string_interpolations, unused_local_variable, non_constant_identifier_names
+// ignore_for_file: unnecessary_string_interpolations, unused_local_variable
 
 import 'dart:convert';
 
+import 'package:dms/models/foldermodel.dart';
 import 'package:dms/models/projectmodel.dart';
 import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/typemodel.dart';
@@ -24,25 +25,21 @@ class Networking {
   var _userName = 'Administrator';
   var _password = '';
 
-  // Set host
   Networking setHost(String host) {
     host = host;
     return _instance;
   }
 
-  // set User Name
   Networking setUserName(String userName) {
     _userName = userName;
     return _instance;
   }
-  // Set Password.
 
   Networking setPassword(String password) {
     _password = password;
     return _instance;
   }
 
-  // Get All Project .
   Future<List<ProjectModel>> getAllProject() async {
     String basicAuth =
         'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
@@ -59,21 +56,17 @@ class Networking {
       for (var projectItem in jsonDecode(response.body)) {
         projects.add(ProjectModel.fromJson(projectItem));
       }
-
       return projects;
     } else {
       throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
     }
   }
 
-  // Get All Status
-
   Future<List<StatusModel>> getAllStatus() async {
     String basicAuth =
         'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
     Map<String, String> requestHeaders = {'authorization': basicAuth};
-
-    List<StatusModel> statusList = [];
+    List<StatusModel> status = [];
 
     final response = await http.get(
         Uri.parse(
@@ -83,19 +76,14 @@ class Networking {
 
     if (response.statusCode == 200) {
       for (var statusItem in jsonDecode(response.body)) {
-        statusList.add(StatusModel.fromJson(statusItem));
+        status.add(StatusModel.fromJson(statusItem));
       }
-
-      // clear all Type before add all Type.
-      UtilStorage.statuses.clear();
-      UtilStorage.statuses.addAll(statusList);
-      return statusList;
+      return status;
     } else {
       throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
     }
   }
 
-  // Get all Type
   Future<List<TypeModel>> getAllType() async {
     String basicAuth =
         'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
@@ -104,7 +92,7 @@ class Networking {
 
     final response = await http.get(
         Uri.parse(
-          '$host/v1/ProjectTypes',
+          '$host/v1/ProjectStates',
         ),
         headers: requestHeaders);
 
@@ -112,17 +100,12 @@ class Networking {
       for (var typeItem in jsonDecode(response.body)) {
         types.add(TypeModel.fromJson(typeItem));
       }
-
-      // clear all Type before add all Type.
-      UtilStorage.types.clear();
-      UtilStorage.types.addAll(types);
       return types;
     } else {
       throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
     }
   }
 
-  // post Create Project.
   Future<bool> createProject(Map body) async {
     String basicAuth =
         'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
@@ -137,11 +120,9 @@ class Networking {
         body: jsonEncode(body));
 
     if (response.statusCode == 200) {
-      //sussess
       return true;
     } else {
-      // Faild
-
+      // throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
       return false;
     }
   }
