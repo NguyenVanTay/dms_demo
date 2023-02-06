@@ -2,8 +2,12 @@
 
 import 'dart:convert';
 
-import 'package:carbon_icons/carbon_icons.dart';
 import 'package:dms/Views/screens/Project/project.dart';
+import 'package:dms/models/statusmodel.dart';
+import 'package:dms/models/foldermodel.dart';
+import 'package:dms/models/util_storage.dart';
+import 'package:dms/Views/widgets/Task/task_widget.dart';
+import 'package:dms/models/foldermodel.dart';
 import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/util_storage.dart';
 import 'package:dms/Views/widgets/Task/task_widget.dart';
@@ -15,8 +19,6 @@ import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-
 import '../../../sources/app_colors.dart';
 import '../../widgets/Project/constants.dart';
 import '../../widgets/Project/date_time_selector.dart';
@@ -70,16 +72,8 @@ class CreateProject extends StatefulWidget {
 
 class _CreateProjectState extends State<CreateProject> {
   //List<StatusModel> statusList = <StatusModel>[];
-
-  DateTime? _startDate;
-  DateTime? _endDate;
   List<FolderModel> folders = <FolderModel>[];
-  //----- Test area-------
-  late List _tempListOfCities;
-  //1
-  final _scaffoldKey = GlobalKey();
   final TextEditingController textController = new TextEditingController();
-
   //2
   static List _listOfCities = [
     "Tokyo",
@@ -103,6 +97,8 @@ class _CreateProjectState extends State<CreateProject> {
     "Rome",
   ];
 //----- Test area-------
+  late DateTime _startDate;
+  late DateTime _endDate;
 
   DateTime? _startTime;
 
@@ -141,7 +137,6 @@ class _CreateProjectState extends State<CreateProject> {
         folders = folderData;
       });
     });
-
     _titleNode = FocusNode();
     _descriptionNode = FocusNode();
     _dateNode = FocusNode();
@@ -244,7 +239,7 @@ class _CreateProjectState extends State<CreateProject> {
                         left: 10, right: 10, top: 10, bottom: 10),
                     //decoration: BoxDecoration(border: BorderRadius()),
                     child: Container(
-                      height: 52.0,
+                      height: 60.0,
                       width: 400,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -260,7 +255,7 @@ class _CreateProjectState extends State<CreateProject> {
                         child: Container(
                           // height: maxheight,
                           // width: maxwidth,
-                          margin: EdgeInsets.all(3),
+                          margin: EdgeInsets.all(7),
                           child: TextFormField(
                             controller: _projectnamecontroller,
                             maxLines: 2,
@@ -388,7 +383,7 @@ class _CreateProjectState extends State<CreateProject> {
                                 },
                                 onSelect: (startdate) {
                                   setState(() {
-                                    _startDate = startdate;
+                                    //_startDate = startdate;
                                   });
                                 },
                                 type: DateTimeSelectionType.date,
@@ -459,7 +454,7 @@ class _CreateProjectState extends State<CreateProject> {
                                 },
                                 onSelect: (endDate) {
                                   setState(() {
-                                    _endDate = endDate;
+                                    //_endDate = endDate;
                                   });
                                 },
                                 type: DateTimeSelectionType.date,
@@ -849,8 +844,8 @@ class _CreateProjectState extends State<CreateProject> {
                                   onChanged: (value) {
                                     //4
                                     setState(() {
-                                      _tempListOfCities =
-                                          _buildSearchList(value);
+                                      // _tempListOfCities =
+                                      //     _buildSearchList(value);
                                     });
                                   })),
                           IconButton(
