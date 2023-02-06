@@ -42,28 +42,6 @@ class Networking {
     return _instance;
   }
 
-  Future<List<FolderModel>> getAllFolder() async {
-    String basicAuth =
-        'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
-    Map<String, String> requestHeaders = {'authorization': basicAuth};
-    List<FolderModel> folders = [];
-
-    final response = await http.get(
-        Uri.parse(
-          '$host/v1/ProjectFolders',
-        ),
-        headers: requestHeaders);
-
-    if (response.statusCode == 200) {
-      for (var projectItem in jsonDecode(response.body)) {
-        folders.add(FolderModel.fromJson(projectItem));
-      }
-      return folders;
-    } else {
-      throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
-    }
-  }
-
   // Get All Project .
   Future<List<ProjectModel>> getAllProject() async {
     String basicAuth =
@@ -205,6 +183,28 @@ class Networking {
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
+    }
+  }
+
+  Future<List<FolderModel>> getAllFolder() async {
+    String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
+    Map<String, String> requestHeaders = {'authorization': basicAuth};
+    List<FolderModel> folders = [];
+
+    final response = await http.get(
+        Uri.parse(
+          '$host/v1/ProjectFolders',
+        ),
+        headers: requestHeaders);
+
+    if (response.statusCode == 200) {
+      for (var projectItem in jsonDecode(response.body)) {
+        folders.add(FolderModel.fromJson(projectItem));
+      }
+      return folders;
     } else {
       throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
     }

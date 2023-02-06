@@ -2,9 +2,14 @@
 
 import 'dart:convert';
 
+import 'package:carbon_icons/carbon_icons.dart';
 import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/foldermodel.dart';
+import 'package:dms/models/util_storage.dart';
+import 'package:dms/Views/widgets/Task/task_widget.dart';
+import 'package:dms/models/foldermodel.dart';
+import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/util_storage.dart';
 import 'package:dms/network/network_request.dart';
 import 'package:face_pile/face_pile.dart';
@@ -63,9 +68,13 @@ class CreateProject extends StatefulWidget {
 }
 
 class _CreateProjectState extends State<CreateProject> {
-  //List<StatusModel> statusList = <StatusModel>[];
   List<FolderModel> folders = <FolderModel>[];
+  //----- Test area-------
+  late List _tempListOfCities;
+  //1
+  final _scaffoldKey = GlobalKey();
   final TextEditingController textController = new TextEditingController();
+
   //2
   static List _listOfCities = [
     "Tokyo",
@@ -231,7 +240,7 @@ class _CreateProjectState extends State<CreateProject> {
                         left: 10, right: 10, top: 10, bottom: 10),
                     //decoration: BoxDecoration(border: BorderRadius()),
                     child: Container(
-                      height: 60.0,
+                      height: 52.0,
                       width: 400,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -247,7 +256,7 @@ class _CreateProjectState extends State<CreateProject> {
                         child: Container(
                           // height: maxheight,
                           // width: maxwidth,
-                          margin: EdgeInsets.all(7),
+                          margin: EdgeInsets.all(3),
                           child: TextFormField(
                             controller: _projectnamecontroller,
                             maxLines: 2,
