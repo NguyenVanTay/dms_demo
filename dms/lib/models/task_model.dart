@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_this
+
 
 class TaskModel {
   String? finalPlan;
@@ -17,10 +17,10 @@ class TaskModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['FinalPlan'] = this.finalPlan;
-    data['BeginPlan'] = this.beginPlan;
-    data['Description'] = this.description;
-    data['Code'] = this.code;
+    data['FinalPlan'] = finalPlan;
+    data['BeginPlan'] = beginPlan;
+    data['Description'] = description;
+    data['Code'] = code;
     return data;
   }
 }

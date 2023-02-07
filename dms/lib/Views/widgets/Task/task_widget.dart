@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables, must_be_immutable
 
+import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/Task/create_task.dart';
 import 'package:dms/Views/screens/Task/detail_task.dart';
+import 'package:dms/models/task_model.dart';
 import 'package:face_pile/face_pile.dart';
 
 import 'package:flutter/material.dart';
@@ -10,20 +12,20 @@ import 'package:get/get.dart';
 double? height;
 double? width;
 
-enum SampleItem { itemOne, itemTwo, itemThree, itemFour }
+enum MoreTaskItem { view, edit, delete, gantt }
 
-SampleItem? selectedMenu;
+MoreTaskItem? selectedMenu;
 
 class TasksWidget extends StatefulWidget {
-  const TasksWidget({super.key});
+  TaskModel task;
+
+  TasksWidget({required this.task, super.key});
 
   @override
   State<TasksWidget> createState() => _TasksWidgetState();
 }
 
 class _TasksWidgetState extends State<TasksWidget> {
-  var gender;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -53,55 +55,59 @@ class _TasksWidgetState extends State<TasksWidget> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Text(
-                        "Develop a master",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          "${widget.task.description}",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                    DropdownButton(
+                    PopupMenuButton<MoreTaskItem>(
+                      initialValue: selectedMenu,
                       icon: Icon(
                         Icons.more_vert,
                         color: Colors.black,
                       ),
-                      // hint: Text("Select"),
-                      value: this.gender,
-                      items: [
-                        DropdownMenuItem(
-                          value: '_detail',
-                          child: Text('View Detail'),
+                      onSelected: (MoreTaskItem item) {
+                        setState(() {
+                          selectedMenu = item;
+                        });
+                      },
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<MoreTaskItem>>[
+                        PopupMenuItem<MoreTaskItem>(
+                          value: MoreTaskItem.view,
+                          child: GestureDetector(
+                            child: Text('View Detail'),
+                            onTap: () {
+                              Get.to(DetailTask());
+                            },
+                          ),
                         ),
-                        DropdownMenuItem(
-                          value: '_edit',
+                        PopupMenuItem<MoreTaskItem>(
+                          value: MoreTaskItem.edit,
                           child: Text('Edit'),
                         ),
-                        DropdownMenuItem(
-                          value: '_delete',
+                        PopupMenuItem<MoreTaskItem>(
+                          value: MoreTaskItem.delete,
                           child: Text('Delete'),
                         ),
-                        DropdownMenuItem(
-                          value: '_gantt',
-                          child: Text('Gantt'),
+                        PopupMenuItem<MoreTaskItem>(
+                          value: MoreTaskItem.gantt,
+                          child: GestureDetector(
+                            child: Text('Gantt Chart'),
+                            onTap: () {
+                              Get.to(GanttChart());
+                            },
+                          ),
                         ),
                       ],
-                      onChanged: (val) {
-                        setState(() {
-                          this.gender = val;
-                        });
-                        switch (val) {
-                          case '_detail':
-                            break;
-                          case '_edit':
-                            break;
-                          case '_delete':
-                            break;
-                          case '_gantt':
-                            break;
-                        }
-                      },
-                    )
+                    ),
                   ],
                 ),
                 const Divider(
@@ -119,7 +125,7 @@ class _TasksWidgetState extends State<TasksWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
-                        "01-01-2022 02-02-2022",
+                        '${widget.task.beginPlan} -  ${widget.task.finalPlan}',
                         style: TextStyle(
                           fontSize: 16,
                         ),

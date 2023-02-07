@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_this, unnecessary_new, prefer_collection_literals
-
 class ProjectModel {
   String? finalPlan;
   String? beginPlan;
@@ -16,11 +14,11 @@ class ProjectModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['FinalPlan'] = this.finalPlan;
-    data['BeginPlan'] = this.beginPlan;
-    data['Code'] = this.code;
-    data['Description'] = this.description;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['FinalPlan'] = finalPlan;
+    data['BeginPlan'] = beginPlan;
+    data['Code'] = code;
+    data['Description'] = description;
     return data;
   }
 }

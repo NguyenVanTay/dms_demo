@@ -7,13 +7,7 @@ import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/foldermodel.dart';
 import 'package:dms/models/util_storage.dart';
 import 'package:dms/Views/widgets/Task/task_widget.dart';
-// import 'package:dms/models/foldermodel.dart';
-// import 'package:dms/models/statusmodel.dart';
-// import 'package:dms/models/util_storage.dart';
-// import 'package:dms/Views/widgets/Task/task_widget.dart';
-// import 'package:dms/models/foldermodel.dart';
-// import 'package:dms/models/statusmodel.dart';
-// import 'package:dms/models/util_storage.dart';
+
 import 'package:dms/network/network_request.dart';
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
@@ -27,17 +21,17 @@ enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
 
-// List Status dropDown
-List<DropdownMenuItem<String>> get dropdownStatusItems {
-  List<DropdownMenuItem<String>> statusItem = UtilStorage.statuses
-      .map(
-        (e) =>
-            DropdownMenuItem(child: Text(e.state ?? ""), value: e.state ?? ""),
-      )
-      .toList();
+// // List Status dropDown
+// List<DropdownMenuItem<String>> get dropdownStatusItems {
+//   List<DropdownMenuItem<String>> statusItem = UtilStorage.statuses
+//       .map(
+//         (e) =>
+//             DropdownMenuItem(child: Text(e.state ?? ""), value: e.state ?? ""),
+//       )
+//       .toList();
 
-  return statusItem;
-}
+//   return statusItem;
+// }
 
 // List Type dropdown
 List<DropdownMenuItem<String>> get dropdownTypeItems {
@@ -72,6 +66,7 @@ class CreateProject extends StatefulWidget {
 
 class _CreateProjectState extends State<CreateProject> {
   List<StatusModel> statusList = <StatusModel>[];
+
   String projectfolder = "";
   List<FolderModel> folders = <FolderModel>[];
   final TextEditingController textController = TextEditingController();
@@ -636,44 +631,7 @@ class _CreateProjectState extends State<CreateProject> {
                       _showModal(context);
                     },
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Status",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: DropdownButtonFormField(
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 0.5),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 0.5),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        dropdownColor: Colors.white,
-                        onChanged: (newValue) {
-                          setState(() {
-                            status = newValue!;
-                          });
-                        },
-                        value: status,
-                        items: dropdownStatusItems),
-                  ),
+
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
                     child: Row(

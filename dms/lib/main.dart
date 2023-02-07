@@ -13,17 +13,18 @@ import 'package:provider/provider.dart';
 import 'Views/screens/GanttChart/gantt_chart.dart';
 import 'controllers/providers/event_provider.dart';
 
-DateTime get _now => DateTime.now();
+//DateTime get _now => DateTime.now();
 
 void main(List<String> args) {
-  intiData();
+  intialData();
   runApp(const MyApp());
 }
 
-Future<void> intiData() async {
+Future<void> intialData() async {
   await Networking.getInstance().getAllStatus();
   await Networking.getInstance().getAllType();
   await Networking.getInstance().getAllUser();
+  await Networking.getInstance().getAllProject();
 }
 
 class MyApp extends StatelessWidget {

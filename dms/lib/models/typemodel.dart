@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_this, unnecessary_new
+
 
 class TypeModel {
   String? description;
@@ -11,7 +11,7 @@ class TypeModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['Description'] = this.description;
+    data['Description'] = description;
     return data;
   }
 }

@@ -40,8 +40,8 @@ class CreateTask extends StatefulWidget {
 }
 
 class _CreateTaskState extends State<CreateTask> {
-  late DateTime _startDate;
-  late DateTime _endDate;
+  late DateTime? _startDate;
+  late DateTime? _endDate;
 
   DateTime? _startTime;
 
@@ -188,11 +188,19 @@ class _CreateTaskState extends State<CreateTask> {
                           // height: maxheight,
                           // width: maxwidth,
                           margin: EdgeInsets.all(7),
-                          child: Text(
-                            "Project Moonsoon",
+                          child: TextFormField(
+                            // controller: _projectnamecontroller,
+                            maxLines: 2,
+                            // controller: _controller,
+                            // onSaved: (newValue) {
+                            //   // setState(() {
+                            //   //   projectName = newValue??"";
+                            //   // });
+                            // },
+                            // maxLines: 1,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 14.0,
+                              fontSize: 18.0,
                             ),
                           ),
                         ),
@@ -207,50 +215,147 @@ class _CreateTaskState extends State<CreateTask> {
                       left: 20,
                       right: 20,
                     ),
-                    child: Row(
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: DateTimeSelectorFormField(
-                            controller: _startDateController,
-                            decoration: AppConstants.inputDecoration.copyWith(
-                              labelText: "Start Date",
-                            ),
-                            validator: (value) {
-                              if (value == null || value == "")
-                                return "Please select date.";
+                        Row(
+                          children: [
+                            //Start Time
+                            Expanded(
+                              child: DateTimeSelectorFormField(
+                                controller: _startTimeController,
+                                decoration:
+                                    AppConstants.inputDecorationTime.copyWith(
+                                  labelText: "Start Time",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value == "")
+                                    return "Please select start time.";
 
-                              return null;
-                            },
-                            textStyle: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 17.0,
+                                  return null;
+                                },
+                                textStyle: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 17.0,
+                                ),
+                                onSave: (startTime) {
+                                  setState(() {
+                                    _startTime = startTime;
+                                  });
+                                },
+                                onSelect: (startTime) {
+                                  setState(() {
+                                    _startTime = startTime;
+                                  });
+                                },
+                                type: DateTimeSelectionType.time,
+                              ),
                             ),
-                            onSave: (date) => _startDate = date,
-                            type: DateTimeSelectionType.date,
-                          ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            // Start Date
+                            Expanded(
+                              child: DateTimeSelectorFormField(
+                                controller: _startDateController,
+                                decoration:
+                                    AppConstants.inputDecoration.copyWith(
+                                  labelText: "Start Date",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value == "")
+                                    return "Please select date.";
+
+                                  return null;
+                                },
+                                textStyle: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 17.0,
+                                ),
+                                onSave: (startdate) {
+                                  setState(() {
+                                    _startDate = startdate;
+                                  });
+                                },
+                                onSelect: (startdate) {
+                                  setState(() {
+                                    _startDate = startdate;
+                                  });
+                                },
+                                type: DateTimeSelectionType.date,
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(
-                          width: 20,
+                          height: 20,
                         ),
-                        Expanded(
-                          child: DateTimeSelectorFormField(
-                            controller: _endDateController,
-                            decoration: AppConstants.inputDecoration.copyWith(
-                              labelText: "End Date",
-                            ),
-                            validator: (value) {
-                              if (value == null || value == "")
-                                return "Please select date.";
+                        Row(
+                          children: [
+                            Expanded(
+                              child: DateTimeSelectorFormField(
+                                controller: _endTimeController,
+                                decoration:
+                                    AppConstants.inputDecorationTime.copyWith(
+                                  labelText: "End Time",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value == "")
+                                    return "Please select end time.";
 
-                              return null;
-                            },
-                            textStyle: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 18.0,
+                                  return null;
+                                },
+                                textStyle: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 17.0,
+                                ),
+                                onSave: (endTime) {
+                                  setState(() {
+                                    _endTime = endTime;
+                                  });
+                                },
+                                onSelect: (endTime) {
+                                  setState(() {
+                                    _endTime = endTime;
+                                  });
+                                },
+                                type: DateTimeSelectionType.time,
+                              ),
                             ),
-                            onSave: (date) => _endDate = date,
-                            type: DateTimeSelectionType.date,
-                          ),
+                            //EnDate
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: DateTimeSelectorFormField(
+                                controller: _endDateController,
+                                decoration:
+                                    AppConstants.inputDecoration.copyWith(
+                                  labelText: "End Date",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value == "")
+                                    return "Please select date.";
+
+                                  return null;
+                                },
+                                textStyle: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 18.0,
+                                ),
+                                onSave: (endDate) {
+                                  setState(() {
+                                    _endDate = endDate;
+                                  });
+                                },
+                                onSelect: (endDate) {
+                                  setState(() {
+                                    _endDate = endDate;
+                                  });
+                                },
+                                type: DateTimeSelectionType.date,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -352,11 +457,11 @@ class _CreateTaskState extends State<CreateTask> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(5),
+                    margin: EdgeInsets.only(
+                        left: 10, right: 10, top: 10, bottom: 10),
                     //decoration: BoxDecoration(border: BorderRadius()),
                     child: Container(
-                      margin: EdgeInsets.only(left: 10, right: 10),
-                      height: 100.0,
+                      height: 60.0,
                       width: 400,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -372,12 +477,20 @@ class _CreateTaskState extends State<CreateTask> {
                         child: Container(
                           // height: maxheight,
                           // width: maxwidth,
-                          margin: EdgeInsets.only(left: 10),
-                          child: Text(
-                            "Project Moonsoon",
+                          margin: EdgeInsets.all(7),
+                          child: TextFormField(
+                            // controller: _projectnamecontroller,
+                            maxLines: 2,
+                            // controller: _controller,
+                            // onSaved: (newValue) {
+                            //   // setState(() {
+                            //   //   projectName = newValue??"";
+                            //   // });
+                            // },
+                            // maxLines: 1,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 16.0,
+                              fontSize: 18.0,
                             ),
                           ),
                         ),
@@ -397,10 +510,10 @@ class _CreateTaskState extends State<CreateTask> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(5),
+                    margin: EdgeInsets.only(
+                        left: 10, right: 10, top: 10, bottom: 10),
                     //decoration: BoxDecoration(border: BorderRadius()),
                     child: Container(
-                      margin: EdgeInsets.only(left: 10, right: 10),
                       height: 100.0,
                       width: 400,
                       decoration: BoxDecoration(
@@ -417,12 +530,20 @@ class _CreateTaskState extends State<CreateTask> {
                         child: Container(
                           // height: maxheight,
                           // width: maxwidth,
-                          margin: EdgeInsets.only(left: 10),
-                          child: Text(
-                            "Project Moonsoon",
+                          margin: EdgeInsets.all(7),
+                          child: TextFormField(
+                            // controller: _projectnamecontroller,
+                            maxLines: 4,
+                            // controller: _controller,
+                            // onSaved: (newValue) {
+                            //   // setState(() {
+                            //   //   projectName = newValue??"";
+                            //   // });
+                            // },
+                            // maxLines: 1,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 16.0,
+                              fontSize: 18.0,
                             ),
                           ),
                         ),

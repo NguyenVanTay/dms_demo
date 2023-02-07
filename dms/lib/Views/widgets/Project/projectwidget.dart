@@ -1,9 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables
 
+import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
+import 'package:dms/Views/screens/Project/detail_project.dart';
+import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
 import 'package:dms/Views/widgets/Task/taskwidget.dart';
 import 'package:dms/models/projectmodel.dart';
+import 'package:dms/models/util_storage.dart';
+import 'package:dms/network/network_request.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -13,9 +19,9 @@ import '../../screens/Task/tasks.dart';
 double? height;
 double? width;
 
-enum SampleItem { itemOne, itemTwo, itemThree, itemFour }
+enum MoreProjectItem { view, edit, delete, gantt }
 
-SampleItem? selectedMenu;
+MoreProjectItem? selectedMenu;
 
 class ProjectWidget extends StatefulWidget {
   final ProjectModel project;
@@ -27,12 +33,16 @@ class ProjectWidget extends StatefulWidget {
 }
 
 class _ProjectWidgetState extends State<ProjectWidget> {
-  var gender;
+  //List<ProjectModel> projects = <UtilStorage.projects> [];
+  late List<ProjectModel> projects = UtilStorage.projects;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(Tasks());
+        Get.to(Tasks(
+          project: widget.project,
+        ));
       },
       child: Container(
         margin: EdgeInsets.all(10),
@@ -49,7 +59,6 @@ class _ProjectWidgetState extends State<ProjectWidget> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-         
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,46 +78,46 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                         ),
                       ),
                     ),
-                    DropdownButton(
+                    PopupMenuButton<MoreProjectItem>(
+                      initialValue: selectedMenu,
                       icon: Icon(
                         Icons.more_vert,
                         color: Colors.black,
                       ),
-                      // hint: Text("Select"),
-                      value: this.gender,
-                      items: [
-                        DropdownMenuItem(
-                          value: '_detail',
-                          child: Text('View Detail'),
+                      onSelected: (MoreProjectItem item) {
+                        setState(() {
+                          selectedMenu = item;
+                        });
+                      },
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<MoreProjectItem>>[
+                        PopupMenuItem<MoreProjectItem>(
+                          value: MoreProjectItem.view,
+                          child: GestureDetector(
+                            child: Text('View Detail'),
+                            onTap: () {
+                              Get.to(DetailProject());
+                            },
+                          ),
                         ),
-                        DropdownMenuItem(
-                          value: '_edit',
+                        PopupMenuItem<MoreProjectItem>(
+                          value: MoreProjectItem.edit,
                           child: Text('Edit'),
                         ),
-                        DropdownMenuItem(
-                          value: '_delete',
+                        PopupMenuItem<MoreProjectItem>(
+                          value: MoreProjectItem.delete,
                           child: Text('Delete'),
                         ),
-                        DropdownMenuItem(
-                          value: '_gantt',
-                          child: Text('Gantt'),
+                        PopupMenuItem<MoreProjectItem>(
+                          value: MoreProjectItem.gantt,
+                          child: GestureDetector(
+                            child: Text('Gantt Chart'),
+                            onTap: () {
+                              Get.to(GanttChart());
+                            },
+                          ),
                         ),
                       ],
-                      onChanged: (val) {
-                        setState(() {
-                          this.gender = val;
-                        });
-                        switch (val) {
-                          case '_detail':
-                            break;
-                          case '_edit':
-                            break;
-                          case '_delete':
-                            break;
-                          case '_gantt':
-                            break;
-                        }
-                      },
                     )
                   ],
                 ),

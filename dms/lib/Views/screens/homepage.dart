@@ -136,31 +136,43 @@ class _HomePageState extends State<HomePage> {
                         crossAxisSpacing: 8,
                         childAspectRatio: 1.4,
                         children: [
-                          Box(
-                              title: "On Process",
-                              icon: Icon(Icons.edit_note_outlined),
-                              color: Color.fromRGBO(146, 252, 161, 1)),
-                          Box(
-                              title: "Overdue",
-                              icon: Icon(CarbonIcons.warning_other),
-                              color: Color.fromRGBO(255, 124, 124, 0.8)),
-                          Box(
-                              title: "Not accepted",
-                              icon: Icon(Icons.event_busy_outlined),
-                              color: Color.fromRGBO(255, 250, 152, 1)),
-                          Box(
-                            title: "Pending approval",
-                            icon: Icon(Icons.pending_actions_outlined),
-                            color: Color.fromRGBO(185, 247, 255, 1),
+                          GestureDetector(
+                            child: Box(
+                                title: "On Process",
+                                icon: Icon(Icons.edit_note_outlined),
+                                color: Color.fromRGBO(146, 252, 161, 1)),
                           ),
-                          Box(
-                              title: "Task from me",
-                              icon: Icon(Icons.input_outlined),
-                              color: Color.fromRGBO(255, 225, 190, 1)),
-                          Box(
-                              title: "Verify",
-                              icon: Icon(Icons.check_circle_outline),
-                              color: Color.fromRGBO(228, 228, 228, 1)),
+                          GestureDetector(
+                            child: Box(
+                                title: "Overdue",
+                                icon: Icon(CarbonIcons.warning_other),
+                                color: Color.fromRGBO(255, 124, 124, 0.8)),
+                          ),
+                          GestureDetector(
+                            child: Box(
+                                title: "Not accepted",
+                                icon: Icon(Icons.event_busy_outlined),
+                                color: Color.fromRGBO(255, 250, 152, 1)),
+                          ),
+                          GestureDetector(
+                            child: Box(
+                              title: "Pending approval",
+                              icon: Icon(Icons.pending_actions_outlined),
+                              color: Color.fromRGBO(185, 247, 255, 1),
+                            ),
+                          ),
+                          GestureDetector(
+                            child: Box(
+                                title: "Task from me",
+                                icon: Icon(Icons.input_outlined),
+                                color: Color.fromRGBO(255, 225, 190, 1)),
+                          ),
+                          GestureDetector(
+                            child: Box(
+                                title: "Verify",
+                                icon: Icon(Icons.check_circle_outline),
+                                color: Color.fromRGBO(228, 228, 228, 1)),
+                          ),
                         ],
                       ),
                     ),

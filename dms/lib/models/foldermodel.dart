@@ -10,9 +10,9 @@ class FolderModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Code'] = this.code;
-    data['Description'] = this.description;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Code'] = code;
+    data['Description'] = description;
     return data;
   }
 }

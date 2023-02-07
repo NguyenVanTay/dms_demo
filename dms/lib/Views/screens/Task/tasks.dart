@@ -5,11 +5,13 @@ import 'package:dms/Views/screens/Task/all_tasks.dart';
 import 'package:dms/Views/screens/Task/create_task.dart';
 import 'package:dms/Views/widgets/Project/projectwidget.dart';
 import 'package:dms/models/projectmodel.dart';
+import 'package:dms/models/task_model.dart';
 import 'package:dms/network/network_request.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../models/util_storage.dart';
 import '../../../routers/router.dart';
 import '../../widgets/Task/task_widget.dart';
 
@@ -18,36 +20,37 @@ enum SampleItem { itemOne, itemTwo, itemThree }
 SampleItem? selectedMenu;
 
 class Tasks extends StatefulWidget {
-  const Tasks({super.key});
+  //late List<ProjectModel> projects = UtilStorage.projects;
+  ProjectModel project;
+
+  Tasks({required this.project, super.key});
 
   @override
   State<Tasks> createState() => _TasksState();
 }
 
 class _TasksState extends State<Tasks> {
-  List<ProjectModel> projects = <ProjectModel>[];
-  
+  List<TaskModel> tasks = [];
+
+  late List<ProjectModel> projects = UtilStorage.projects;
+
+  //List<TaskModel> projects = <TaskModel>[];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Networking.getInstance().getAllProject().then((projectData) {
+    Networking.getInstance()
+        .getProjectTaskByProjectCode(widget.project.code.toString())
+        .then((taskData) {
       setState(() {
-        projects = projectData;
+        tasks = taskData;
       });
     });
   }
 
-  ProjectModel formatDate(ProjectModel project) {
-    project.beginPlan = new DateFormat("yyyy-MM-dd")
-        .parse(project.beginPlan.toString())
-        .toString()
-        .substring(0, 10);
-    project.finalPlan = new DateFormat("yyyy-MM-dd")
-        .parse(project.finalPlan.toString())
-        .toString()
-        .substring(0, 10);
-    return project;
+  formatDate(TaskModel task) {
+    task.beginPlan = task.beginPlan.toString().substring(0, 10);
+    task.finalPlan = task.finalPlan.toString().substring(0, 10);
+    return task;
   }
 
   int items = 10;
@@ -118,8 +121,8 @@ class _TasksState extends State<Tasks> {
             child: Column(children: [
               Container(
                   margin: EdgeInsets.all(10),
-                  child: const Text(
-                    'Project "MoonSoon Festival Summer 2022 "',
+                  child: Text(
+                    "${widget.project.description}",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -132,12 +135,14 @@ class _TasksState extends State<Tasks> {
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: 10,
+                  itemCount: tasks.length,
                   itemBuilder: (context, index) => Stack(
                     children: [
                       Column(
                         children: [
-                          TasksWidget(),
+                          TasksWidget(
+                            task: formatDate(tasks[index]),
+                          ),
                         ],
                       ),
                     ],
