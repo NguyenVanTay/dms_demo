@@ -49,7 +49,7 @@ class _ProjectWidgetState extends State<ProjectWidget> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          //  mainAxisAlignment: MainAxisAlignment.spaceAround,
+         
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

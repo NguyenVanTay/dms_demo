@@ -72,7 +72,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   SizedBox(
                     height: 60,
                     width: 240,
-                    child: ElevatedButton.icon(
+                    child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           Navigator.push(
@@ -82,12 +82,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           );
                         }
                       },
-                      icon: Icon(
-                        Icons.question_mark,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                      label: Text(
+                      // icon: Icon(
+                      //   Icons.question_mark,
+                      //   color: Colors.white,
+                      //   size: 30,
+                      // ),
+                      child: Text(
                         'Forget Password',
                         style: TextStyle(fontSize: 20),
                       ),

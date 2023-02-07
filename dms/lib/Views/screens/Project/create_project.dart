@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace, unused_import
+// ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace, unused_import, no_leading_underscores_for_local_identifiers, unused_element
 
 import 'dart:convert';
 
@@ -7,13 +7,13 @@ import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/foldermodel.dart';
 import 'package:dms/models/util_storage.dart';
 import 'package:dms/Views/widgets/Task/task_widget.dart';
-import 'package:dms/models/foldermodel.dart';
-import 'package:dms/models/statusmodel.dart';
-import 'package:dms/models/util_storage.dart';
-import 'package:dms/Views/widgets/Task/task_widget.dart';
-import 'package:dms/models/foldermodel.dart';
-import 'package:dms/models/statusmodel.dart';
-import 'package:dms/models/util_storage.dart';
+// import 'package:dms/models/foldermodel.dart';
+// import 'package:dms/models/statusmodel.dart';
+// import 'package:dms/models/util_storage.dart';
+// import 'package:dms/Views/widgets/Task/task_widget.dart';
+// import 'package:dms/models/foldermodel.dart';
+// import 'package:dms/models/statusmodel.dart';
+// import 'package:dms/models/util_storage.dart';
 import 'package:dms/network/network_request.dart';
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
@@ -71,14 +71,14 @@ class CreateProject extends StatefulWidget {
 }
 
 class _CreateProjectState extends State<CreateProject> {
-  //List<StatusModel> statusList = <StatusModel>[];
+  List<StatusModel> statusList = <StatusModel>[];
   String projectfolder = "";
   List<FolderModel> folders = <FolderModel>[];
-  final TextEditingController textController = new TextEditingController();
+  final TextEditingController textController = TextEditingController();
 
 //----- Test area-------
-  late DateTime _startDate;
-  late DateTime _endDate;
+  late DateTime? _startDate;
+  late DateTime? _endDate;
 
   DateTime? _startTime;
 
@@ -103,7 +103,7 @@ class _CreateProjectState extends State<CreateProject> {
 
   late TextEditingController _projectnamecontroller;
 
-  // decalre initial status, type, user, projectName
+  //decalre initial status, type, user, projectName
   String? status = UtilStorage.statuses[0].state;
   String? type = UtilStorage.types[0].description;
   String? user = UtilStorage.users[0].description;
@@ -363,7 +363,7 @@ class _CreateProjectState extends State<CreateProject> {
                                 },
                                 onSelect: (startdate) {
                                   setState(() {
-                                    //_startDate = startdate;
+                                    _startDate = startdate;
                                   });
                                 },
                                 type: DateTimeSelectionType.date,
@@ -434,7 +434,7 @@ class _CreateProjectState extends State<CreateProject> {
                                 },
                                 onSelect: (endDate) {
                                   setState(() {
-                                    //_endDate = endDate;
+                                    _endDate = endDate;
                                   });
                                 },
                                 type: DateTimeSelectionType.date,
@@ -641,6 +641,44 @@ class _CreateProjectState extends State<CreateProject> {
                     child: Row(
                       children: [
                         Text(
+                          "Status",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    child: DropdownButtonFormField(
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 0.5),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 0.5),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        dropdownColor: Colors.white,
+                        onChanged: (newValue) {
+                          setState(() {
+                            status = newValue!;
+                          });
+                        },
+                        value: status,
+                        items: dropdownStatusItems),
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
+                    child: Row(
+                      children: [
+                        Text(
                           "Type",
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
@@ -827,10 +865,9 @@ class _CreateProjectState extends State<CreateProject> {
                                   controller: textController,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(8),
-                                    border: new OutlineInputBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(15.0),
-                                      borderSide: new BorderSide(),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: BorderSide(),
                                     ),
                                     prefixIcon: Icon(Icons.search),
                                   ),

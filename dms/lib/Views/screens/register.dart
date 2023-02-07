@@ -52,7 +52,7 @@ class _RegisterState extends State<Register> {
                     keyboardType: TextInputType.text,
                     controller: _userController,
                     decoration: InputDecoration(
-                      labelText: 'User Name',
+                      labelText: 'UserName',
                       hintText: 'Enter User Name',
                       prefixIcon: Align(
                         widthFactor: 1.0,
@@ -84,7 +84,7 @@ class _RegisterState extends State<Register> {
                         controller: _passWordController,
                         obscureText: _showPassword,
                         decoration: InputDecoration(
-                          labelText: 'Pass Word',
+                          labelText: 'PassWord',
                           hintText: 'Enter PassWord',
                           prefixIcon: Align(
                             widthFactor: 1.0,
@@ -178,7 +178,7 @@ class _RegisterState extends State<Register> {
                   SizedBox(
                     height: 60,
                     width: 240,
-                    child: ElevatedButton.icon(
+                    child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           print('Validated');
@@ -188,12 +188,7 @@ class _RegisterState extends State<Register> {
                           );
                         }
                       },
-                      icon: Icon(
-                        Icons.app_registration_outlined,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                      label: Text(
+                      child: Text(
                         'Register',
                         style: TextStyle(fontSize: 20),
                       ),

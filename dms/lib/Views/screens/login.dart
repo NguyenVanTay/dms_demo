@@ -120,7 +120,7 @@ class _LoginState extends State<Login> {
                     keyboardType: TextInputType.text,
                     controller: _userController,
                     decoration: InputDecoration(
-                      labelText: 'User Name',
+                      labelText: 'UserName',
                       hintText: 'Enter User Name',
                       prefixIcon: Align(
                         widthFactor: 1.0,
@@ -152,7 +152,7 @@ class _LoginState extends State<Login> {
                         controller: _passWordController,
                         obscureText: _showPassword,
                         decoration: InputDecoration(
-                          labelText: 'Pass Word',
+                          labelText: 'PassWord',
                           hintText: 'Enter PassWord',
                           prefixIcon: Align(
                             widthFactor: 1.0,
@@ -197,7 +197,7 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 60,
                     width: 240,
-                    child: ElevatedButton.icon(
+                    child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           print('Validated');
@@ -207,12 +207,12 @@ class _LoginState extends State<Login> {
                           );
                         }
                       },
-                      icon: Icon(
-                        Icons.login_rounded,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                      label: Text(
+                      // icon: Icon(
+                      //   Icons.login_rounded,
+                      //   color: Colors.white,
+                      //   size: 30,
+                      // ),
+                      child: Text(
                         'Login',
                         style: TextStyle(fontSize: 20),
                       ),
