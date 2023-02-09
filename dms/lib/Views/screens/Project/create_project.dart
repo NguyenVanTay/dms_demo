@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace, unused_import, no_leading_underscores_for_local_identifiers, unused_element
+// ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace, unused_import
 
 import 'dart:convert';
 
@@ -7,7 +7,6 @@ import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/foldermodel.dart';
 import 'package:dms/models/util_storage.dart';
 import 'package:dms/Views/widgets/Task/task_widget.dart';
-
 import 'package:dms/network/network_request.dart';
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
@@ -21,17 +20,17 @@ enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
 
-// // List Status dropDown
-// List<DropdownMenuItem<String>> get dropdownStatusItems {
-//   List<DropdownMenuItem<String>> statusItem = UtilStorage.statuses
-//       .map(
-//         (e) =>
-//             DropdownMenuItem(child: Text(e.state ?? ""), value: e.state ?? ""),
-//       )
-//       .toList();
+// List Status dropDown
+List<DropdownMenuItem<String>> get dropdownStatusItems {
+  List<DropdownMenuItem<String>> statusItem = UtilStorage.statuses
+      .map(
+        (e) =>
+            DropdownMenuItem(child: Text(e.state ?? ""), value: e.state ?? ""),
+      )
+      .toList();
 
-//   return statusItem;
-// }
+  return statusItem;
+}
 
 // List Type dropdown
 List<DropdownMenuItem<String>> get dropdownTypeItems {
@@ -65,8 +64,9 @@ class CreateProject extends StatefulWidget {
 }
 
 class _CreateProjectState extends State<CreateProject> {
-  List<StatusModel> statusList = <StatusModel>[];
+  //List<StatusModel> statusList = <StatusModel>[];
 
+  List<FolderModel> _tempListOfCities = [];
   String projectfolder = "";
   List<FolderModel> folders = <FolderModel>[];
   final TextEditingController textController = TextEditingController();
@@ -141,6 +141,8 @@ class _CreateProjectState extends State<CreateProject> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -429,7 +431,7 @@ class _CreateProjectState extends State<CreateProject> {
                                 },
                                 onSelect: (endDate) {
                                   setState(() {
-                                    _endDate = endDate;
+                                    //_endDate = endDate;
                                   });
                                 },
                                 type: DateTimeSelectionType.date,
@@ -797,83 +799,99 @@ class _CreateProjectState extends State<CreateProject> {
   //----
 
   void _showModal(context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
     showModalBottomSheet<void>(
-      // isScrollControlled: true,
+      isScrollControlled: true,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
       ),
       context: context,
       builder: (BuildContext context) {
-        return SizedBox(
-          height: 1000,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: TextField(
-                                  controller: textController,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(8),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                      borderSide: BorderSide(),
+        return Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return DraggableScrollableSheet(
+                expand: false,
+                builder:
+                    (BuildContext context, ScrollController scrollController) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: TextField(
+                                    controller: textController,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(8),
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
+                                        borderSide: BorderSide(),
+                                      ),
+                                      prefixIcon: Icon(Icons.search),
                                     ),
-                                    prefixIcon: Icon(Icons.search),
-                                  ),
-                                  onChanged: (value) {
-                                    //4
-                                    setState(() {
-                                      // _tempListOfCities =
-                                      //     _buildSearchList(value);
-                                    });
-                                  })),
-                          IconButton(
-                              icon: Icon(Icons.add_box_outlined),
-                              color: Color(0xFF1F91E7),
-                              onPressed: () {
-                                // setState(() {
-                                //   textController.clear();
-                                //   _tempListOfCities.clear();
-                                // });
-                              }),
-                        ],
+                                    onChanged: (value) {
+                                      //4
+                                      setState(() {
+                                        _tempListOfCities =
+                                            _buildSearchList(value);
+                                      });
+                                    })),
+                            IconButton(
+                                icon: Icon(Icons.add_box_outlined),
+                                color: Color(0xFF1F91E7),
+                                onPressed: () {
+                                  // setState(() {
+                                  //   textController.clear();
+                                  //   _tempListOfCities.clear();
+                                  // });
+                                }),
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      height: 400,
-                      child: ListView.separated(
-                          itemCount: folders.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: InkWell(
-                                child:
-                                    _showBottomSheetWithSearch(index, folders),
-                                onTap: () {
-                                  setState(() {
-                                    projectfolder = folders[index].description!;
-                                  });
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) =>
-                              const Divider()),
-                    )
-                  ],
-                )
-              ],
-            ),
+                      Expanded(
+                        //height: deviceHeight * 0.4,
+                        child: ListView.separated(
+                            itemCount: (_tempListOfCities.isNotEmpty)
+                                ? _tempListOfCities.length
+                                : folders.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: InkWell(
+                                  child: (_tempListOfCities.isNotEmpty)
+                                      ? _showBottomSheetWithSearch(
+                                          index, _tempListOfCities)
+                                      : _showBottomSheetWithSearch(
+                                          index, folders),
+                                  onTap: () {
+                                    setState(() {
+                                      (_tempListOfCities.length > 0)
+                                          ? projectfolder =
+                                              _tempListOfCities[index]
+                                                  .description!
+                                          : projectfolder =
+                                              folders[index].description!;
+                                    });
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const Divider()),
+                      )
+                    ],
+                  );
+                },
+              );
+            },
           ),
         );
       },
@@ -887,15 +905,18 @@ class _CreateProjectState extends State<CreateProject> {
   }
 
   //9
-  List _buildSearchList(String userSearchTerm) {
-    final _searchList = List.filled(3, null, growable: false);
-
-    // for (int i = 0; i < _listOfCities.length; i++) {
-    //   String name = _listOfCities[i];
-    //   if (name.toLowerCase().contains(userSearchTerm.toLowerCase())) {
-    //     _searchList.add(_listOfCities[i]);
-    //   }
-    // }
+  List<FolderModel> _buildSearchList(String userSearchTerm) {
+    //final _searchList = List.filled(3, null, growable: false);
+    List<FolderModel> _searchList = <FolderModel>[];
+    for (int i = 0; i < folders.length; i++) {
+      String? name = folders[i].description;
+      if (name
+          .toString()
+          .toLowerCase()
+          .contains(userSearchTerm.toLowerCase())) {
+        _searchList.add(folders[i]);
+      }
+    }
     return _searchList;
   }
 }
