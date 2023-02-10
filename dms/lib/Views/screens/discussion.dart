@@ -2,8 +2,7 @@
 
 import 'package:comment_tree/comment_tree.dart';
 import 'package:flutter/material.dart';
-import 'package:reaction_askany/models/reaction_box_paramenters.dart';
-import 'package:reaction_askany/reaction_askany.dart';
+
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 

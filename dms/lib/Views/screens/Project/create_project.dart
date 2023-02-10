@@ -21,19 +21,6 @@ enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
 
-// // List Status dropDown
-// List<DropdownMenuItem<String>> get dropdownStatusItems {
-//   List<DropdownMenuItem<String>> statusItem = UtilStorage.statuses
-//       .map(
-//         (e) =>
-//             DropdownMenuItem(child: Text(e.state ?? ""), value: e.state ?? ""),
-//       )
-//       .toList();
-
-//   return statusItem;
-// }
-
-// List Type dropdown
 List<DropdownMenuItem<String>> get dropdownTypeItems {
   List<DropdownMenuItem<String>> typeItem = UtilStorage.types
       .map(
@@ -143,6 +130,7 @@ class _CreateProjectState extends State<CreateProject> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+          resizeToAvoidBottomInset: true,
           appBar: AppBar(
             centerTitle: true,
             title: const Text(
@@ -523,7 +511,6 @@ class _CreateProjectState extends State<CreateProject> {
                                                 ],
                                               ),
                                               ListTile(
-                                                onTap: () {},
                                                 leading: Image.network(
                                                   "https://i.pravatar.cc/300?img=1",
                                                   fit: BoxFit.cover,
@@ -532,7 +519,6 @@ class _CreateProjectState extends State<CreateProject> {
                                                 subtitle: Text('Developer'),
                                               ),
                                               ListTile(
-                                                onTap: () {},
                                                 leading: Image.network(
                                                   "https://i.pravatar.cc/300?img=2",
                                                   fit: BoxFit.cover,
@@ -541,7 +527,6 @@ class _CreateProjectState extends State<CreateProject> {
                                                 subtitle: Text('Developer'),
                                               ),
                                               ListTile(
-                                                onTap: () {},
                                                 leading: Image.network(
                                                   "https://i.pravatar.cc/300?img=3",
                                                   fit: BoxFit.cover,
@@ -550,7 +535,6 @@ class _CreateProjectState extends State<CreateProject> {
                                                 subtitle: Text('Designer'),
                                               ),
                                               ListTile(
-                                                onTap: () {},
                                                 leading: Image.network(
                                                   "https://i.pravatar.cc/300?img=4",
                                                   fit: BoxFit.cover,
@@ -579,7 +563,7 @@ class _CreateProjectState extends State<CreateProject> {
                                   size: 40,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -804,75 +788,81 @@ class _CreateProjectState extends State<CreateProject> {
       ),
       context: context,
       builder: (BuildContext context) {
-        return SizedBox(
-          height: 1000,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: TextField(
-                                  controller: textController,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(8),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                      borderSide: BorderSide(),
+        return Scaffold(
+          resizeToAvoidBottomInset: true,
+          body: SizedBox(
+            height: 500,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: TextField(
+                                    controller: textController,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(8),
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
+                                        borderSide: BorderSide(),
+                                      ),
+                                      prefixIcon: Icon(Icons.search),
                                     ),
-                                    prefixIcon: Icon(Icons.search),
-                                  ),
-                                  onChanged: (value) {
-                                    //4
-                                    setState(() {
-                                      // _tempListOfCities =
-                                      //     _buildSearchList(value);
-                                    });
-                                  })),
-                          IconButton(
-                              icon: Icon(Icons.add_box_outlined),
-                              color: Color(0xFF1F91E7),
-                              onPressed: () {
-                                // setState(() {
-                                //   textController.clear();
-                                //   _tempListOfCities.clear();
-                                // });
-                              }),
-                        ],
+                                    onChanged: (value) {
+                                      //4
+                                      setState(() {
+                                        // _tempListOfCities =
+                                        //     _buildSearchList(value);
+                                      });
+                                    })),
+                            IconButton(
+                                icon: Icon(Icons.add_box_outlined),
+                                color: Color(0xFF1F91E7),
+                                onPressed: () {
+                                  // setState(() {
+                                  //   textController.clear();
+                                  //   _tempListOfCities.clear();
+                                  // });
+                                }),
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      height: 400,
-                      child: ListView.separated(
-                          itemCount: folders.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: InkWell(
-                                child:
-                                    _showBottomSheetWithSearch(index, folders),
-                                onTap: () {
-                                  setState(() {
-                                    projectfolder = folders[index].description!;
-                                  });
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) =>
-                              const Divider()),
-                    )
-                  ],
-                )
-              ],
+                      Container(
+                        height: 400,
+                        child: ListView.separated(
+                            itemCount: folders.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: InkWell(
+                                  child: _showBottomSheetWithSearch(
+                                      index, folders),
+                                  onTap: () {
+                                    setState(() {
+                                      projectfolder =
+                                          folders[index].description!;
+                                    });
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const Divider()),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         );

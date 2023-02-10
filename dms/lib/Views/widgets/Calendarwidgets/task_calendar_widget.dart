@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, curly_braces_in_flow_control_structures
 
-import 'package:dms/models/event_calendar.dart';
 import 'package:dms/models/event_data_source.dart';
 import 'package:dms/Views/screens/Calendar/event_viewing_screen.dart';
 import 'package:flutter/material.dart';

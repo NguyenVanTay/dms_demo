@@ -1,9 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages, avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:face_pile/face_pile.dart';
+
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
-
 import '../../../models/ganttchart_weekday.dart';
 import '../../../controllers/providers/event_gantt_chart.dart';
 import '../../widgets/GanttchartWidget/gantt_day_header.dart';

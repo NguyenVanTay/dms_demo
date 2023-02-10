@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables, must_be_immutable
 
 import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
-import 'package:dms/Views/screens/Task/create_task.dart';
 import 'package:dms/Views/screens/Task/detail_task.dart';
 import 'package:dms/models/task_model.dart';
 import 'package:face_pile/face_pile.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

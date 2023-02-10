@@ -1,16 +1,13 @@
 // ignore_for_file: unnecessary_string_interpolations, unused_local_variable
 
 import 'dart:convert';
-
 import 'package:dms/models/foldermodel.dart';
 import 'package:dms/models/projectmodel.dart';
 import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/task_model.dart';
 import 'package:dms/models/typemodel.dart';
 import 'package:dms/models/usermodel.dart';
-import 'package:dms/models/foldermodel.dart';
 import 'package:dms/models/util_storage.dart';
-
 import 'package:http/http.dart' as http;
 
 class Networking {

@@ -40,7 +40,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     height: 40,
                   ),
                   TextFormField(
-                    inputFormatters: [],
+                    //inputFormatters: ,
                     keyboardType: TextInputType.text,
                     controller: _userController,
                     decoration: InputDecoration(

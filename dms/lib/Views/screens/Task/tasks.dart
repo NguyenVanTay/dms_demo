@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_new, unused_local_variable, unused_import, avoid_print
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_new, unused_local_variable, unused_import, avoid_print, must_be_immutable
 
 import 'package:dms/Views/screens/Project/create_project.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
@@ -34,7 +34,6 @@ class _TasksState extends State<Tasks> {
 
   late List<ProjectModel> projects = UtilStorage.projects;
 
-  //List<TaskModel> projects = <TaskModel>[];
   @override
   void initState() {
     super.initState();

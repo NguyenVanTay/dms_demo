@@ -2,18 +2,11 @@
 
 import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/Project/detail_project.dart';
-import 'package:dms/Views/screens/Project/project.dart';
-import 'package:dms/Views/screens/Task/all_tasks.dart';
-import 'package:dms/Views/widgets/Task/taskwidget.dart';
 import 'package:dms/models/projectmodel.dart';
 import 'package:dms/models/util_storage.dart';
-import 'package:dms/network/network_request.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-
 import '../../screens/Task/tasks.dart';
 
 double? height;

@@ -245,7 +245,7 @@ class _EventEditingScreenState extends State<EventEditingScreen> {
                       _color = color;
                     });
                   Navigator.pop(context);
-                  ;
+                  
                 },
               ),
             ),
