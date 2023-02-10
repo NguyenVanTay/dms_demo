@@ -183,10 +183,8 @@ class Networking {
       }
       UtilStorage.users.clear();
       UtilStorage.users.addAll(users);
-      return users;
-    } else {
-      throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
     }
+    return users;
   }
 
   // Get ProjectTask by Project Code.

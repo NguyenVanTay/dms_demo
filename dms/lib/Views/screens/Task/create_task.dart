@@ -1,24 +1,24 @@
 // ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, must_be_immutable
 
 import 'package:dms/models/task_model.dart';
-import 'package:dms/models/typemodel.dart';
+
 import 'package:dms/models/usermodel.dart';
 
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:intl/intl.dart';
+
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
-import '../../../constants.dart';
-import '../../../helpers/create_options.dart';
-import '../../../helpers/multiple_search_selection.dart';
 import '../../../models/util_storage.dart';
+
 import '../../../network/network_request.dart';
 import '../../../sources/app_colors.dart';
 
 import '../../widgets/Project/constants.dart';
 import '../../widgets/Project/date_time_selector.dart';
+import '../Project/project.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 
@@ -35,16 +35,6 @@ List<DropdownMenuItem<String>> get dropdownPreviousTask {
   return preItem;
 }
 
-List<DropdownMenuItem<String>> get dropdownTypeItems {
-  List<DropdownMenuItem<String>> typeItems = [
-    DropdownMenuItem(child: Text("General"), value: "General"),
-    DropdownMenuItem(child: Text("Canada"), value: "Canada"),
-    DropdownMenuItem(child: Text("Brazil"), value: "Brazil"),
-    DropdownMenuItem(child: Text("England"), value: "England"),
-  ];
-  return typeItems;
-}
-
 class CreateTask extends StatefulWidget {
   // TaskModel task;
 
@@ -55,11 +45,6 @@ class CreateTask extends StatefulWidget {
 }
 
 class _CreateTaskState extends State<CreateTask> {
-  List<TaskModel> tasks = UtilStorage.tasks;
-  List<UserModel> users = UtilStorage.users;
-
-  //List<TypeModel> types = UtilStorage.types;
-
   //late List<UserModel> users = <UserModel>[];
 
   String? prev = "";
@@ -88,8 +73,16 @@ class _CreateTaskState extends State<CreateTask> {
   late TextEditingController _startTimeController;
   late TextEditingController _endTimeController;
   late TextEditingController _endDateController;
+  late TextEditingController _tasknamecontroller;
+  late TextEditingController _longdesccontroller;
 
-  late List<MultiSelectItem<UserModel>> _items;
+  List<UserModel> usersList = UtilStorage.users;
+  List<TaskModel> tasksList = UtilStorage.tasks;
+
+  //List<UserModel> usersList = [];
+
+  late List<MultiSelectItem<UserModel>> _userItems = [];
+  late List<MultiSelectItem<TaskModel>> _taskItems = [];
 
   @override
   void initState() {
@@ -103,10 +96,16 @@ class _CreateTaskState extends State<CreateTask> {
     _endDateController = TextEditingController();
     _startTimeController = TextEditingController();
     _endTimeController = TextEditingController();
-
-    _items = users
+    _tasknamecontroller = TextEditingController();
+    _longdesccontroller = TextEditingController();
+    _userItems = usersList
         .map((user) =>
             MultiSelectItem<UserModel>(user, user.description.toString()))
+        .toList();
+
+    _taskItems = tasksList
+        .map((task) =>
+            MultiSelectItem<TaskModel>(task, task.description.toString()))
         .toList();
   }
 
@@ -120,6 +119,8 @@ class _CreateTaskState extends State<CreateTask> {
     _endDateController.dispose();
     _startTimeController.dispose();
     _endTimeController.dispose();
+    _tasknamecontroller.dispose();
+    _longdesccontroller.dispose();
 
     super.dispose();
   }
@@ -216,7 +217,7 @@ class _CreateTaskState extends State<CreateTask> {
                           // width: maxwidth,
                           margin: EdgeInsets.all(7),
                           child: TextFormField(
-                            // controller: _projectnamecontroller,
+                            controller: _tasknamecontroller,
                             maxLines: 2,
                             // controller: _controller,
                             // onSaved: (newValue) {
@@ -395,37 +396,53 @@ class _CreateTaskState extends State<CreateTask> {
                     child: Row(
                       children: [
                         Text(
-                          "Previous Task",
+                          "Performer",
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
                   ),
-                  SingleChildScrollView(
-                    child: MultiSelectBottomSheetField<UserModel>(
-                      key: _multiSelectKey,
-                      initialChildSize: 0.7,
-                      maxChildSize: 0.95,
-                      title: Text("Animals"),
-                      buttonText: Text("Favorite Animals"),
-                      items: _items,
-                      searchable: true,
-                      onConfirm: (values) {
-                        setState(() {
-                          users = values;
-                        });
-                        _multiSelectKey.currentState?.validate();
-                      },
-                      chipDisplay: MultiSelectChipDisplay(
-                        onTap: (item) {
-                          setState(() {
-                            users.remove(item);
-                          });
-                          _multiSelectKey.currentState?.validate();
-                        },
-                      ),
-                    ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: MultiSelectDialogField(
+                          searchable: true,
+                          items: _userItems,
+                          title: const Text(
+                            "Select Performer ",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          selectedColor: Colors.black,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            // adding borders around the widget
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                          ),
+                          buttonIcon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black,
+                          ),
+                          buttonText: const Text(
+                            "Select Your Performer",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                          onConfirm: (values) {
+                            setState(() {
+                              usersList = values;
+                            });
+                            _multiSelectKey.currentState?.validate();
+                          },
+                        ),
+                      )
+                    ],
                   ),
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
@@ -439,35 +456,46 @@ class _CreateTaskState extends State<CreateTask> {
                       ],
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: DropdownButtonFormField(
-                        hint: Text('None'),
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 0.5),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: MultiSelectDialogField(
+                          searchable: true,
+                          items: _taskItems,
+                          title: const Text(
+                            "Select Task ",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          // selectedColor: Colors.black,
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
+                            // adding borders around the widget
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
                           ),
-
-                          // adding borders around the widget
-
-                          border: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 0.5),
-                            borderRadius: BorderRadius.circular(20),
+                          buttonIcon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black,
                           ),
-                          filled: true,
-                          fillColor: Colors.grey[50],
+                          buttonText: const Text(
+                            "Select Your Task",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                          onConfirm: (values) {
+                            setState(() {
+                              tasksList = values;
+                            });
+                            _multiSelectKey.currentState?.validate();
+                          },
                         ),
-                        dropdownColor: Colors.white,
-                        value: prev,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            prev = newValue!;
-                          });
-                        },
-                        items: dropdownPreviousTask),
+                      )
+                    ],
                   ),
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
@@ -504,7 +532,7 @@ class _CreateTaskState extends State<CreateTask> {
                           // width: maxwidth,
                           margin: EdgeInsets.all(7),
                           child: TextFormField(
-                            // controller: _projectnamecontroller,
+                            controller: _longdesccontroller,
                             maxLines: 4,
                             // controller: _controller,
                             // onSaved: (newValue) {
@@ -529,7 +557,52 @@ class _CreateTaskState extends State<CreateTask> {
                     height: 50,
                     width: 380,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        Map data = {
+                          "Project": "00000000002",
+                          "TaskName": _tasknamecontroller.text,
+                          "BeginPlan":
+                              DateFormat('yyyyMMdd').format(_startDate!) +
+                                  DateFormat('hhmmss').format(_startTime!),
+                          "FinalPlan":
+                              DateFormat('yyyyMMdd').format(_endDate!) +
+                                  DateFormat('hhmmss').format(_endTime!),
+                          "LongDesc": _longdesccontroller.text,
+                          "PredecessorsList": tasksList,
+                          "PerformerList": usersList
+                        };
+
+                        var result =
+                            await Networking.getInstance().createTask(data);
+
+                        if (result) {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Done'),
+                              content: Text('Create Success'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('Ok'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+
+                          Get.to(Project());
+
+                          //handle
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text("false"),
+                                  ));
+                        }
+                      },
                       child: Text(
                         'Create Task',
                         style: TextStyle(
@@ -552,139 +625,4 @@ class _CreateTaskState extends State<CreateTask> {
           )),
     );
   }
-}
-
-void _showModal(context) {
-  showModalBottomSheet<void>(
-      //isScrollControlled: true,
-
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
-      ),
-      context: context,
-      builder: (BuildContext context) {
-        return Scaffold(
-          body: SingleChildScrollView(
-            child: MultipleSearchSelection<Country>.creatable(
-              title: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: SizedBox(
-                    height: 40,
-                    width: 100,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Save",
-                      ),
-                    ),
-                  )),
-              // onItemAdded: (c) {},
-              // showClearSearchFieldButton: true,
-              showShowedItemsScrollbar: true,
-              createOptions: CreateOptions(
-                createItem: (text) {
-                  return Country(name: text, iso: text);
-                },
-                onItemCreated: (c) => print('Country ${c.name} created'),
-                createItemBuilder: (text) => Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Create "$text"'),
-                  ),
-                ),
-                pickCreatedItem: false,
-              ),
-              items: countries, // List<Country>
-              fieldToCheck: (c) {
-                return c.name;
-              },
-              itemBuilder: (country, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: Colors.white,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 20.0,
-                        horizontal: 12,
-                      ),
-                      child: Text(country.name),
-                    ),
-                  ),
-                );
-              },
-              pickedItemBuilder: (country) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.grey[400]!),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(country.name),
-                  ),
-                );
-              },
-              sortShowedItems: true,
-
-              sortPickedItems: true,
-              selectAllButton: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blue),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Select All',
-                      style: kStyleDefault,
-                    ),
-                  ),
-                ),
-              ),
-              showItemsButton: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.red),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Show Item',
-                      style: kStyleDefault,
-                    ),
-                  ),
-                ),
-              ),
-              // clearAllButton: Padding(
-              //   padding: const EdgeInsets.all(12.0),
-              //   child: DecoratedBox(
-              //     decoration: BoxDecoration(
-              //       border: Border.all(color: Colors.red),
-              //     ),
-              //     child: Padding(
-              //       padding: const EdgeInsets.all(8.0),
-              //       child: Text(
-              //         'Clear All',
-              //         style: kStyleDefault,
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              caseSensitiveSearch: false,
-              fuzzySearch: FuzzySearch.none,
-              itemsVisibility: ShowedItemsVisibility.alwaysOn,
-              showSelectAllButton: true,
-
-              // maximumShowItemsHeight: 200,
-            ),
-          ), // This trailing comma makes auto-formatting nicer for build methods.
-        );
-      });
 }
