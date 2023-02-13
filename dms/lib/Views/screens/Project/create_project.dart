@@ -432,7 +432,7 @@ class _CreateProjectState extends State<CreateProject> {
                                 },
                                 onSelect: (endDate) {
                                   setState(() {
-                                    //_endDate = endDate;
+                                    _endDate = endDate;
                                   });
                                 },
                                 type: DateTimeSelectionType.date,

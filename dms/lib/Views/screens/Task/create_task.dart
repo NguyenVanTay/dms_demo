@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
+import '../../../models/projectmodel.dart';
 import '../../../models/util_storage.dart';
 
 import '../../../network/network_request.dart';
@@ -36,16 +37,16 @@ List<DropdownMenuItem<String>> get dropdownPreviousTask {
 }
 
 class CreateTask extends StatefulWidget {
-  // TaskModel task;
+  ProjectModel project;
 
-  const CreateTask({super.key});
+  CreateTask({required this.project, super.key});
 
   @override
   State<CreateTask> createState() => _CreateTaskState();
 }
 
 class _CreateTaskState extends State<CreateTask> {
-  //late List<UserModel> users = <UserModel>[];
+  late List<ProjectModel> projects = UtilStorage.projects;
 
   String? prev = "";
   late DateTime? _startDate;
@@ -436,7 +437,9 @@ class _CreateTaskState extends State<CreateTask> {
                           ),
                           onConfirm: (values) {
                             setState(() {
-                              usersList = values;
+                              if (mounted) {
+                                usersList = values;
+                              }
                             });
                             _multiSelectKey.currentState?.validate();
                           },
@@ -489,7 +492,9 @@ class _CreateTaskState extends State<CreateTask> {
                           ),
                           onConfirm: (values) {
                             setState(() {
-                              tasksList = values;
+                              if (mounted) {
+                                tasksList = values;
+                              }
                             });
                             _multiSelectKey.currentState?.validate();
                           },
@@ -559,7 +564,7 @@ class _CreateTaskState extends State<CreateTask> {
                     child: ElevatedButton(
                       onPressed: () async {
                         Map data = {
-                          "Project": "00000000002",
+                          "Project": widget.project.code.toString(),
                           "TaskName": _tasknamecontroller.text,
                           "BeginPlan":
                               DateFormat('yyyyMMdd').format(_startDate!) +

@@ -29,7 +29,9 @@ class _ProjectState extends State<Project> {
     super.initState();
     Networking.getInstance().getAllProject().then((projectData) {
       setState(() {
-        projects = projectData;
+        if (mounted) {
+          projects = projectData;
+        }
       });
     });
   }
