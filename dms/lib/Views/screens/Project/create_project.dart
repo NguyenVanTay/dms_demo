@@ -69,7 +69,8 @@ class _CreateProjectState extends State<CreateProject> {
   List<FolderModel> _tempListOfCities = [];
   String projectfolder = "";
   List<FolderModel> folders = <FolderModel>[];
-  final TextEditingController textController = TextEditingController();
+  final TextEditingController _searchfolderController = TextEditingController();
+  final TextEditingController _createfolderController = TextEditingController();
 
 //----- Test area-------
   late DateTime? _startDate;
@@ -106,6 +107,8 @@ class _CreateProjectState extends State<CreateProject> {
 
   @override
   void initState() {
+    // List<FolderModel> _tempListOfCities = [];
+    // String projectfolder = "";
     super.initState();
     Networking.getInstance().getAllFolder().then((folderData) {
       setState(() {
@@ -141,8 +144,6 @@ class _CreateProjectState extends State<CreateProject> {
 
   @override
   Widget build(BuildContext context) {
-    double deviceWidth = MediaQuery.of(context).size.width;
-    double deviceHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: true,
@@ -627,7 +628,7 @@ class _CreateProjectState extends State<CreateProject> {
                       ),
                     ),
                     onTap: () {
-                      _showModal(context);
+                      if (mounted) _showModal(context);
                     },
                   ),
 
@@ -824,7 +825,7 @@ class _CreateProjectState extends State<CreateProject> {
                           children: [
                             Expanded(
                                 child: TextField(
-                                    controller: textController,
+                                    controller: _searchfolderController,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(8),
                                       border: OutlineInputBorder(
@@ -847,9 +848,10 @@ class _CreateProjectState extends State<CreateProject> {
                                 color: Color(0xFF1F91E7),
                                 onPressed: () {
                                   setState(() {
-                                    (clickbutton_addfolder)
-                                        ? clickbutton_addfolder = false
-                                        : clickbutton_addfolder = true;
+                                    if (mounted)
+                                      (clickbutton_addfolder)
+                                          ? clickbutton_addfolder = false
+                                          : clickbutton_addfolder = true;
                                   });
                                 }),
                           ],
@@ -890,7 +892,8 @@ class _CreateProjectState extends State<CreateProject> {
                                           Expanded(
                                               child: TextField(
                                                   autofocus: true,
-                                                  controller: textController,
+                                                  controller:
+                                                      _createfolderController,
                                                   decoration: InputDecoration(
                                                     contentPadding:
                                                         EdgeInsets.all(8),
@@ -948,7 +951,7 @@ class _CreateProjectState extends State<CreateProject> {
 
                                               //   var result = await Networking
                                               //           .getInstance()
-                                              //       .createProject(data);
+                                              //       .createFolderProject(data);
 
                                               //   if (result) {
                                               //     await showDialog(
@@ -1009,15 +1012,13 @@ class _CreateProjectState extends State<CreateProject> {
                                       : _showBottomSheetWithSearch(
                                           index, folders),
                                   onTap: () {
-                                    setState(() {
-                                      if (mounted) {
-                                        (_tempListOfCities.isNotEmpty)
-                                            ? projectfolder =
-                                                _tempListOfCities[index]
-                                                    .description!
-                                            : projectfolder =
-                                                folders[index].description!;
-                                      }
+                                    this.setState(() {
+                                      (_tempListOfCities.isNotEmpty)
+                                          ? projectfolder =
+                                              _tempListOfCities[index]
+                                                  .description!
+                                          : projectfolder =
+                                              folders[index].description!;
                                     });
                                     Navigator.of(context).pop();
                                     print(projectfolder);

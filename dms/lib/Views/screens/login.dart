@@ -2,6 +2,7 @@
 
 import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/homepage.dart';
+import 'package:dms/Views/screens/homepage_performer.dart';
 import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/register.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +59,64 @@ class _PageState extends State<Page> {
           BottomNavigationBarItem(
             icon: Icon(Icons.article_outlined),
             label: 'Project',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_outlined),
+            label: 'Account',
+          ),
+        ],
+        currentIndex: _selectIndex,
+        selectedItemColor: Color.fromRGBO(4, 131, 248, 1),
+        onTap: ((index) => _onItemTapped(index)),
+        //backgroundColor: Colors.teal,
+      ),
+    ));
+  }
+}
+
+class PagePerformer extends StatefulWidget {
+  const PagePerformer({super.key});
+
+  @override
+  State<PagePerformer> createState() => _PagePerformerState();
+}
+
+class _PagePerformerState extends State<PagePerformer> {
+  int _selectIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectIndex = index;
+    });
+  }
+
+  List<Widget> _itemWidget = [
+    HomePagePerformer(),
+    GanttChart(),
+    CalendarWidget(),
+    Container(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: _itemWidget.elementAt(_selectIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.task_outlined),
+            label: 'Gantt Chart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month_outlined),
+            label: 'Calendar',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),
@@ -199,8 +258,22 @@ class _LoginState extends State<Login> {
                     width: 240,
                     child: ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          print('Validated');
+                        // if (_formKey.currentState!.validate()) {
+                        //   print('Validated');
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(builder: (context) => Page()),
+                        //   );
+                        // }
+                        if (_userController.text == "lttt") {
+                          print('Validated performer');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PagePerformer()),
+                          );
+                        } else {
+                          print('Validated project manager');
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => Page()),
