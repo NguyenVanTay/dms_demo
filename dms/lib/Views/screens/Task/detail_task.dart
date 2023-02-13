@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -244,8 +244,8 @@ class _DetailTaskState extends State<DetailTask> {
                     // for Vertical scrolling
                     scrollDirection: Axis.vertical,
                     child: Container(
-                      // height: maxheight,
-                      // width: maxwidth,
+                       //height: maxheight,
+                       // width: maxwidth,
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
                         "Project Moonsoon",

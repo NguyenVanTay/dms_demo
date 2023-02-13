@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_new, unused_local_variable, unused_import, avoid_print
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_new, unused_local_variable, unused_import, avoid_print, must_be_immutable
 
 import 'package:dms/Views/screens/Project/create_project.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
@@ -22,6 +22,7 @@ SampleItem? selectedMenu;
 class Tasks extends StatefulWidget {
   //late List<ProjectModel> projects = UtilStorage.projects;
   ProjectModel project;
+  List<ProjectModel> projects = <ProjectModel>[];
 
   Tasks({required this.project, super.key});
 
@@ -34,7 +35,6 @@ class _TasksState extends State<Tasks> {
 
   late List<ProjectModel> projects = UtilStorage.projects;
 
-  //List<TaskModel> projects = <TaskModel>[];
   @override
   void initState() {
     super.initState();
@@ -42,15 +42,23 @@ class _TasksState extends State<Tasks> {
         .getProjectTaskByProjectCode(widget.project.code.toString())
         .then((taskData) {
       setState(() {
-        tasks = taskData;
+        if (mounted) {
+          tasks = taskData;
+        }
       });
     });
   }
 
-  formatDate(TaskModel task) {
+  formatDateTask(TaskModel task) {
     task.beginPlan = task.beginPlan.toString().substring(0, 10);
     task.finalPlan = task.finalPlan.toString().substring(0, 10);
     return task;
+  }
+
+  formatDateProject(ProjectModel project) {
+    project.beginPlan = project.beginPlan.toString().substring(0, 10);
+    project.finalPlan = project.finalPlan.toString().substring(0, 10);
+    return project;
   }
 
   int items = 10;
@@ -63,7 +71,9 @@ class _TasksState extends State<Tasks> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Get.to(CreateTask());
+            Get.to(
+              CreateTask(project: projects[7]),
+            );
           },
           child: Icon(Icons.add),
         ),
@@ -94,7 +104,9 @@ class _TasksState extends State<Tasks> {
               ),
               onSelected: (SampleItem item) {
                 setState(() {
-                  selectedMenu = item;
+                  if (mounted) {
+                    selectedMenu = item;
+                  }
                 });
               },
               itemBuilder: (BuildContext context) =>
@@ -141,7 +153,7 @@ class _TasksState extends State<Tasks> {
                       Column(
                         children: [
                           TasksWidget(
-                            task: formatDate(tasks[index]),
+                            task: formatDateTask(tasks[index]),
                           ),
                         ],
                       ),

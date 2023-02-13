@@ -1,12 +1,10 @@
-import 'package:dms/Views/screens/Project/create_project.dart';
 import 'package:dms/Views/screens/Project/project.dart';
-import 'package:dms/Views/screens/Project/viewUser.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
-import 'package:dms/Views/screens/Task/tasks.dart';
+import 'package:dms/Views/screens/Task/create_task.dart';
 import 'package:dms/Views/screens/homepage.dart';
 import 'package:dms/Views/screens/login.dart';
-import 'package:dms/network/network_request.dart';
 
+import 'package:dms/network/network_request.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';

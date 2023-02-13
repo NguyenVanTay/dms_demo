@@ -1,14 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, avoid_unnecessary_containers, prefer_interpolation_to_compose_strings
 
-import 'dart:math';
-
 import 'package:dms/controllers/providers/event_provider.dart';
 import 'package:dms/Views/screens/Calendar/event_editing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'package:provider/provider.dart';
-
 import '../../../models/event_calendar.dart';
 
 class EventViewingScreen extends StatelessWidget {

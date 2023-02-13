@@ -3,7 +3,7 @@
 class UserModel {
   String? description;
 
-  UserModel({this.description});
+  UserModel(UserModel user, String string, {this.description, required String iso});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     description = json['Description'];

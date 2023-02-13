@@ -145,6 +145,7 @@ class _CreateProjectState extends State<CreateProject> {
     double deviceHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+          resizeToAvoidBottomInset: true,
           appBar: AppBar(
             centerTitle: true,
             title: const Text(
@@ -172,7 +173,7 @@ class _CreateProjectState extends State<CreateProject> {
                 ),
                 onSelected: (SampleItem item) {
                   setState(() {
-                    selectedMenu = item;
+                    if (mounted) selectedMenu = item;
                   });
                 },
                 itemBuilder: (BuildContext context) =>
@@ -287,7 +288,7 @@ class _CreateProjectState extends State<CreateProject> {
                         value: user,
                         onChanged: (String? newValue) {
                           setState(() {
-                            user = newValue!;
+                            if (mounted) user = newValue!;
                           });
                         },
                         items: dropdownUserItems),
@@ -321,12 +322,12 @@ class _CreateProjectState extends State<CreateProject> {
                                 ),
                                 onSave: (startTime) {
                                   setState(() {
-                                    _startTime = startTime;
+                                    if (mounted) _startTime = startTime;
                                   });
                                 },
                                 onSelect: (startTime) {
                                   setState(() {
-                                    _startTime = startTime;
+                                    if (mounted) _startTime = startTime;
                                   });
                                 },
                                 type: DateTimeSelectionType.time,
@@ -355,12 +356,12 @@ class _CreateProjectState extends State<CreateProject> {
                                 ),
                                 onSave: (startdate) {
                                   setState(() {
-                                    _startDate = startdate;
+                                    if (mounted) _startDate = startdate;
                                   });
                                 },
                                 onSelect: (startdate) {
                                   setState(() {
-                                    _startDate = startdate;
+                                    if (mounted) _startDate = startdate;
                                   });
                                 },
                                 type: DateTimeSelectionType.date,
@@ -392,12 +393,12 @@ class _CreateProjectState extends State<CreateProject> {
                                 ),
                                 onSave: (endTime) {
                                   setState(() {
-                                    _endTime = endTime;
+                                    if (mounted) _endTime = endTime;
                                   });
                                 },
                                 onSelect: (endTime) {
                                   setState(() {
-                                    _endTime = endTime;
+                                    if (mounted) _endTime = endTime;
                                   });
                                 },
                                 type: DateTimeSelectionType.time,
@@ -426,12 +427,12 @@ class _CreateProjectState extends State<CreateProject> {
                                 ),
                                 onSave: (endDate) {
                                   setState(() {
-                                    _endDate = endDate;
+                                    if (mounted) _endDate = endDate;
                                   });
                                 },
                                 onSelect: (endDate) {
                                   setState(() {
-                                    //_endDate = endDate;
+                                    if (mounted) _endDate = endDate;
                                   });
                                 },
                                 type: DateTimeSelectionType.date,
@@ -525,7 +526,6 @@ class _CreateProjectState extends State<CreateProject> {
                                                 ],
                                               ),
                                               ListTile(
-                                                onTap: () {},
                                                 leading: Image.network(
                                                   "https://i.pravatar.cc/300?img=1",
                                                   fit: BoxFit.cover,
@@ -534,7 +534,6 @@ class _CreateProjectState extends State<CreateProject> {
                                                 subtitle: Text('Developer'),
                                               ),
                                               ListTile(
-                                                onTap: () {},
                                                 leading: Image.network(
                                                   "https://i.pravatar.cc/300?img=2",
                                                   fit: BoxFit.cover,
@@ -543,7 +542,6 @@ class _CreateProjectState extends State<CreateProject> {
                                                 subtitle: Text('Developer'),
                                               ),
                                               ListTile(
-                                                onTap: () {},
                                                 leading: Image.network(
                                                   "https://i.pravatar.cc/300?img=3",
                                                   fit: BoxFit.cover,
@@ -552,7 +550,6 @@ class _CreateProjectState extends State<CreateProject> {
                                                 subtitle: Text('Designer'),
                                               ),
                                               ListTile(
-                                                onTap: () {},
                                                 leading: Image.network(
                                                   "https://i.pravatar.cc/300?img=4",
                                                   fit: BoxFit.cover,
@@ -581,7 +578,7 @@ class _CreateProjectState extends State<CreateProject> {
                                   size: 40,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -667,7 +664,7 @@ class _CreateProjectState extends State<CreateProject> {
                         value: type,
                         onChanged: (String? newValue) {
                           setState(() {
-                            type = newValue!;
+                            if (mounted) type = newValue!;
                           });
                         },
                         items: dropdownTypeItems),
@@ -840,8 +837,9 @@ class _CreateProjectState extends State<CreateProject> {
                                     onChanged: (value) {
                                       //4
                                       setState(() {
-                                        _tempListOfCities =
-                                            _buildSearchList(value);
+                                        if (mounted)
+                                          _tempListOfCities =
+                                              _buildSearchList(value);
                                       });
                                     })),
                             IconButton(
@@ -1012,12 +1010,14 @@ class _CreateProjectState extends State<CreateProject> {
                                           index, folders),
                                   onTap: () {
                                     setState(() {
-                                      (_tempListOfCities.length > 0)
-                                          ? projectfolder =
-                                              _tempListOfCities[index]
-                                                  .description!
-                                          : projectfolder =
-                                              folders[index].description!;
+                                      if (mounted) {
+                                        (_tempListOfCities.isNotEmpty)
+                                            ? projectfolder =
+                                                _tempListOfCities[index]
+                                                    .description!
+                                            : projectfolder =
+                                                folders[index].description!;
+                                      }
                                     });
                                     Navigator.of(context).pop();
                                     print(projectfolder);

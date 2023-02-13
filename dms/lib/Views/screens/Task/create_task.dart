@@ -1,45 +1,54 @@
-// ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
+// ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, must_be_immutable
 
-import 'package:face_pile/face_pile.dart';
+import 'package:dms/models/task_model.dart';
+
+import 'package:dms/models/usermodel.dart';
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
+import 'package:multi_select_flutter/multi_select_flutter.dart';
+
+import '../../../models/projectmodel.dart';
+import '../../../models/util_storage.dart';
+
+import '../../../network/network_request.dart';
 import '../../../sources/app_colors.dart';
+
 import '../../widgets/Project/constants.dart';
 import '../../widgets/Project/date_time_selector.dart';
+import '../Project/project.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
 
-List<DropdownMenuItem<String>> get dropdownStatusItems {
-  List<DropdownMenuItem<String>> statusItem = [
-    DropdownMenuItem(child: Text("Initial"), value: "Initial"),
-    DropdownMenuItem(child: Text("Canada"), value: "Canada"),
-    DropdownMenuItem(child: Text("Brazil"), value: "Brazil"),
-    DropdownMenuItem(child: Text("England"), value: "England"),
-  ];
-  return statusItem;
-}
+List<DropdownMenuItem<String>> get dropdownPreviousTask {
+  List<DropdownMenuItem<String>> preItem = UtilStorage.tasks
+      .map(
+        (e) => DropdownMenuItem(
+            child: Text(e.description ?? ""), value: e.description ?? ""),
+      )
+      .toList();
 
-List<DropdownMenuItem<String>> get dropdownTypeItems {
-  List<DropdownMenuItem<String>> typeItems = [
-    DropdownMenuItem(child: Text("General"), value: "General"),
-    DropdownMenuItem(child: Text("Canada"), value: "Canada"),
-    DropdownMenuItem(child: Text("Brazil"), value: "Brazil"),
-    DropdownMenuItem(child: Text("England"), value: "England"),
-  ];
-  return typeItems;
+  return preItem;
 }
 
 class CreateTask extends StatefulWidget {
-  const CreateTask({super.key});
+  ProjectModel project;
+
+  CreateTask({required this.project, super.key});
 
   @override
   State<CreateTask> createState() => _CreateTaskState();
 }
 
 class _CreateTaskState extends State<CreateTask> {
+  late List<ProjectModel> projects = UtilStorage.projects;
+
+  String? prev = "";
   late DateTime? _startDate;
   late DateTime? _endDate;
 
@@ -60,14 +69,21 @@ class _CreateTaskState extends State<CreateTask> {
   late FocusNode _dateNode;
 
   final GlobalKey<FormState> _form = GlobalKey();
-
+  final _multiSelectKey = GlobalKey<FormFieldState>();
   late TextEditingController _startDateController;
   late TextEditingController _startTimeController;
   late TextEditingController _endTimeController;
   late TextEditingController _endDateController;
+  late TextEditingController _tasknamecontroller;
+  late TextEditingController _longdesccontroller;
 
-  String status = 'Initial';
-  String type = 'General';
+  List<UserModel> usersList = UtilStorage.users;
+  List<TaskModel> tasksList = UtilStorage.tasks;
+
+  //List<UserModel> usersList = [];
+
+  late List<MultiSelectItem<UserModel>> _userItems = [];
+  late List<MultiSelectItem<TaskModel>> _taskItems = [];
 
   @override
   void initState() {
@@ -81,6 +97,17 @@ class _CreateTaskState extends State<CreateTask> {
     _endDateController = TextEditingController();
     _startTimeController = TextEditingController();
     _endTimeController = TextEditingController();
+    _tasknamecontroller = TextEditingController();
+    _longdesccontroller = TextEditingController();
+    _userItems = usersList
+        .map((user) =>
+            MultiSelectItem<UserModel>(user, user.description.toString()))
+        .toList();
+
+    _taskItems = tasksList
+        .map((task) =>
+            MultiSelectItem<TaskModel>(task, task.description.toString()))
+        .toList();
   }
 
   @override
@@ -93,6 +120,8 @@ class _CreateTaskState extends State<CreateTask> {
     _endDateController.dispose();
     _startTimeController.dispose();
     _endTimeController.dispose();
+    _tasknamecontroller.dispose();
+    _longdesccontroller.dispose();
 
     super.dispose();
   }
@@ -189,7 +218,7 @@ class _CreateTaskState extends State<CreateTask> {
                           // width: maxwidth,
                           margin: EdgeInsets.all(7),
                           child: TextFormField(
-                            // controller: _projectnamecontroller,
+                            controller: _tasknamecontroller,
                             maxLines: 2,
                             // controller: _controller,
                             // onSaved: (newValue) {
@@ -360,49 +389,62 @@ class _CreateTaskState extends State<CreateTask> {
                       ],
                     ),
                   ),
+                  const SizedBox(
+                    height: 4,
+                  ),
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
                     child: Row(
-                      children: const [
+                      children: [
                         Text(
-                          "Performers",
+                          "Performer",
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
+                        )
                       ],
                     ),
                   ),
-                  Row(
+                  Column(
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child: Row(
-                          children: [
-                            FacePile(
-                              radius: 20,
-                              space: 60,
-                              images: [
-                                NetworkImage("https://i.pravatar.cc/300?img=1"),
-                                NetworkImage("https://i.pravatar.cc/300?img=2"),
-                                NetworkImage("https://i.pravatar.cc/300?img=3"),
-                                NetworkImage("https://i.pravatar.cc/300?img=4"),
-                                NetworkImage("https://i.pravatar.cc/300?img=5"),
-                              ],
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: MultiSelectDialogField(
+                          searchable: true,
+                          items: _userItems,
+                          title: const Text(
+                            "Select Performer ",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          selectedColor: Colors.black,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            // adding borders around the widget
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
                             ),
-                            Container(
-                              margin: EdgeInsets.only(left: 18),
-                              child: FloatingActionButton.small(
-                                backgroundColor: Colors.grey,
-                                onPressed: () {},
-                                child: Icon(
-                                  Icons.add,
-                                  size: 40,
-                                ),
-                              ),
-                            )
-                          ],
+                          ),
+                          buttonIcon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black,
+                          ),
+                          buttonText: const Text(
+                            "Select Your Performer",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                          onConfirm: (values) {
+                            setState(() {
+                              if (mounted) {
+                                usersList = values;
+                              }
+                            });
+                            _multiSelectKey.currentState?.validate();
+                          },
                         ),
-                      ),
+                      )
                     ],
                   ),
                   Container(
@@ -417,85 +459,48 @@ class _CreateTaskState extends State<CreateTask> {
                       ],
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: DropdownButtonFormField(
-                        hint: Text('None'),
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 0.5),
-                            borderRadius: BorderRadius.circular(20),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: MultiSelectDialogField(
+                          searchable: true,
+                          items: _taskItems,
+                          title: const Text(
+                            "Select Task ",
+                            style: TextStyle(color: Colors.black),
                           ),
-                          border: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 0.5),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        dropdownColor: Colors.white,
-                        value: status,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            status = newValue!;
-                          });
-                        },
-                        items: dropdownStatusItems),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Team",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: 10, right: 10, top: 10, bottom: 10),
-                    //decoration: BoxDecoration(border: BorderRadius()),
-                    child: Container(
-                      height: 60.0,
-                      width: 400,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        // adding borders around the widget
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: SingleChildScrollView(
-                        // for Vertical scrolling
-                        scrollDirection: Axis.vertical,
-                        child: Container(
-                          // height: maxheight,
-                          // width: maxwidth,
-                          margin: EdgeInsets.all(7),
-                          child: TextFormField(
-                            // controller: _projectnamecontroller,
-                            maxLines: 2,
-                            // controller: _controller,
-                            // onSaved: (newValue) {
-                            //   // setState(() {
-                            //   //   projectName = newValue??"";
-                            //   // });
-                            // },
-                            // maxLines: 1,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18.0,
+                          // selectedColor: Colors.black,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            // adding borders around the widget
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
                             ),
                           ),
+                          buttonIcon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black,
+                          ),
+                          buttonText: const Text(
+                            "Select Your Task",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                          onConfirm: (values) {
+                            setState(() {
+                              if (mounted) {
+                                tasksList = values;
+                              }
+                            });
+                            _multiSelectKey.currentState?.validate();
+                          },
                         ),
-                      ),
-                    ),
+                      )
+                    ],
                   ),
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
@@ -532,7 +537,7 @@ class _CreateTaskState extends State<CreateTask> {
                           // width: maxwidth,
                           margin: EdgeInsets.all(7),
                           child: TextFormField(
-                            // controller: _projectnamecontroller,
+                            controller: _longdesccontroller,
                             maxLines: 4,
                             // controller: _controller,
                             // onSaved: (newValue) {
@@ -557,7 +562,52 @@ class _CreateTaskState extends State<CreateTask> {
                     height: 50,
                     width: 380,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        Map data = {
+                          "Project": widget.project.code.toString(),
+                          "TaskName": _tasknamecontroller.text,
+                          "BeginPlan":
+                              DateFormat('yyyyMMdd').format(_startDate!) +
+                                  DateFormat('hhmmss').format(_startTime!),
+                          "FinalPlan":
+                              DateFormat('yyyyMMdd').format(_endDate!) +
+                                  DateFormat('hhmmss').format(_endTime!),
+                          "LongDesc": _longdesccontroller.text,
+                          "PredecessorsList": tasksList,
+                          "PerformerList": usersList
+                        };
+
+                        var result =
+                            await Networking.getInstance().createTask(data);
+
+                        if (result) {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Done'),
+                              content: Text('Create Success'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('Ok'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+
+                          Get.to(Project());
+
+                          //handle
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text("false"),
+                                  ));
+                        }
+                      },
                       child: Text(
                         'Create Task',
                         style: TextStyle(

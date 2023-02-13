@@ -48,7 +48,7 @@ class _RegisterState extends State<Register> {
                     height: 40,
                   ),
                   TextFormField(
-                    inputFormatters: [],
+                   // inputFormatters: [],
                     keyboardType: TextInputType.text,
                     controller: _userController,
                     decoration: InputDecoration(
