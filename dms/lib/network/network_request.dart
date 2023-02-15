@@ -230,4 +230,26 @@ class Networking {
       return false;
     }
   }
+
+  Future<bool> createProjectFolder(Map body) async {
+    String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
+    Map<String, String> requestHeaders = {'authorization': basicAuth};
+
+    final response = await http.post(
+        Uri.parse(
+          '$host/v1/ProjectFolders',
+        ),
+        headers: requestHeaders,
+        body: jsonEncode(body));
+
+    if (response.statusCode == 200) {
+      //sussess
+      return true;
+    } else {
+      // Fail
+
+      return false;
+    }
+  }
 }

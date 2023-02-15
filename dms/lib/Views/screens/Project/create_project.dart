@@ -69,7 +69,8 @@ class _CreateProjectState extends State<CreateProject> {
   List<FolderModel> _tempListOfCities = [];
   String projectfolder = "";
   List<FolderModel> folders = <FolderModel>[];
-  final TextEditingController textController = TextEditingController();
+  final TextEditingController _searchfolderController = TextEditingController();
+  final TextEditingController _createfolderController = TextEditingController();
 
 //----- Test area-------
   late DateTime? _startDate;
@@ -106,6 +107,8 @@ class _CreateProjectState extends State<CreateProject> {
 
   @override
   void initState() {
+    // List<FolderModel> _tempListOfCities = [];
+    // String projectfolder = "";
     super.initState();
     Networking.getInstance().getAllFolder().then((folderData) {
       setState(() {
@@ -141,8 +144,6 @@ class _CreateProjectState extends State<CreateProject> {
 
   @override
   Widget build(BuildContext context) {
-    double deviceWidth = MediaQuery.of(context).size.width;
-    double deviceHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: true,
@@ -627,7 +628,7 @@ class _CreateProjectState extends State<CreateProject> {
                       ),
                     ),
                     onTap: () {
-                      _showModal(context);
+                      if (mounted) _showModal(context);
                     },
                   ),
 
@@ -796,8 +797,10 @@ class _CreateProjectState extends State<CreateProject> {
   //----
 
   void _showModal(context) {
-    double deviceWidth = MediaQuery.of(context).size.width;
-    double deviceHeight = MediaQuery.of(context).size.height;
+    // double deviceWidth = MediaQuery.of(context).size.width;
+    // double deviceHeight = MediaQuery.of(context).size.height;
+    bool clickbutton_addfolder = false;
+    String foldername = "";
     showModalBottomSheet<void>(
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
@@ -822,7 +825,7 @@ class _CreateProjectState extends State<CreateProject> {
                           children: [
                             Expanded(
                                 child: TextField(
-                                    controller: textController,
+                                    controller: _searchfolderController,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(8),
                                       border: OutlineInputBorder(
@@ -844,14 +847,155 @@ class _CreateProjectState extends State<CreateProject> {
                                 icon: Icon(Icons.add_box_outlined),
                                 color: Color(0xFF1F91E7),
                                 onPressed: () {
-                                  // setState(() {
-                                  //   textController.clear();
-                                  //   _tempListOfCities.clear();
-                                  // });
+                                  setState(() {
+                                    if (mounted)
+                                      (clickbutton_addfolder)
+                                          ? clickbutton_addfolder = false
+                                          : clickbutton_addfolder = true;
+                                  });
                                 }),
                           ],
                         ),
                       ),
+                      // -- Create folder area
+                      (clickbutton_addfolder)
+                          ? Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  // adding borders around the widget
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.fromLTRB(8, 0, 0, 4),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Create folder",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                              child: TextField(
+                                                  autofocus: true,
+                                                  controller:
+                                                      _createfolderController,
+                                                  decoration: InputDecoration(
+                                                    contentPadding:
+                                                        EdgeInsets.all(8),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15.0),
+                                                      borderSide: BorderSide(),
+                                                    ),
+                                                    //prefixIcon: Icon(Icons.search),
+                                                  ),
+                                                  onChanged: (foldervalue) {
+                                                    //4
+                                                    foldername = foldervalue;
+                                                  })),
+                                          IconButton(
+                                              onPressed: () {},
+                                              //  async {
+                                              //   String createDate =
+                                              //       DateTime.now()
+                                              //           .year
+                                              //           .toString();
+                                              //   (DateTime.now()
+                                              //               .month
+                                              //               .toString()
+                                              //               .length ==
+                                              //           1)
+                                              //       ? createDate = createDate +
+                                              //           DateTime.now()
+                                              //               .month
+                                              //               .toString()
+                                              //       : createDate = createDate +
+                                              //           "0" +
+                                              //           DateTime.now()
+                                              //               .month
+                                              //               .toString();
+                                              //   (DateTime.now()
+                                              //               .month
+                                              //               .toString()
+                                              //               .length ==
+                                              //           1)
+                                              //       ? createDate = createDate +
+                                              //           DateTime.now()
+                                              //               .day
+                                              //               .toString()
+                                              //       : createDate = createDate +
+                                              //           "0" +
+                                              //           DateTime.now()
+                                              //               .day
+                                              //               .toString();
+                                              //   Map data = {
+                                              //     "FolderName": foldername,
+                                              //     "CreationDate": createDate
+                                              //   };
+
+                                              //   var result = await Networking
+                                              //           .getInstance()
+                                              //       .createFolderProject(data);
+
+                                              //   if (result) {
+                                              //     await showDialog(
+                                              //       context: context,
+                                              //       builder: (context) =>
+                                              //           AlertDialog(
+                                              //         title: Text('Done'),
+                                              //         content: Text(
+                                              //             'Create Success'),
+                                              //         actions: <Widget>[
+                                              //           TextButton(
+                                              //             child: Text('Ok'),
+                                              //             onPressed: () {
+                                              //               Navigator.pop(
+                                              //                   context);
+                                              //             },
+                                              //           ),
+                                              //         ],
+                                              //       ),
+                                              //     );
+
+                                              //     Get.to(Project());
+
+                                              //     //handle
+                                              //   } else {
+                                              //     showDialog(
+                                              //         context: context,
+                                              //         builder: (context) =>
+                                              //             AlertDialog(
+                                              //               title:
+                                              //                   Text("false"),
+                                              //             ));
+                                              //   }
+                                              // },
+                                              icon: Icon(Icons.done)),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const SizedBox(),
+                      //-- Create folder end
                       Expanded(
                         //height: deviceHeight * 0.4,
                         child: ListView.separated(
@@ -868,17 +1012,16 @@ class _CreateProjectState extends State<CreateProject> {
                                       : _showBottomSheetWithSearch(
                                           index, folders),
                                   onTap: () {
-                                    setState(() {
-                                      if (mounted) {
-                                        (_tempListOfCities.isNotEmpty)
-                                            ? projectfolder =
-                                                _tempListOfCities[index]
-                                                    .description!
-                                            : projectfolder =
-                                                folders[index].description!;
-                                      }
+                                    this.setState(() {
+                                      (_tempListOfCities.isNotEmpty)
+                                          ? projectfolder =
+                                              _tempListOfCities[index]
+                                                  .description!
+                                          : projectfolder =
+                                              folders[index].description!;
                                     });
                                     Navigator.of(context).pop();
+                                    print(projectfolder);
                                   },
                                 ),
                               );
