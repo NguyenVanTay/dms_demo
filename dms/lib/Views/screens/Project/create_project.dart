@@ -910,82 +910,95 @@ class _CreateProjectState extends State<CreateProject> {
                                                     foldername = foldervalue;
                                                   })),
                                           IconButton(
-                                              onPressed: () {},
-                                              //  async {
-                                              //   String createDate =
-                                              //       DateTime.now()
-                                              //           .year
-                                              //           .toString();
-                                              //   (DateTime.now()
-                                              //               .month
-                                              //               .toString()
-                                              //               .length ==
-                                              //           1)
-                                              //       ? createDate = createDate +
-                                              //           DateTime.now()
-                                              //               .month
-                                              //               .toString()
-                                              //       : createDate = createDate +
-                                              //           "0" +
-                                              //           DateTime.now()
-                                              //               .month
-                                              //               .toString();
-                                              //   (DateTime.now()
-                                              //               .month
-                                              //               .toString()
-                                              //               .length ==
-                                              //           1)
-                                              //       ? createDate = createDate +
-                                              //           DateTime.now()
-                                              //               .day
-                                              //               .toString()
-                                              //       : createDate = createDate +
-                                              //           "0" +
-                                              //           DateTime.now()
-                                              //               .day
-                                              //               .toString();
-                                              //   Map data = {
-                                              //     "FolderName": foldername,
-                                              //     "CreationDate": createDate
-                                              //   };
+                                              onPressed: () async {
+                                                String createDate =
+                                                    DateTime.now()
+                                                        .year
+                                                        .toString();
+                                                (DateTime.now()
+                                                            .month
+                                                            .toString()
+                                                            .length ==
+                                                        2)
+                                                    ? createDate = createDate +
+                                                        DateTime.now()
+                                                            .month
+                                                            .toString()
+                                                    : createDate = createDate +
+                                                        "0" +
+                                                        DateTime.now()
+                                                            .month
+                                                            .toString();
+                                                (DateTime.now()
+                                                            .day
+                                                            .toString()
+                                                            .length ==
+                                                        2)
+                                                    ? createDate = createDate +
+                                                        DateTime.now()
+                                                            .day
+                                                            .toString()
+                                                    : createDate = createDate +
+                                                        "0" +
+                                                        DateTime.now()
+                                                            .day
+                                                            .toString() +
+                                                        "0000";
+                                                Map data = {
+                                                  "FolderName": foldername,
+                                                  "CreationDate": createDate
+                                                };
+                                                Map dataadd = {
+                                                  "Code": foldername,
+                                                  "Description": foldername
+                                                };
+                                                var result = await Networking
+                                                        .getInstance()
+                                                    .createProjectFolder(data);
 
-                                              //   var result = await Networking
-                                              //           .getInstance()
-                                              //       .createFolderProject(data);
+                                                if (result) {
+                                                  await showDialog(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        AlertDialog(
+                                                      title: Text('Done'),
+                                                      content: Text(
+                                                          'Create Success'),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          child: Text('Ok'),
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
 
-                                              //   if (result) {
-                                              //     await showDialog(
-                                              //       context: context,
-                                              //       builder: (context) =>
-                                              //           AlertDialog(
-                                              //         title: Text('Done'),
-                                              //         content: Text(
-                                              //             'Create Success'),
-                                              //         actions: <Widget>[
-                                              //           TextButton(
-                                              //             child: Text('Ok'),
-                                              //             onPressed: () {
-                                              //               Navigator.pop(
-                                              //                   context);
-                                              //             },
-                                              //           ),
-                                              //         ],
-                                              //       ),
-                                              //     );
-
-                                              //     Get.to(Project());
-
-                                              //     //handle
-                                              //   } else {
-                                              //     showDialog(
-                                              //         context: context,
-                                              //         builder: (context) =>
-                                              //             AlertDialog(
-                                              //               title:
-                                              //                   Text("false"),
-                                              //             ));
-                                              //   }
-                                              // },
+                                                  //Get.to(Project());
+                                                  setState(() {
+                                                    clickbutton_addfolder =
+                                                        false;
+                                                    Networking.getInstance()
+                                                        .getAllFolder()
+                                                        .then((folderData) {
+                                                      setState(() {
+                                                        folders = folderData;
+                                                      });
+                                                    });
+                                                  });
+                                                  //handle
+                                                } else {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          AlertDialog(
+                                                            title:
+                                                                Text("false"),
+                                                          ));
+                                                }
+                                              },
                                               icon: Icon(Icons.done)),
                                         ],
                                       ),
