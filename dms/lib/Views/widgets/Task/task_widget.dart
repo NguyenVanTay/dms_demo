@@ -28,7 +28,9 @@ class _TasksWidgetState extends State<TasksWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(DetailTask());
+        Get.to(DetailTask(
+          task: widget.task,
+        ));
       },
       child: Container(
         margin: EdgeInsets.all(10),
@@ -83,7 +85,7 @@ class _TasksWidgetState extends State<TasksWidget> {
                           child: GestureDetector(
                             child: Text('View Detail'),
                             onTap: () {
-                              Get.to(DetailTask());
+                              Get.to(DetailTask(task: widget.task));
                             },
                           ),
                         ),

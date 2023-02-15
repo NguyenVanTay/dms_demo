@@ -4,6 +4,7 @@ import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/Project/detail_project.dart';
 import 'package:dms/models/projectmodel.dart';
 import 'package:dms/models/util_storage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -89,13 +90,16 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                           child: GestureDetector(
                             child: Text('View Detail'),
                             onTap: () {
-                              Get.to(DetailProject());
+                              Get.to(() => DetailProject(
+                                  project:
+                                      widget.project)); //     // print('123');
                             },
                           ),
                         ),
                         PopupMenuItem<MoreProjectItem>(
                           value: MoreProjectItem.edit,
                           child: Text('Edit'),
+                          onTap: () {},
                         ),
                         PopupMenuItem<MoreProjectItem>(
                           value: MoreProjectItem.delete,

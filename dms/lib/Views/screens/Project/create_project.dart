@@ -734,8 +734,7 @@ class _CreateProjectState extends State<CreateProject> {
                           "State": status,
                           "Manager": user,
                           "ProjectType": type,
-                          "ProjecTeamList":
-                              "Trịnh Vân Thương-Leader,Chung Thành Bảo Long-Project Owner,Thuong TV-Dev",
+                          "ProjecTeamList": "ThaoLTT,LiemLD",
                           "ProjectFolder": projectfolder
                         };
 

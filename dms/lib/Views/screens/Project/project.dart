@@ -29,9 +29,7 @@ class _ProjectState extends State<Project> {
     super.initState();
     Networking.getInstance().getAllProject().then((projectData) {
       setState(() {
-        if (mounted) {
-          projects = projectData;
-        }
+        projects = projectData;
       });
     });
   }
@@ -64,7 +62,9 @@ class _ProjectState extends State<Project> {
             color: Colors.black,
             icon: Icon(Icons.arrow_back_outlined),
             splashColor: Colors.grey,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           actions: [
             PopupMenuButton<SampleItem>(

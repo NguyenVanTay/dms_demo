@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_string_interpolations, unused_local_variable
 
 import 'dart:convert';
+
 import 'package:dms/models/foldermodel.dart';
 import 'package:dms/models/projectmodel.dart';
 import 'package:dms/models/statusmodel.dart';
@@ -208,7 +209,7 @@ class Networking {
     return taskList;
   }
 
-  // post Create Project.
+  // post Create Task.
   Future<bool> createTask(Map body) async {
     String basicAuth =
         'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
@@ -230,4 +231,27 @@ class Networking {
       return false;
     }
   }
+
+  // // get Project Details By projectCode.
+  // Future<List<DetailProjectModel>> getDetailProjectByProjectCode(
+  //     String code) async {
+  //   String basicAuth =
+  //       'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
+  //   Map<String, String> requestHeaders = {'authorization': basicAuth};
+  //   List<DetailProjectModel> detailProjectList = [];
+
+  //   final response = await http.get(
+  //       Uri.parse('$host/v1/ProjectDetails?Project=$code'),
+  //       headers: requestHeaders);
+  //   UtilStorage.detailprojects.clear();
+
+  //   if (response.statusCode == 200) {
+  //     for (var detailProjectItem in jsonDecode(response.body)) {
+  //       detailProjectList.add(DetailProjectModel.fromJson(detailProjectItem));
+  //     }
+
+  //     UtilStorage.detailprojects.addAll(detailProjectList);
+  //   }
+  //   return detailProjectList;
+  // }
 }

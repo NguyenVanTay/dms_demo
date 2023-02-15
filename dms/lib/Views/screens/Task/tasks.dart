@@ -20,9 +20,7 @@ enum SampleItem { itemOne, itemTwo, itemThree }
 SampleItem? selectedMenu;
 
 class Tasks extends StatefulWidget {
-  //late List<ProjectModel> projects = UtilStorage.projects;
   ProjectModel project;
-  List<ProjectModel> projects = <ProjectModel>[];
 
   Tasks({required this.project, super.key});
 
@@ -42,9 +40,7 @@ class _TasksState extends State<Tasks> {
         .getProjectTaskByProjectCode(widget.project.code.toString())
         .then((taskData) {
       setState(() {
-        if (mounted) {
-          tasks = taskData;
-        }
+        tasks = taskData;
       });
     });
   }
@@ -104,9 +100,7 @@ class _TasksState extends State<Tasks> {
               ),
               onSelected: (SampleItem item) {
                 setState(() {
-                  if (mounted) {
-                    selectedMenu = item;
-                  }
+                  selectedMenu = item;
                 });
               },
               itemBuilder: (BuildContext context) =>

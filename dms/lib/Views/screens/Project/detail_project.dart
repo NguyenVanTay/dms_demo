@@ -1,23 +1,36 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import, unused_local_variable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import, unused_local_variable, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:face_pile/face_pile.dart';
+
+import '../../../models/projectmodel.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
 
 class DetailProject extends StatefulWidget {
-  const DetailProject({super.key});
+  ProjectModel project;
+  DetailProject({required this.project, super.key});
 
   @override
   State<DetailProject> createState() => _DetailProjectState();
 }
 
 class _DetailProjectState extends State<DetailProject> {
+  // late List<DetailProjectModel> detailprojects = UtilStorage.detailprojects;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   Networking.getInstance()
+  //       .getDetailProjectByProjectCode(widget.project.code.toString());
+  // }
+
   @override
   Widget build(BuildContext context) {
     double maxheight = MediaQuery.of(context).size.height;
@@ -39,7 +52,7 @@ class _DetailProjectState extends State<DetailProject> {
             icon: Icon(Icons.arrow_back_outlined),
             splashColor: Colors.grey,
             onPressed: () {
-              Get.back();
+              Navigator.pop(context);
             },
           ),
           actions: [
@@ -108,7 +121,7 @@ class _DetailProjectState extends State<DetailProject> {
                         Container(
                           width: 240,
                           child: Text(
-                            "Develop a detailed plan for the program",
+                            widget.project.description.toString(),
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold),
                             maxLines: 2,
@@ -137,7 +150,9 @@ class _DetailProjectState extends State<DetailProject> {
                 child: Row(
                   children: [
                     Icon(Icons.calendar_month_outlined),
-                    Text("11.08.2022 - 30.10.2022"),
+                    Text(
+                      "${widget.project.beginPlan.toString()} -  ${widget.project.finalPlan.toString()}",
+                    )
                   ],
                 ),
               ),
@@ -172,8 +187,9 @@ class _DetailProjectState extends State<DetailProject> {
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 10),
-                      child: const Text(
-                        'Austin Wade',
+                      child: Text(
+                        '',
+                        // '${widget.project.manager}',
                         style: TextStyle(
                           fontSize: 16,
                         ),
@@ -203,7 +219,10 @@ class _DetailProjectState extends State<DetailProject> {
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 20),
-                      child: Text("Initial", style: TextStyle(fontSize: 18)),
+                      child: Text(
+                          //"${widget.project.state}",
+                          "1",
+                          style: TextStyle(fontSize: 18)),
                     ),
                   ],
                 ),
@@ -229,7 +248,9 @@ class _DetailProjectState extends State<DetailProject> {
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 20),
-                      child: Text("General", style: TextStyle(fontSize: 18)),
+                      child: Text("",
+                          //${widget.project.type}",
+                          style: TextStyle(fontSize: 18)),
                     ),
                   ],
                 ),
@@ -279,7 +300,8 @@ class _DetailProjectState extends State<DetailProject> {
                       // width: maxwidth,
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        "Project Moonsoon",
+                        // "${widget.project}",
+                        "",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 16.0,

@@ -1,17 +1,18 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import, unused_local_variable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import, unused_local_variable, must_be_immutable
 
+import 'package:dms/models/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:face_pile/face_pile.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
 
 class DetailTask extends StatefulWidget {
-  const DetailTask({super.key});
+  TaskModel task;
+  DetailTask({required this.task, super.key});
 
   @override
   State<DetailTask> createState() => _DetailTaskState();
@@ -108,7 +109,7 @@ class _DetailTaskState extends State<DetailTask> {
                         Container(
                           width: 240,
                           child: Text(
-                            "Develop a detailed plan for the program",
+                            "${widget.task.description}",
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold),
                             maxLines: 2,
@@ -137,7 +138,9 @@ class _DetailTaskState extends State<DetailTask> {
                 child: Row(
                   children: [
                     Icon(Icons.calendar_month_outlined),
-                    Text("11.08.2022 - 30.10.2022"),
+                    Text(
+                      "${widget.task.beginPlan.toString()} -  ${widget.task.finalPlan.toString()}",
+                    ),
                   ],
                 ),
               ),
@@ -160,18 +163,27 @@ class _DetailTaskState extends State<DetailTask> {
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 10),
+                    //   child: FacePile(
+                    //     radius: 24,
+                    //     space: 35,
+                    //     images: [
+                    //       NetworkImage("https://i.pravatar.cc/300?img=1"),
+                    //       NetworkImage("https://i.pravatar.cc/300?img=2"),
+                    //       NetworkImage("https://i.pravatar.cc/300?img=3"),
+                    //       NetworkImage("https://i.pravatar.cc/300?img=4"),
+                    //       NetworkImage("https://i.pravatar.cc/300?img=5")
+                    //     ],
+                    //   ),
+                    // ),
+
                     Container(
                       margin: EdgeInsets.only(left: 10),
-                      child: FacePile(
-                        radius: 24,
-                        space: 35,
-                        images: [
-                          NetworkImage("https://i.pravatar.cc/300?img=1"),
-                          NetworkImage("https://i.pravatar.cc/300?img=2"),
-                          NetworkImage("https://i.pravatar.cc/300?img=3"),
-                          NetworkImage("https://i.pravatar.cc/300?img=4"),
-                          NetworkImage("https://i.pravatar.cc/300?img=5")
-                        ],
+                      child: Text(
+                        "${widget.task.performers}",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -244,11 +256,11 @@ class _DetailTaskState extends State<DetailTask> {
                     // for Vertical scrolling
                     scrollDirection: Axis.vertical,
                     child: Container(
-                       //height: maxheight,
-                       // width: maxwidth,
+                      //height: maxheight,
+                      // width: maxwidth,
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        "Project Moonsoon",
+                        "${widget.task.longdesc}",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 16.0,
