@@ -75,7 +75,8 @@ class _CreateProjectState extends State<CreateProject> {
   String projectTeams = '';
   List<UserModel> usersList = UtilStorage.users;
   final TextEditingController textController = TextEditingController();
-
+  final TextEditingController _searchfolderController = TextEditingController();
+  final TextEditingController _createfolderController = TextEditingController();
 //----- Test area-------
   late DateTime? _startDate;
   late DateTime? _endDate;
@@ -211,8 +212,8 @@ class _CreateProjectState extends State<CreateProject> {
                         left: 10, right: 10, top: 10, bottom: 10),
                     //decoration: BoxDecoration(border: BorderRadius()),
                     child: Container(
-                      height: deviceHeight * 0.1,
-                      width: deviceWidth,
+                      // height: deviceHeight * 0.1,
+                      // width: deviceWidth,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         // adding borders around the widget
@@ -445,8 +446,8 @@ class _CreateProjectState extends State<CreateProject> {
                     child: Container(
                       margin: EdgeInsets.only(left: 10, right: 10),
                       child: Container(
-                        height: deviceHeight * 0.07,
-                        width: deviceWidth,
+                        // height: deviceHeight * 0.07,
+                        // width: deviceWidth,
                         margin: EdgeInsets.only(bottom: 15),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
