@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, must_be_immutable
 
+import 'package:dms/Views/screens/Project/project.dart';
+import 'package:dms/Views/screens/Task/tasks.dart';
 import 'package:dms/models/task_model.dart';
 
 import 'package:dms/models/usermodel.dart';
@@ -19,7 +21,6 @@ import '../../../sources/app_colors.dart';
 
 import '../../widgets/Project/constants.dart';
 import '../../widgets/Project/date_time_selector.dart';
-import '../Project/project.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 
@@ -46,33 +47,27 @@ class CreateTask extends StatefulWidget {
 }
 
 class _CreateTaskState extends State<CreateTask> {
-  late List<ProjectModel> projects = UtilStorage.projects;
+  // late List<ProjectModel> projects = UtilStorage.projects;
 
   String? prev = "";
   late DateTime? _startDate;
   late DateTime? _endDate;
 
-  DateTime? _startTime;
+  DateTime _startTime = DateTime.parse("0000-00-00 08:00:00");
 
-  DateTime? _endTime;
+  DateTime _endTime = DateTime.parse("0000-00-00 17:00:00");
 
-  String _title = "";
-
-  String _description = "";
-
+  String performers = '';
+  List performersList = [];
+  String previousTasks = '';
+  List previousTaskList = [];
   Color _color = Colors.blue;
-
-  late FocusNode _titleNode;
-
-  late FocusNode _descriptionNode;
-
-  late FocusNode _dateNode;
 
   final GlobalKey<FormState> _form = GlobalKey();
   final _multiSelectKey = GlobalKey<FormFieldState>();
   late TextEditingController _startDateController;
-  late TextEditingController _startTimeController;
-  late TextEditingController _endTimeController;
+  // late TextEditingController _startTimeController;
+  // late TextEditingController _endTimeController;
   late TextEditingController _endDateController;
   late TextEditingController _tasknamecontroller;
   late TextEditingController _longdesccontroller;
@@ -89,16 +84,13 @@ class _CreateTaskState extends State<CreateTask> {
   void initState() {
     super.initState();
 
-    _titleNode = FocusNode();
-    _descriptionNode = FocusNode();
-    _dateNode = FocusNode();
-
     _startDateController = TextEditingController();
     _endDateController = TextEditingController();
-    _startTimeController = TextEditingController();
-    _endTimeController = TextEditingController();
+    // _startTimeController = TextEditingController();
+    // _endTimeController = TextEditingController();
     _tasknamecontroller = TextEditingController();
     _longdesccontroller = TextEditingController();
+
     _userItems = usersList
         .map((user) =>
             MultiSelectItem<UserModel>(user, user.description.toString()))
@@ -112,14 +104,10 @@ class _CreateTaskState extends State<CreateTask> {
 
   @override
   void dispose() {
-    _titleNode.dispose();
-    _descriptionNode.dispose();
-    _dateNode.dispose();
-
     _startDateController.dispose();
     _endDateController.dispose();
-    _startTimeController.dispose();
-    _endTimeController.dispose();
+    // _startTimeController.dispose();
+    // _endTimeController.dispose();
     _tasknamecontroller.dispose();
     _longdesccontroller.dispose();
 
@@ -157,7 +145,7 @@ class _CreateTaskState extends State<CreateTask> {
                 ),
                 onSelected: (SampleItem item) {
                   setState(() {
-                    selectedMenu = item;
+                    if (mounted) selectedMenu = item;
                   });
                 },
                 itemBuilder: (BuildContext context) =>
@@ -248,40 +236,6 @@ class _CreateTaskState extends State<CreateTask> {
                       children: [
                         Row(
                           children: [
-                            //Start Time
-                            Expanded(
-                              child: DateTimeSelectorFormField(
-                                controller: _startTimeController,
-                                decoration:
-                                    AppConstants.inputDecorationTime.copyWith(
-                                  labelText: "Start Time",
-                                ),
-                                validator: (value) {
-                                  if (value == null || value == "")
-                                    return "Please select start time.";
-
-                                  return null;
-                                },
-                                textStyle: TextStyle(
-                                  color: AppColors.black,
-                                  fontSize: 17.0,
-                                ),
-                                onSave: (startTime) {
-                                  setState(() {
-                                    _startTime = startTime;
-                                  });
-                                },
-                                onSelect: (startTime) {
-                                  setState(() {
-                                    _startTime = startTime;
-                                  });
-                                },
-                                type: DateTimeSelectionType.time,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
                             // Start Date
                             Expanded(
                               child: DateTimeSelectorFormField(
@@ -302,55 +256,17 @@ class _CreateTaskState extends State<CreateTask> {
                                 ),
                                 onSave: (startdate) {
                                   setState(() {
-                                    _startDate = startdate;
+                                    if (mounted) _startDate = startdate;
                                   });
                                 },
                                 onSelect: (startdate) {
                                   setState(() {
-                                    _startDate = startdate;
+                                    if (mounted) _startDate = startdate;
                                   });
                                 },
                                 type: DateTimeSelectionType.date,
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: DateTimeSelectorFormField(
-                                controller: _endTimeController,
-                                decoration:
-                                    AppConstants.inputDecorationTime.copyWith(
-                                  labelText: "End Time",
-                                ),
-                                validator: (value) {
-                                  if (value == null || value == "")
-                                    return "Please select end time.";
-
-                                  return null;
-                                },
-                                textStyle: TextStyle(
-                                  color: AppColors.black,
-                                  fontSize: 17.0,
-                                ),
-                                onSave: (endTime) {
-                                  setState(() {
-                                    _endTime = endTime;
-                                  });
-                                },
-                                onSelect: (endTime) {
-                                  setState(() {
-                                    _endTime = endTime;
-                                  });
-                                },
-                                type: DateTimeSelectionType.time,
-                              ),
-                            ),
-                            //EnDate
                             SizedBox(
                               width: 20,
                             ),
@@ -373,16 +289,26 @@ class _CreateTaskState extends State<CreateTask> {
                                 ),
                                 onSave: (endDate) {
                                   setState(() {
-                                    _endDate = endDate;
+                                    if (mounted) _endDate = endDate;
                                   });
                                 },
                                 onSelect: (endDate) {
                                   setState(() {
-                                    _endDate = endDate;
+                                    if (mounted) _endDate = endDate;
                                   });
                                 },
                                 type: DateTimeSelectionType.date,
                               ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 20,
                             ),
                           ],
                         ),
@@ -411,6 +337,7 @@ class _CreateTaskState extends State<CreateTask> {
                         child: MultiSelectDialogField(
                           searchable: true,
                           items: _userItems,
+                          dialogHeight: 200,
                           title: const Text(
                             "Select Performer ",
                             style: TextStyle(color: Colors.black),
@@ -437,10 +364,16 @@ class _CreateTaskState extends State<CreateTask> {
                           ),
                           onConfirm: (values) {
                             setState(() {
-                              if (mounted) {
-                                usersList = values;
+                              if (mounted) usersList = values;
+                              performersList = [];
+
+                              for (var userItem in usersList) {
+                                performersList.add(userItem.description);
                               }
+                              performers = performersList.toString().substring(
+                                  1, performersList.toString().length - 1);
                             });
+
                             _multiSelectKey.currentState?.validate();
                           },
                         ),
@@ -464,6 +397,8 @@ class _CreateTaskState extends State<CreateTask> {
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: MultiSelectDialogField(
+                          dialogHeight: 200,
+
                           searchable: true,
                           items: _taskItems,
                           title: const Text(
@@ -492,10 +427,19 @@ class _CreateTaskState extends State<CreateTask> {
                           ),
                           onConfirm: (values) {
                             setState(() {
-                              if (mounted) {
-                                tasksList = values;
+                              if (mounted) tasksList = values;
+                              previousTaskList = [];
+
+                              for (var taskItem in tasksList) {
+                                previousTaskList.add(taskItem.code);
                               }
+
+                              previousTasks = previousTaskList
+                                  .toString()
+                                  .substring(1,
+                                      previousTaskList.toString().length - 1);
                             });
+
                             _multiSelectKey.currentState?.validate();
                           },
                         ),
@@ -564,17 +508,17 @@ class _CreateTaskState extends State<CreateTask> {
                     child: ElevatedButton(
                       onPressed: () async {
                         Map data = {
-                          "Project": widget.project.code.toString(),
+                          "Project": widget.project.code,
                           "TaskName": _tasknamecontroller.text,
-                          "BeginPlan":
-                              DateFormat('yyyyMMdd').format(_startDate!) +
-                                  DateFormat('hhmmss').format(_startTime!),
-                          "FinalPlan":
-                              DateFormat('yyyyMMdd').format(_endDate!) +
-                                  DateFormat('hhmmss').format(_endTime!),
                           "LongDesc": _longdesccontroller.text,
-                          "PredecessorsList": tasksList,
-                          "PerformerList": usersList
+                          "PredecessorsList": previousTasks,
+                          "PerformerList": performers,
+                          "ProjectTaskBegin":
+                              DateFormat('yyyyMMdd').format(_startDate!) +
+                                  DateFormat('hhmmss').format(_startTime),
+                          "ProjectTaskFinal":
+                              DateFormat('yyyyMMdd').format(_endDate!) +
+                                  DateFormat('hhmmss').format(_endTime),
                         };
 
                         var result =
@@ -597,7 +541,9 @@ class _CreateTaskState extends State<CreateTask> {
                             ),
                           );
 
-                          Get.to(Project());
+                          Get.to(Tasks(
+                            project: widget.project,
+                          ));
 
                           //handle
                         } else {

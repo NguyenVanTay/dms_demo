@@ -1,17 +1,19 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import, unused_local_variable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import, unused_local_variable, must_be_immutable
 
+import 'package:dms/models/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:face_pile/face_pile.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
 
 class DetailTask extends StatefulWidget {
-  const DetailTask({super.key});
+  TaskModel task;
+
+  DetailTask({required this.task, super.key});
 
   @override
   State<DetailTask> createState() => _DetailTaskState();
@@ -108,7 +110,7 @@ class _DetailTaskState extends State<DetailTask> {
                         Container(
                           width: 240,
                           child: Text(
-                            "Develop a detailed plan for the program",
+                            "${widget.task.description}",
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold),
                             maxLines: 2,
@@ -137,7 +139,9 @@ class _DetailTaskState extends State<DetailTask> {
                 child: Row(
                   children: [
                     Icon(Icons.calendar_month_outlined),
-                    Text("11.08.2022 - 30.10.2022"),
+                    Text(
+                      "${widget.task.projectTaskBegin.toString()} -  ${widget.task.projectTaskFinal.toString()}",
+                    ),
                   ],
                 ),
               ),
@@ -160,20 +164,94 @@ class _DetailTaskState extends State<DetailTask> {
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: FacePile(
-                        radius: 24,
-                        space: 35,
-                        images: [
-                          NetworkImage("https://i.pravatar.cc/300?img=1"),
-                          NetworkImage("https://i.pravatar.cc/300?img=2"),
-                          NetworkImage("https://i.pravatar.cc/300?img=3"),
-                          NetworkImage("https://i.pravatar.cc/300?img=4"),
-                          NetworkImage("https://i.pravatar.cc/300?img=5")
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 10),
+
+                    //   child: Text(
+
+                    //    "",
+                    //    // "${(widget.task.performers.)}",
+                    //     style: TextStyle(
+                    //         fontSize: 18, fontWeight: FontWeight.bold),
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 10),
+                    //   height: MediaQuery.of(c
+                    //ontext).size.height * 0.08,
+                    //   width: MediaQuery.of(context).size.width * 0.6,
+                    //   child: Scrollbar(
+                    //     child: ListView.builder(
+                    //       itemCount: 10,
+                    //       itemBuilder: (context, index)  =>,
+
+                    //       scrollDirection: Axis.vertical,
+
+                    //     ),
+                    //   ),
+                    // )
+                    // child: Card(
+                    //   elevation: 0,
+                    //   shape: RoundedRectangleBorder(
+                    //     side: BorderSide(
+                    //       color: Theme.of(context).colorScheme.outline,
+                    //     ),
+                    //     borderRadius:
+                    //         const BorderRadius.all(Radius.circular(12)),
+                    //   ),
+                    //   child: const SizedBox(
+                    //     child: Center(child: Text('Outlined Card')),
+                    //   ),
+                    // ),)
+                    // height: height * 0.75,
+                    // margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                    // height: 30.0,
+                    // width: maxwidth * 0.55,
+                    // child: ListView.builder(
+                    //   scrollDirection: Axis.horizontal,
+                    //   shrinkWrap: true,
+                    //   itemCount: 20,
+                    //   itemBuilder: (context, index) => Stack(
+                    //     children: [
+                    //       Column(
+                    //         children: [
+                    //           Container(
+                    //             margin: EdgeInsets.only(left: 15),
+                    //             decoration: BoxDecoration(
+                    //               color: Colors.blue[100],
+                    //               //DecorationImage
+                    //               border: Border.all(
+                    //                 color: Colors.blue,
+                    //                 width: 1,
+                    //               ), //Border.all
+                    //               borderRadius: BorderRadius.circular(15),
+                    //               boxShadow: [
+                    //                 BoxShadow(
+                    //                   color: Colors.black,
+                    //                   offset: const Offset(
+                    //                     0.1,
+                    //                     0.1,
+                    //                   ), //Offset
+                    //                   blurRadius: 0.1,
+                    //                   spreadRadius: 0.1,
+                    //                 ), //BoxShadow
+                    //                 BoxShadow(
+                    //                   color: Colors.white,
+                    //                   offset: const Offset(0.0, 0.0),
+                    //                   blurRadius: 0.0,
+                    //                   spreadRadius: 0.0,
+                    //                 ), //BoxShadow
+                    //               ],
+                    //             ),
+
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+
+                    // Container(child: Scrollbar(child:ListView(scrollDirection:  Axis.horizontal,) ),)
                   ],
                 ),
               ),
@@ -198,7 +276,7 @@ class _DetailTaskState extends State<DetailTask> {
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 20),
-                      child: Text("On Process", style: TextStyle(fontSize: 18)),
+                      child: Text("initial", style: TextStyle(fontSize: 18)),
                     ),
                   ],
                 ),
@@ -244,11 +322,11 @@ class _DetailTaskState extends State<DetailTask> {
                     // for Vertical scrolling
                     scrollDirection: Axis.vertical,
                     child: Container(
-                       //height: maxheight,
-                       // width: maxwidth,
+                      //height: maxheight,
+                      // width: maxwidth,
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        "Project Moonsoon",
+                        "${widget.task.longDesc}",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 16.0,
@@ -334,7 +412,7 @@ class _DetailTaskState extends State<DetailTask> {
                       // width: maxwidth,
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        "Project Moonsoon",
+                        "Process",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 16.0,
