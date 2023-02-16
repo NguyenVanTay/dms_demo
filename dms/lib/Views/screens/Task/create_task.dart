@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, must_be_immutable
 
-
-
+import 'package:dms/Views/screens/Project/project.dart';
+import 'package:dms/Views/screens/Task/tasks.dart';
 import 'package:dms/models/task_model.dart';
 
 import 'package:dms/models/usermodel.dart';
@@ -21,7 +21,6 @@ import '../../../sources/app_colors.dart';
 
 import '../../widgets/Project/constants.dart';
 import '../../widgets/Project/date_time_selector.dart';
-import '../Project/project.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 
@@ -48,7 +47,7 @@ class CreateTask extends StatefulWidget {
 }
 
 class _CreateTaskState extends State<CreateTask> {
-  late List<ProjectModel> projects = UtilStorage.projects;
+  // late List<ProjectModel> projects = UtilStorage.projects;
 
   String? prev = "";
   late DateTime? _startDate;
@@ -57,9 +56,10 @@ class _CreateTaskState extends State<CreateTask> {
   DateTime _startTime = DateTime.parse("0000-00-00 08:00:00");
 
   DateTime _endTime = DateTime.parse("0000-00-00 17:00:00");
+
   String performers = '';
   List performersList = [];
-  String previousTask = '';
+  String previousTasks = '';
   List previousTaskList = [];
   Color _color = Colors.blue;
 
@@ -307,37 +307,6 @@ class _CreateTaskState extends State<CreateTask> {
                         ),
                         Row(
                           children: [
-                            // Expanded(
-                            //   child: DateTimeSelectorFormField(
-                            //     controller: _endTimeController,
-                            //     decoration:
-                            //         AppConstants.inputDecorationTime.copyWith(
-                            //       labelText: "End Time",
-                            //     ),
-                            //     validator: (value) {
-                            //       if (value == null || value == "")
-                            //         return "Please select end time.";
-
-                            //       return null;
-                            //     },
-                            //     textStyle: TextStyle(
-                            //       color: AppColors.black,
-                            //       fontSize: 17.0,
-                            //     ),
-                            //     onSave: (endTime) {
-                            //       setState(() {
-                            //         if (mounted) _endTime = endTime;
-                            //       });
-                            //     },
-                            //     onSelect: (endTime) {
-                            //       setState(() {
-                            //         if (mounted) _endTime = endTime;
-                            //       });
-                            //     },
-                            //     type: DateTimeSelectionType.time,
-                            //   ),
-                            // ),
-                            //EnDate
                             SizedBox(
                               width: 20,
                             ),
@@ -395,13 +364,14 @@ class _CreateTaskState extends State<CreateTask> {
                           ),
                           onConfirm: (values) {
                             setState(() {
+                              if (mounted) usersList = values;
+                              performersList = [];
+
                               for (var userItem in usersList) {
                                 performersList.add(userItem.description);
                               }
-                              if (mounted) usersList = values;
-
-                              // performers = performersList.toString().substring(
-                              //     1, performersList.toString().length - 1);
+                              performers = performersList.toString().substring(
+                                  1, performersList.toString().length - 1);
                             });
 
                             _multiSelectKey.currentState?.validate();
@@ -457,15 +427,17 @@ class _CreateTaskState extends State<CreateTask> {
                           ),
                           onConfirm: (values) {
                             setState(() {
-                              for (var taskItem in tasksList) {
-                                previousTaskList.add(taskItem.description);
-                              }
                               if (mounted) tasksList = values;
+                              previousTaskList = [];
 
-                              // previousTask = previousTaskList
-                              //     .toString()
-                              //     .substring(1,
-                              //         previousTaskList.toString().length - 1);
+                              for (var taskItem in tasksList) {
+                                previousTaskList.add(taskItem.code);
+                              }
+
+                              previousTasks = previousTaskList
+                                  .toString()
+                                  .substring(1,
+                                      previousTaskList.toString().length - 1);
                             });
 
                             _multiSelectKey.currentState?.validate();
@@ -536,17 +508,17 @@ class _CreateTaskState extends State<CreateTask> {
                     child: ElevatedButton(
                       onPressed: () async {
                         Map data = {
-                          "Project": widget.project.code.toString(),
+                          "Project": widget.project.code,
                           "TaskName": _tasknamecontroller.text,
-                          "BeginPlan":
+                          "LongDesc": _longdesccontroller.text,
+                          "PredecessorsList": previousTasks,
+                          "PerformerList": performers,
+                          "ProjectTaskBegin":
                               DateFormat('yyyyMMdd').format(_startDate!) +
-                                  DateFormat('hhmmss ').format(_startTime),
-                          "FinalPlan":
+                                  DateFormat('hhmmss').format(_startTime),
+                          "ProjectTaskFinal":
                               DateFormat('yyyyMMdd').format(_endDate!) +
                                   DateFormat('hhmmss').format(_endTime),
-                          "LongDesc": _longdesccontroller.text,
-                          "PerformerList": performersList,
-                          "PredecessorsList": previousTaskList,
                         };
 
                         var result =
@@ -569,7 +541,9 @@ class _CreateTaskState extends State<CreateTask> {
                             ),
                           );
 
-                          Get.to(Project());
+                          Get.to(Tasks(
+                            project: widget.project,
+                          ));
 
                           //handle
                         } else {

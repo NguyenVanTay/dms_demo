@@ -155,7 +155,7 @@ class Networking {
         headers: requestHeaders,
         body: jsonEncode(body));
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       //sussess
       return true;
     } else {
@@ -232,26 +232,5 @@ class Networking {
     }
   }
 
-  // // get Project Details By projectCode.
-  // Future<List<DetailProjectModel>> getDetailProjectByProjectCode(
-  //     String code) async {
-  //   String basicAuth =
-  //       'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
-  //   Map<String, String> requestHeaders = {'authorization': basicAuth};
-  //   List<DetailProjectModel> detailProjectList = [];
-
-  //   final response = await http.get(
-  //       Uri.parse('$host/v1/ProjectDetails?Project=$code'),
-  //       headers: requestHeaders);
-  //   UtilStorage.detailprojects.clear();
-
-  //   if (response.statusCode == 200) {
-  //     for (var detailProjectItem in jsonDecode(response.body)) {
-  //       detailProjectList.add(DetailProjectModel.fromJson(detailProjectItem));
-  //     }
-
-  //     UtilStorage.detailprojects.addAll(detailProjectList);
-  //   }
-  //   return detailProjectList;
-  // }
+  
 }

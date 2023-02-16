@@ -1,22 +1,28 @@
+// ignore_for_file: unnecessary_this
+
 class TaskModel {
-  String? finalPlan;
-  String? beginPlan;
+  String? projectTaskFinal;
+  String? projectTaskBegin;
+  String? importance;
+  String? longDesc;
   List<Performers>? performers;
   String? description;
   String? code;
-  String? longdesc;
 
   TaskModel(
-      {this.finalPlan,
-      this.beginPlan,
+      {this.projectTaskFinal,
+      this.projectTaskBegin,
+      this.importance,
+      this.longDesc,
       this.performers,
       this.description,
-      this.code,
-      this.longdesc});
+      this.code});
 
   TaskModel.fromJson(Map<String, dynamic> json) {
-    finalPlan = json['FinalPlan'];
-    beginPlan = json['BeginPlan'];
+    projectTaskFinal = json['ProjectTaskFinal'];
+    projectTaskBegin = json['ProjectTaskBegin'];
+    importance = json['Importance'];
+    longDesc = json['LongDesc'];
     if (json['Performers'] != null) {
       performers = <Performers>[];
       json['Performers'].forEach((v) {
@@ -25,19 +31,19 @@ class TaskModel {
     }
     description = json['Description'];
     code = json['Code'];
-    longdesc = json['longdesc'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['FinalPlan'] = finalPlan;
-    data['BeginPlan'] = beginPlan;
-    if (performers != null) {
-      data['Performers'] = performers!.map((v) => v.toJson()).toList();
+    data['ProjectTaskFinal'] = this.projectTaskFinal;
+    data['ProjectTaskBegin'] = this.projectTaskBegin;
+    data['Importance'] = this.importance;
+    data['LongDesc'] = this.longDesc;
+    if (this.performers != null) {
+      data['Performers'] = this.performers!.map((v) => v.toJson()).toList();
     }
-    data['Description'] = description;
-    data['Code'] = code;
-    data['LongDesc'] = longdesc;
+    data['Description'] = this.description;
+    data['Code'] = this.code;
     return data;
   }
 }
@@ -53,7 +59,7 @@ class Performers {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['Description'] = description;
+    data['Description'] = this.description;
     return data;
   }
 }

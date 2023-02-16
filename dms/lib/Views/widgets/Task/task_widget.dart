@@ -17,6 +17,7 @@ MoreTaskItem? selectedMenu;
 class TasksWidget extends StatefulWidget {
   TaskModel task;
 
+
   TasksWidget({required this.task, super.key});
 
   @override
@@ -30,6 +31,7 @@ class _TasksWidgetState extends State<TasksWidget> {
       onTap: () {
         Get.to(DetailTask(
           task: widget.task,
+         
         ));
       },
       child: Container(
@@ -85,7 +87,10 @@ class _TasksWidgetState extends State<TasksWidget> {
                           child: GestureDetector(
                             child: Text('View Detail'),
                             onTap: () {
-                              Get.to(DetailTask(task: widget.task));
+                              Get.to(DetailTask(
+                                task: widget.task,
+                              
+                              ));
                             },
                           ),
                         ),
@@ -125,7 +130,7 @@ class _TasksWidgetState extends State<TasksWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
-                        '${widget.task.beginPlan} -  ${widget.task.finalPlan}',
+                        '${widget.task.projectTaskBegin} -  ${widget.task.projectTaskFinal}',
                         style: TextStyle(
                           fontSize: 16,
                         ),

@@ -12,6 +12,7 @@ SampleItem? selectedMenu;
 
 class DetailTask extends StatefulWidget {
   TaskModel task;
+
   DetailTask({required this.task, super.key});
 
   @override
@@ -139,7 +140,7 @@ class _DetailTaskState extends State<DetailTask> {
                   children: [
                     Icon(Icons.calendar_month_outlined),
                     Text(
-                      "${widget.task.beginPlan.toString()} -  ${widget.task.finalPlan.toString()}",
+                      "${widget.task.projectTaskBegin.toString()} -  ${widget.task.projectTaskFinal.toString()}",
                     ),
                   ],
                 ),
@@ -165,27 +166,92 @@ class _DetailTaskState extends State<DetailTask> {
                     ),
                     // Container(
                     //   margin: EdgeInsets.only(left: 10),
-                    //   child: FacePile(
-                    //     radius: 24,
-                    //     space: 35,
-                    //     images: [
-                    //       NetworkImage("https://i.pravatar.cc/300?img=1"),
-                    //       NetworkImage("https://i.pravatar.cc/300?img=2"),
-                    //       NetworkImage("https://i.pravatar.cc/300?img=3"),
-                    //       NetworkImage("https://i.pravatar.cc/300?img=4"),
-                    //       NetworkImage("https://i.pravatar.cc/300?img=5")
+
+                    //   child: Text(
+
+                    //    "",
+                    //    // "${(widget.task.performers.)}",
+                    //     style: TextStyle(
+                    //         fontSize: 18, fontWeight: FontWeight.bold),
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 10),
+                    //   height: MediaQuery.of(c
+                    //ontext).size.height * 0.08,
+                    //   width: MediaQuery.of(context).size.width * 0.6,
+                    //   child: Scrollbar(
+                    //     child: ListView.builder(
+                    //       itemCount: 10,
+                    //       itemBuilder: (context, index)  =>,
+
+                    //       scrollDirection: Axis.vertical,
+
+                    //     ),
+                    //   ),
+                    // )
+                    // child: Card(
+                    //   elevation: 0,
+                    //   shape: RoundedRectangleBorder(
+                    //     side: BorderSide(
+                    //       color: Theme.of(context).colorScheme.outline,
+                    //     ),
+                    //     borderRadius:
+                    //         const BorderRadius.all(Radius.circular(12)),
+                    //   ),
+                    //   child: const SizedBox(
+                    //     child: Center(child: Text('Outlined Card')),
+                    //   ),
+                    // ),)
+                    // height: height * 0.75,
+                    // margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                    // height: 30.0,
+                    // width: maxwidth * 0.55,
+                    // child: ListView.builder(
+                    //   scrollDirection: Axis.horizontal,
+                    //   shrinkWrap: true,
+                    //   itemCount: 20,
+                    //   itemBuilder: (context, index) => Stack(
+                    //     children: [
+                    //       Column(
+                    //         children: [
+                    //           Container(
+                    //             margin: EdgeInsets.only(left: 15),
+                    //             decoration: BoxDecoration(
+                    //               color: Colors.blue[100],
+                    //               //DecorationImage
+                    //               border: Border.all(
+                    //                 color: Colors.blue,
+                    //                 width: 1,
+                    //               ), //Border.all
+                    //               borderRadius: BorderRadius.circular(15),
+                    //               boxShadow: [
+                    //                 BoxShadow(
+                    //                   color: Colors.black,
+                    //                   offset: const Offset(
+                    //                     0.1,
+                    //                     0.1,
+                    //                   ), //Offset
+                    //                   blurRadius: 0.1,
+                    //                   spreadRadius: 0.1,
+                    //                 ), //BoxShadow
+                    //                 BoxShadow(
+                    //                   color: Colors.white,
+                    //                   offset: const Offset(0.0, 0.0),
+                    //                   blurRadius: 0.0,
+                    //                   spreadRadius: 0.0,
+                    //                 ), //BoxShadow
+                    //               ],
+                    //             ),
+
+                    //           ),
+                    //         ],
+                    //       ),
                     //     ],
                     //   ),
                     // ),
 
-                    Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: Text(
-                        "${widget.task.performers}",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                    // Container(child: Scrollbar(child:ListView(scrollDirection:  Axis.horizontal,) ),)
                   ],
                 ),
               ),
@@ -210,7 +276,7 @@ class _DetailTaskState extends State<DetailTask> {
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 20),
-                      child: Text("On Process", style: TextStyle(fontSize: 18)),
+                      child: Text("initial", style: TextStyle(fontSize: 18)),
                     ),
                   ],
                 ),
@@ -260,7 +326,7 @@ class _DetailTaskState extends State<DetailTask> {
                       // width: maxwidth,
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        "${widget.task.longdesc}",
+                        "${widget.task.longDesc}",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 16.0,
@@ -346,7 +412,7 @@ class _DetailTaskState extends State<DetailTask> {
                       // width: maxwidth,
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        "Project Moonsoon",
+                        "Process",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 16.0,

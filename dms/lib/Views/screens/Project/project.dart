@@ -4,6 +4,7 @@ import 'package:dms/Views/screens/Project/create_project.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
 import 'package:dms/Views/widgets/Project/projectwidget.dart';
 import 'package:dms/models/projectmodel.dart';
+import 'package:dms/models/task_model.dart';
 import 'package:dms/network/network_request.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,7 @@ enum SampleItem { itemOne, itemTwo, itemThree }
 SampleItem? selectedMenu;
 
 class Project extends StatefulWidget {
+  
   const Project({super.key});
 
   @override
@@ -35,8 +37,8 @@ class _ProjectState extends State<Project> {
   }
 
   ProjectModel formatDate(ProjectModel project) {
-    project.beginPlan = project.beginPlan.toString().substring(0, 10);
-    project.finalPlan = project.finalPlan.toString().substring(0, 10);
+    project.projectBegin = project.projectBegin.toString().substring(0, 10);
+    project.projectFinal = project.projectFinal.toString().substring(0, 10);
     return project;
   }
 
@@ -146,6 +148,7 @@ class _ProjectState extends State<Project> {
                         children: [
                           ProjectWidget(
                             project: formatDate(projects[index]),
+                          
                           )
                         ],
                       ),

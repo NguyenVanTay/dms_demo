@@ -3,6 +3,7 @@
 import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/Project/detail_project.dart';
 import 'package:dms/models/projectmodel.dart';
+import 'package:dms/models/task_model.dart';
 import 'package:dms/models/util_storage.dart';
 
 import 'package:flutter/material.dart';
@@ -20,15 +21,15 @@ MoreProjectItem? selectedMenu;
 class ProjectWidget extends StatefulWidget {
   final ProjectModel project;
 
-  const ProjectWidget({required this.project, super.key});
+
+   ProjectWidget({required this.project,super.key});
 
   @override
   State<ProjectWidget> createState() => _ProjectWidgetState();
 }
 
 class _ProjectWidgetState extends State<ProjectWidget> {
-  //List<ProjectModel> projects = <UtilStorage.projects> [];
-  late List<ProjectModel> projects = UtilStorage.projects;
+//  late List<ProjectModel> projects = UtilStorage.projects;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,7 @@ class _ProjectWidgetState extends State<ProjectWidget> {
       onTap: () {
         Get.to(Tasks(
           project: widget.project,
+         
         ));
       },
       child: Container(
@@ -161,17 +163,20 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
-                        "${widget.project.beginPlan} -  ${widget.project.finalPlan}",
+                        "${widget.project.projectBegin} -  ${widget.project.projectFinal}",
                         style: TextStyle(
                           fontSize: 16,
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 120, bottom: 5),
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage("images/dog.jpg"),
+                    GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 120, bottom: 5),
+                        child: CircleAvatar(
+                          backgroundImage: AssetImage("images/dog.jpg"),
+                        ),
                       ),
+                      onTap: () => {},
                     )
                   ],
                 ),

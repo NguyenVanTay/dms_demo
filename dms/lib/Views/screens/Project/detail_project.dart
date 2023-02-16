@@ -151,7 +151,7 @@ class _DetailProjectState extends State<DetailProject> {
                   children: [
                     Icon(Icons.calendar_month_outlined),
                     Text(
-                      "${widget.project.beginPlan.toString()} -  ${widget.project.finalPlan.toString()}",
+                      "${widget.project.projectBegin.toString()} -  ${widget.project.projectFinal.toString()}",
                     )
                   ],
                 ),
@@ -188,8 +188,7 @@ class _DetailProjectState extends State<DetailProject> {
                     Container(
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        '',
-                        // '${widget.project.manager}',
+                        '${widget.project.manager}',
                         style: TextStyle(
                           fontSize: 16,
                         ),
@@ -219,9 +218,7 @@ class _DetailProjectState extends State<DetailProject> {
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 20),
-                      child: Text(
-                          //"${widget.project.state}",
-                          "1",
+                      child: Text("${widget.project.state}",
                           style: TextStyle(fontSize: 18)),
                     ),
                   ],
@@ -248,8 +245,7 @@ class _DetailProjectState extends State<DetailProject> {
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 20),
-                      child: Text("",
-                          //${widget.project.type}",
+                      child: Text("${widget.project.type}",
                           style: TextStyle(fontSize: 18)),
                     ),
                   ],
@@ -300,8 +296,7 @@ class _DetailProjectState extends State<DetailProject> {
                       // width: maxwidth,
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        // "${widget.project}",
-                        "",
+                        "${widget.project.longDesc}",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 16.0,

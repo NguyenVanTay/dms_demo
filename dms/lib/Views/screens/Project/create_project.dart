@@ -12,6 +12,8 @@ import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
+import '../../../models/usermodel.dart';
 import '../../../sources/app_colors.dart';
 import '../../widgets/Project/constants.dart';
 import '../../widgets/Project/date_time_selector.dart';
@@ -69,39 +71,35 @@ class _CreateProjectState extends State<CreateProject> {
   List<FolderModel> _tempListOfCities = [];
   String projectfolder = "";
   List<FolderModel> folders = <FolderModel>[];
+  List projectTeamList = [];
+  String projectTeams = '';
+  List<UserModel> usersList = UtilStorage.users;
   final TextEditingController textController = TextEditingController();
 
 //----- Test area-------
   late DateTime? _startDate;
   late DateTime? _endDate;
 
-  DateTime? _startTime;
+  DateTime _startTime = DateTime.parse("0000-00-00 08:00:00");
 
-  DateTime? _endTime;
+  DateTime _endTime = DateTime.parse("0000-00-00 17:00:00");
 
   Color _color = Colors.blue;
   OverlayEntry? entry;
 
-  late FocusNode _titleNode;
-
-  late FocusNode _descriptionNode;
-
-  late FocusNode _dateNode;
-
   final GlobalKey<FormState> _form = GlobalKey();
-
+  final _multiSelectKey = GlobalKey<FormFieldState>();
   late TextEditingController _startDateController;
   late TextEditingController _endDateController;
 
-  late TextEditingController _endTimeController;
-  late TextEditingController _startTimeController;
-
   late TextEditingController _projectnamecontroller;
+  late TextEditingController _longdesccontroller;
 
   //decalre initial status, type, user, projectName
   String? status = UtilStorage.statuses[0].state;
   String? type = UtilStorage.types[0].description;
   String? user = UtilStorage.users[0].description;
+  late List<MultiSelectItem<UserModel>> _userItems = [];
   String projectName = "";
 
   @override
@@ -112,29 +110,25 @@ class _CreateProjectState extends State<CreateProject> {
         folders = folderData;
       });
     });
-    _titleNode = FocusNode();
-    _descriptionNode = FocusNode();
-    _dateNode = FocusNode();
 
     _startDateController = TextEditingController();
     _endDateController = TextEditingController();
-    _startTimeController = TextEditingController();
-    _endTimeController = TextEditingController();
 
     _projectnamecontroller = TextEditingController();
+    _longdesccontroller = TextEditingController();
+    _userItems = usersList
+        .map((user) =>
+            MultiSelectItem<UserModel>(user, user.description.toString()))
+        .toList();
   }
 
   @override
   void dispose() {
-    _titleNode.dispose();
-    _descriptionNode.dispose();
-    _dateNode.dispose();
     _projectnamecontroller.dispose();
 
     _startDateController.dispose();
     _endDateController.dispose();
-    _startTimeController.dispose();
-    _endTimeController.dispose();
+    _longdesccontroller.dispose();
 
     super.dispose();
   }
@@ -217,8 +211,8 @@ class _CreateProjectState extends State<CreateProject> {
                         left: 10, right: 10, top: 10, bottom: 10),
                     //decoration: BoxDecoration(border: BorderRadius()),
                     child: Container(
-                      height: 60.0,
-                      width: 400,
+                      height: deviceHeight * 0.1,
+                      width: deviceWidth,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         // adding borders around the widget
@@ -231,8 +225,6 @@ class _CreateProjectState extends State<CreateProject> {
                         // for Vertical scrolling
                         scrollDirection: Axis.vertical,
                         child: Container(
-                          // height: maxheight,
-                          // width: maxwidth,
                           margin: EdgeInsets.all(7),
                           child: TextFormField(
                             controller: _projectnamecontroller,
@@ -274,7 +266,7 @@ class _CreateProjectState extends State<CreateProject> {
                           enabledBorder: OutlineInputBorder(
                             borderSide:
                                 BorderSide(color: Colors.grey, width: 0.5),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           border: OutlineInputBorder(
                             borderSide:
@@ -302,40 +294,6 @@ class _CreateProjectState extends State<CreateProject> {
                       children: [
                         Row(
                           children: [
-                            //Start Time
-                            Expanded(
-                              child: DateTimeSelectorFormField(
-                                controller: _startTimeController,
-                                decoration:
-                                    AppConstants.inputDecorationTime.copyWith(
-                                  labelText: "Start Time",
-                                ),
-                                validator: (value) {
-                                  if (value == null || value == "")
-                                    return "Please select start time.";
-
-                                  return null;
-                                },
-                                textStyle: TextStyle(
-                                  color: AppColors.black,
-                                  fontSize: 17.0,
-                                ),
-                                onSave: (startTime) {
-                                  setState(() {
-                                    if (mounted) _startTime = startTime;
-                                  });
-                                },
-                                onSelect: (startTime) {
-                                  setState(() {
-                                    if (mounted) _startTime = startTime;
-                                  });
-                                },
-                                type: DateTimeSelectionType.time,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
                             // Start Date
                             Expanded(
                               child: DateTimeSelectorFormField(
@@ -367,44 +325,7 @@ class _CreateProjectState extends State<CreateProject> {
                                 type: DateTimeSelectionType.date,
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: DateTimeSelectorFormField(
-                                controller: _endTimeController,
-                                decoration:
-                                    AppConstants.inputDecorationTime.copyWith(
-                                  labelText: "End Time",
-                                ),
-                                validator: (value) {
-                                  if (value == null || value == "")
-                                    return "Please select end time.";
 
-                                  return null;
-                                },
-                                textStyle: TextStyle(
-                                  color: AppColors.black,
-                                  fontSize: 17.0,
-                                ),
-                                onSave: (endTime) {
-                                  setState(() {
-                                    if (mounted) _endTime = endTime;
-                                  });
-                                },
-                                onSelect: (endTime) {
-                                  setState(() {
-                                    if (mounted) _endTime = endTime;
-                                  });
-                                },
-                                type: DateTimeSelectionType.time,
-                              ),
-                            ),
-                            //EnDate
                             SizedBox(
                               width: 20,
                             ),
@@ -455,135 +376,59 @@ class _CreateProjectState extends State<CreateProject> {
                       ],
                     ),
                   ),
-                  Row(
+                  Column(
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child: Row(
-                          children: [
-                            FacePile(
-                              radius: 28,
-                              space: 50,
-                              images: [
-                                NetworkImage("https://i.pravatar.cc/300?img=1"),
-                                NetworkImage("https://i.pravatar.cc/300?img=2"),
-                                NetworkImage("https://i.pravatar.cc/300?img=3"),
-                                NetworkImage("https://i.pravatar.cc/300?img=4"),
-                                NetworkImage("https://i.pravatar.cc/300?img=5"),
-                              ],
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: MultiSelectDialogField(
+                          searchable: true,
+                          items: _userItems,
+                          dialogHeight: 200,
+                          title: const Text(
+                            "Select Project Team ",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          selectedColor: Colors.black,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            // adding borders around the widget
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
                             ),
-                            Container(
-                              margin: EdgeInsets.only(left: 5),
-                              child: FloatingActionButton(
-                                backgroundColor: Colors.grey,
-                                onPressed: () {
-                                  Future.delayed(const Duration(seconds: 0),
-                                      () async {
-                                    await Get.dialog(AlertDialog(
-                                      //title: const Text("Members"),
-                                      content: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.75,
-                                        height: 300,
-                                        child: SingleChildScrollView(
-                                          child: Column(
-                                            children: <Widget>[
-                                              Stack(
-                                                alignment: AlignmentDirectional
-                                                    .centerEnd,
-                                                children: <Widget>[
-                                                  TextFormField(
-                                                    decoration: InputDecoration(
-                                                      labelText: 'Name',
-                                                      hintText: 'Enter Name',
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                        borderSide: BorderSide(
-                                                          width: 1,
-                                                          style:
-                                                              BorderStyle.solid,
-                                                        ),
-                                                      ),
-                                                      fillColor: Colors.blue,
-                                                      filled: false,
-                                                      contentPadding:
-                                                          EdgeInsets.all(16),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: IconButton(
-                                                      icon: Icon(Icons.search),
-                                                      onPressed: () {},
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              ListTile(
-                                                leading: Image.network(
-                                                  "https://i.pravatar.cc/300?img=1",
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                title: Text('Trinh Van Thuong'),
-                                                subtitle: Text('Developer'),
-                                              ),
-                                              ListTile(
-                                                leading: Image.network(
-                                                  "https://i.pravatar.cc/300?img=2",
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                title: Text('Jimmy'),
-                                                subtitle: Text('Developer'),
-                                              ),
-                                              ListTile(
-                                                leading: Image.network(
-                                                  "https://i.pravatar.cc/300?img=3",
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                title: Text('Juliwan'),
-                                                subtitle: Text('Designer'),
-                                              ),
-                                              ListTile(
-                                                leading: Image.network(
-                                                  "https://i.pravatar.cc/300?img=4",
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                title: Text('steafun'),
-                                                subtitle:
-                                                    Text('leader Developer'),
-                                              ),
-                                              ListTile(
-                                                leading: Image.network(
-                                                  "https://i.pravatar.cc/300?img=5",
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                title: Text('Trinh Van Thuong'),
-                                                subtitle: Text('Developer'),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ));
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                  size: 40,
-                                ),
-                              ),
+                          ),
+                          buttonIcon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black,
+                          ),
+                          buttonText: const Text(
+                            "Select Your ",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
                             ),
-                          ],
+                          ),
+                          onConfirm: (values) {
+                            setState(() {
+                              usersList = values;
+                              projectTeamList = [];
+                              for (var userItem in values) {
+                                projectTeamList.add(userItem.description);
+                              }
+
+                              projectTeams = projectTeamList
+                                  .toString()
+                                  .substring(
+                                      1, projectTeamList.toString().length - 1);
+                            });
+
+                            //_multiSelectKey.currentState?.validate();
+                          },
                         ),
-                      ),
+                      )
                     ],
                   ),
+
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
                     child: Row(
@@ -600,8 +445,8 @@ class _CreateProjectState extends State<CreateProject> {
                     child: Container(
                       margin: EdgeInsets.only(left: 10, right: 10),
                       child: Container(
-                        height: 52.0,
-                        width: 400,
+                        height: deviceHeight * 0.07,
+                        width: deviceWidth,
                         margin: EdgeInsets.only(bottom: 15),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -700,10 +545,11 @@ class _CreateProjectState extends State<CreateProject> {
                         // for Vertical scrolling
                         scrollDirection: Axis.vertical,
                         child: Container(
-                          // height: maxheight,
+                          //height: maxheight,
                           // width: maxwidth,
                           margin: EdgeInsets.only(left: 10),
                           child: TextFormField(
+                            controller: _longdesccontroller,
                             maxLines: 6,
                             style: TextStyle(
                               color: Colors.black,
@@ -724,17 +570,17 @@ class _CreateProjectState extends State<CreateProject> {
                       onPressed: () async {
                         Map data = {
                           "ProjectName": _projectnamecontroller.text,
-                          "BeginPlan":
+                          "ProjectBegin":
                               DateFormat('yyyyMMdd').format(_startDate!) +
-                                  DateFormat('hhmmss').format(_startTime!),
-                          "FinalPlan":
+                                  DateFormat('hhmmss').format(_startTime),
+                          "ProjectFinal":
                               DateFormat('yyyyMMdd').format(_endDate!) +
-                                  DateFormat('hhmmss').format(_endTime!),
-                          "LongDesc": "Happy New Year",
+                                  DateFormat('hhmmss').format(_endTime),
+                          "LongDesc": _longdesccontroller.text,
                           "State": status,
                           "Manager": user,
                           "ProjectType": type,
-                          "ProjecTeamList": "ThaoLTT,LiemLD",
+                          "ProjecTeamList": projectTeams,
                           "ProjectFolder": projectfolder
                         };
 
