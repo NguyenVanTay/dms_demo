@@ -7,6 +7,7 @@ import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/foldermodel.dart';
 import 'package:dms/models/util_storage.dart';
 import 'package:dms/Views/widgets/Task/task_widget.dart';
+import 'package:dms/Views/widgets/inputboxwidget.dart';
 import 'package:dms/network/network_request.dart';
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
@@ -138,6 +139,8 @@ class _CreateProjectState extends State<CreateProject> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: true,
@@ -192,6 +195,7 @@ class _CreateProjectState extends State<CreateProject> {
           ),
           body: SingleChildScrollView(
             child: Container(
+              color: Colors.white,
               child: Column(
                 children: [
                   // Project Name
@@ -207,44 +211,49 @@ class _CreateProjectState extends State<CreateProject> {
                       ],
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: 10, right: 10, top: 10, bottom: 10),
-                    //decoration: BoxDecoration(border: BorderRadius()),
-                    child: Container(
-                      // height: deviceHeight * 0.1,
-                      // width: deviceWidth,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        // adding borders around the widget
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: SingleChildScrollView(
-                        // for Vertical scrolling
-                        scrollDirection: Axis.vertical,
-                        child: Container(
-                          margin: EdgeInsets.all(7),
-                          child: TextFormField(
-                            controller: _projectnamecontroller,
-                            maxLines: 2,
-                            // controller: _controller,
-                            // onSaved: (newValue) {
-                            //   // setState(() {
-                            //   //   projectName = newValue??"";
-                            //   // });
-                            // },
-                            // maxLines: 1,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  // Container(
+                  //   margin: EdgeInsets.only(
+                  //       left: 10, right: 10, top: 10, bottom: 10),
+                  //   //decoration: BoxDecoration(border: BorderRadius()),
+                  //   child: Container(
+                  //     // height: deviceHeight * 0.1,
+                  //     // width: deviceWidth,
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(10),
+                  //       // adding borders around the widget
+                  //       border: Border.all(
+                  //         color: Colors.grey,
+                  //         width: 1.0,
+                  //       ),
+                  //     ),
+                  //     child: SingleChildScrollView(
+                  //       // for Vertical scrolling
+                  //       scrollDirection: Axis.vertical,
+                  //       child: Container(
+                  //         margin: EdgeInsets.all(7),
+                  //         child: TextFormField(
+                  //           controller: _projectnamecontroller,
+                  //           maxLines: 2,
+                  //           // controller: _controller,
+                  //           // onSaved: (newValue) {
+                  //           //   // setState(() {
+                  //           //   //   projectName = newValue??"";
+                  //           //   // });
+                  //           // },
+                  //           // maxLines: 1,
+                  //           style: TextStyle(
+                  //             color: Colors.black,
+                  //             fontSize: 18.0,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  MyCustomInputBox(
+                    controller: _projectnamecontroller,
+                    inputHint: 'Add project names',
+                    label: 'Project Name',
                   ),
 
                   //Project Manager
@@ -435,7 +444,7 @@ class _CreateProjectState extends State<CreateProject> {
                     child: Row(
                       children: [
                         Text(
-                          "Folder",
+                          "Category",
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         )
@@ -446,8 +455,8 @@ class _CreateProjectState extends State<CreateProject> {
                     child: Container(
                       margin: EdgeInsets.only(left: 10, right: 10),
                       child: Container(
-                        // height: deviceHeight * 0.07,
-                        // width: deviceWidth,
+                        height: deviceHeight * 0.07,
+                        width: deviceWidth,
                         margin: EdgeInsets.only(bottom: 15),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -584,37 +593,38 @@ class _CreateProjectState extends State<CreateProject> {
                           "ProjecTeamList": projectTeams,
                           "ProjectFolder": projectfolder
                         };
+                        print(_projectnamecontroller.text);
 
-                        var result =
-                            await Networking.getInstance().createProject(data);
+                        // var result =
+                        //     await Networking.getInstance().createProject(data);
 
-                        if (result) {
-                          await showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text('Done'),
-                              content: Text('Create Success'),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: Text('Ok'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
+                        // if (result) {
+                        //   await showDialog(
+                        //     context: context,
+                        //     builder: (context) => AlertDialog(
+                        //       title: Text('Done'),
+                        //       content: Text('Create Success'),
+                        //       actions: <Widget>[
+                        //         TextButton(
+                        //           child: Text('Ok'),
+                        //           onPressed: () {
+                        //             Navigator.pop(context);
+                        //           },
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   );
 
-                          Get.to(Project());
+                        //   Get.to(Project());
 
-                          //handle
-                        } else {
-                          showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    title: Text("false"),
-                                  ));
-                        }
+                        //   //handle
+                        // } else {
+                        //   showDialog(
+                        //       context: context,
+                        //       builder: (context) => AlertDialog(
+                        //             title: Text("false"),
+                        //           ));
+                        // }
                       },
                       child: Text(
                         'Create Project',
@@ -793,15 +803,13 @@ class _CreateProjectState extends State<CreateProject> {
                                                   "FolderName": foldername,
                                                   "CreationDate": createDate
                                                 };
-                                                Map dataadd = {
-                                                  "Code": foldername,
-                                                  "Description": foldername
-                                                };
-                                                var result = await Networking
-                                                        .getInstance()
-                                                    .createProjectFolder(data);
-
-                                                if (result) {
+                                                var resultfolder =
+                                                    await Networking
+                                                            .getInstance()
+                                                        .createProjectFolder(
+                                                            data);
+                                                print(resultfolder);
+                                                if (resultfolder) {
                                                   await showDialog(
                                                     context: context,
                                                     builder: (context) =>
@@ -839,8 +847,8 @@ class _CreateProjectState extends State<CreateProject> {
                                                       context: context,
                                                       builder: (context) =>
                                                           AlertDialog(
-                                                            title:
-                                                                Text("false"),
+                                                            title: Text(
+                                                                "Category exist"),
                                                           ));
                                                 }
                                               },
