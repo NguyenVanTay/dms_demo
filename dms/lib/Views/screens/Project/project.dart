@@ -17,7 +17,6 @@ enum SampleItem { itemOne, itemTwo, itemThree }
 SampleItem? selectedMenu;
 
 class Project extends StatefulWidget {
-  
   const Project({super.key});
 
   @override
@@ -148,7 +147,6 @@ class _ProjectState extends State<Project> {
                         children: [
                           ProjectWidget(
                             project: formatDate(projects[index]),
-                          
                           )
                         ],
                       ),

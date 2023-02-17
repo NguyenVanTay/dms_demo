@@ -8,7 +8,7 @@ import 'package:dms/Views/screens/register.dart';
 import 'package:flutter/material.dart';
 
 import 'Calendar/calendar_widget.dart';
-
+import 'Account/acountpage.dart';
 import 'fogetpassword.dart';
 
 class Page extends StatefulWidget {
@@ -32,7 +32,7 @@ class _PageState extends State<Page> {
     GanttChart(),
     CalendarWidget(),
     Project(),
-    Container(),
+    AccountPage(),
   ];
 
   @override
@@ -94,7 +94,7 @@ class _PagePerformerState extends State<PagePerformer> {
     HomePagePerformer(),
     GanttChart(),
     CalendarWidget(),
-    Container(),
+    AccountPage(),
   ];
 
   @override
