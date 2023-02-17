@@ -1,3 +1,4 @@
+
 import 'package:dms/models/projectmodel.dart';
 import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/task_model.dart';
@@ -10,4 +11,5 @@ class UtilStorage {
   static List<UserModel> users = [];
   static List<ProjectModel> projects = [];
   static List<TaskModel> tasks = [];
+  //static List<DetailProjectModel> detailprojects = [];
 }

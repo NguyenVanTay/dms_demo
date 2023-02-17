@@ -20,9 +20,8 @@ enum SampleItem { itemOne, itemTwo, itemThree }
 SampleItem? selectedMenu;
 
 class Tasks extends StatefulWidget {
-  //late List<ProjectModel> projects = UtilStorage.projects;
   ProjectModel project;
-  List<ProjectModel> projects = <ProjectModel>[];
+  
 
   Tasks({required this.project, super.key});
 
@@ -42,24 +41,25 @@ class _TasksState extends State<Tasks> {
         .getProjectTaskByProjectCode(widget.project.code.toString())
         .then((taskData) {
       setState(() {
-        if (mounted) {
-          tasks = taskData;
-        }
+        tasks = taskData;
       });
     });
+    
+    
   }
 
   formatDateTask(TaskModel task) {
-    task.beginPlan = task.beginPlan.toString().substring(0, 10);
-    task.finalPlan = task.finalPlan.toString().substring(0, 10);
+    task.projectTaskBegin = task.projectTaskBegin.toString().substring(0, 10);
+    task.projectTaskFinal = task.projectTaskFinal.toString().substring(0, 10);
     return task;
   }
 
   formatDateProject(ProjectModel project) {
-    project.beginPlan = project.beginPlan.toString().substring(0, 10);
-    project.finalPlan = project.finalPlan.toString().substring(0, 10);
+    project.projectBegin = project.projectBegin.toString().substring(0, 10);
+    project.projectFinal = project.projectFinal.toString().substring(0, 10);
     return project;
   }
+
 
   int items = 10;
   @override
@@ -72,7 +72,7 @@ class _TasksState extends State<Tasks> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Get.to(
-              CreateTask(project: projects[7]),
+              CreateTask(project: widget.project,),
             );
           },
           child: Icon(Icons.add),
@@ -104,9 +104,7 @@ class _TasksState extends State<Tasks> {
               ),
               onSelected: (SampleItem item) {
                 setState(() {
-                  if (mounted) {
-                    selectedMenu = item;
-                  }
+                  selectedMenu = item;
                 });
               },
               itemBuilder: (BuildContext context) =>
@@ -154,6 +152,7 @@ class _TasksState extends State<Tasks> {
                         children: [
                           TasksWidget(
                             task: formatDateTask(tasks[index]),
+                           
                           ),
                         ],
                       ),
