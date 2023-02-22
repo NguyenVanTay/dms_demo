@@ -1,8 +1,9 @@
-// ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace, unused_import
+// ignore_for_file: avoid_unnecessary_containers, curly_braces_in_flow_control_structures, unused_field, prefer_final_fields, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace, unused_import, non_constant_identifier_names, prefer_interpolation_to_compose_strings
 
 import 'dart:convert';
 
 import 'package:dms/Views/screens/Project/project.dart';
+import 'package:dms/Views/widgets/ExpandedListAnimationWidget.dart';
 import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/foldermodel.dart';
 import 'package:dms/models/util_storage.dart';
@@ -18,10 +19,7 @@ import '../../../models/usermodel.dart';
 import '../../../sources/app_colors.dart';
 import '../../widgets/Project/constants.dart';
 import '../../widgets/Project/date_time_selector.dart';
-
-enum SampleItem { itemOne, itemTwo, itemThree }
-
-SampleItem? selectedMenu;
+import '../../widgets/Scrollbar.dart';
 
 // List Status dropDown
 List<DropdownMenuItem<String>> get dropdownStatusItems {
@@ -69,8 +67,9 @@ class CreateProject extends StatefulWidget {
 class _CreateProjectState extends State<CreateProject> {
   //List<StatusModel> statusList = <StatusModel>[];
 
-  List<FolderModel> _tempListOfCities = [];
+  List<FolderModel> _tempListOfFolder = [];
   String projectfolder = "";
+
   List<FolderModel> folders = <FolderModel>[];
   List projectTeamList = [];
   String projectTeams = '';
@@ -103,6 +102,7 @@ class _CreateProjectState extends State<CreateProject> {
   String? user = UtilStorage.users[0].description;
   late List<MultiSelectItem<UserModel>> _userItems = [];
   String projectName = "";
+  String description = "";
 
   @override
   void initState() {
@@ -120,7 +120,7 @@ class _CreateProjectState extends State<CreateProject> {
 
     _projectnamecontroller = TextEditingController();
     _longdesccontroller = TextEditingController();
-   
+
     _userItems = usersList
         .map((user) =>
             MultiSelectItem<UserModel>(user, user.description.toString()))
@@ -163,103 +163,29 @@ class _CreateProjectState extends State<CreateProject> {
                 Get.back();
               },
             ),
-            actions: [
-              PopupMenuButton<SampleItem>(
-                initialValue: selectedMenu,
-                icon: const Icon(
-                  Icons.more_vert,
-                  color: Colors.black,
-                ),
-                onSelected: (SampleItem item) {
-                  setState(() {
-                    if (mounted) selectedMenu = item;
-                  });
-                },
-                itemBuilder: (BuildContext context) =>
-                    <PopupMenuEntry<SampleItem>>[
-                  const PopupMenuItem<SampleItem>(
-                    value: SampleItem.itemOne,
-                    child: Text('Item 1'),
-                  ),
-                  const PopupMenuItem<SampleItem>(
-                    value: SampleItem.itemTwo,
-                    child: Text('Item 2'),
-                  ),
-                  const PopupMenuItem<SampleItem>(
-                    value: SampleItem.itemThree,
-                    child: Text('Item 3'),
-                  ),
-                ],
-              )
-            ],
             backgroundColor: Colors.white,
           ),
           body: SingleChildScrollView(
-            child: Container(
-              color: Colors.white,
+            child: Form(
+              key: _form,
+              //color: Colors.white,
               child: Column(
                 children: [
                   // Project Name
-                  Container(
-                    margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
-                    child: Row(
-                      children: const [
-                        Text(
-                          "Project Name",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Container(
-                  //   margin: EdgeInsets.only(
-                  //       left: 10, right: 10, top: 10, bottom: 10),
-                  //   //decoration: BoxDecoration(border: BorderRadius()),
-                  //   child: Container(
-                  //     // height: deviceHeight * 0.1,
-                  //     // width: deviceWidth,
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(10),
-                  //       // adding borders around the widget
-                  //       border: Border.all(
-                  //         color: Colors.grey,
-                  //         width: 1.0,
-                  //       ),
-                  //     ),
-                  //     child: SingleChildScrollView(
-                  //       // for Vertical scrolling
-                  //       scrollDirection: Axis.vertical,
-                  //       child: Container(
-                  //         margin: EdgeInsets.all(7),
-                  //         child: TextFormField(
-                  //           controller: _projectnamecontroller,
-                  //           maxLines: 2,
-                  //           // controller: _controller,
-                  //           // onSaved: (newValue) {
-                  //           //   // setState(() {
-                  //           //   //   projectName = newValue??"";
-                  //           //   // });
-                  //           // },
-                  //           // maxLines: 1,
-                  //           style: TextStyle(
-                  //             color: Colors.black,
-                  //             fontSize: 18.0,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   MyCustomInputBox(
+                    maxline: null,
                     controller: _projectnamecontroller,
                     inputHint: 'Add project names',
                     label: 'Project Name',
+                    text: projectName,
+                    waringText: "Please enter Project name",
                   ),
 
-                  //Project Manager
+                  // Project Manager
+
                   Container(
-                    margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                    margin: EdgeInsets.only(
+                        left: 10, right: 10, bottom: 10, top: 10),
                     child: Row(
                       children: [
                         Text(
@@ -271,18 +197,22 @@ class _CreateProjectState extends State<CreateProject> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                    margin: EdgeInsets.only(left: 10, right: 10, bottom: 30),
                     child: DropdownButtonFormField(
+                        validator: (value) {
+                          if (value == null || value == "") {
+                            return "Please select Project Manager.";
+                          } else
+                            return null;
+                        },
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 0.5),
+                            borderSide: BorderSide(color: Colors.grey),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           border: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 0.5),
-                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           filled: true,
                           fillColor: Colors.white,
@@ -296,6 +226,7 @@ class _CreateProjectState extends State<CreateProject> {
                         },
                         items: dropdownUserItems),
                   ),
+
                   Container(
                     margin: EdgeInsets.only(
                       left: 20,
@@ -323,17 +254,17 @@ class _CreateProjectState extends State<CreateProject> {
                                   color: AppColors.black,
                                   fontSize: 17.0,
                                 ),
+                                type: DateTimeSelectionType.date,
                                 onSave: (startdate) {
                                   setState(() {
                                     if (mounted) _startDate = startdate;
                                   });
                                 },
-                                onSelect: (startdate) {
+                                onSelect: (startDate) {
                                   setState(() {
-                                    if (mounted) _startDate = startdate;
+                                    if (mounted) _startDate = startDate;
                                   });
                                 },
-                                type: DateTimeSelectionType.date,
                               ),
                             ),
 
@@ -343,10 +274,8 @@ class _CreateProjectState extends State<CreateProject> {
                             Expanded(
                               child: DateTimeSelectorFormField(
                                 controller: _endDateController,
-                                decoration:
-                                    AppConstants.inputDecoration.copyWith(
-                                  labelText: "End Date",
-                                ),
+                                decoration: AppConstants.inputDecoration
+                                    .copyWith(labelText: "End Date"),
                                 validator: (value) {
                                   if (value == null || value == "")
                                     return "Please select date.";
@@ -355,7 +284,7 @@ class _CreateProjectState extends State<CreateProject> {
                                 },
                                 textStyle: TextStyle(
                                   color: AppColors.black,
-                                  fontSize: 18.0,
+                                  fontSize: 17.0,
                                 ),
                                 onSave: (endDate) {
                                   setState(() {
@@ -363,9 +292,7 @@ class _CreateProjectState extends State<CreateProject> {
                                   });
                                 },
                                 onSelect: (endDate) {
-                                  setState(() {
-                                    if (mounted) _endDate = endDate;
-                                  });
+                                  if (mounted) _endDate = endDate;
                                 },
                                 type: DateTimeSelectionType.date,
                               ),
@@ -376,7 +303,7 @@ class _CreateProjectState extends State<CreateProject> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
+                    margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
                     child: Row(
                       children: const [
                         Text(
@@ -389,8 +316,8 @@ class _CreateProjectState extends State<CreateProject> {
                   ),
                   Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
+                      Container(
+                        margin: const EdgeInsets.all(10.0),
                         child: MultiSelectDialogField(
                           searchable: true,
                           items: _userItems,
@@ -405,7 +332,7 @@ class _CreateProjectState extends State<CreateProject> {
                             // adding borders around the widget
                             border: Border.all(
                               color: Colors.grey,
-                              width: 1.0,
+                              // width: 1.0,
                             ),
                           ),
                           buttonIcon: const Icon(
@@ -433,7 +360,7 @@ class _CreateProjectState extends State<CreateProject> {
                                       1, projectTeamList.toString().length - 1);
                             });
 
-                            //_multiSelectKey.currentState?.validate();
+                            _multiSelectKey.currentState?.validate();
                           },
                         ),
                       )
@@ -441,7 +368,7 @@ class _CreateProjectState extends State<CreateProject> {
                   ),
 
                   Container(
-                    margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
+                    margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
                     child: Row(
                       children: [
                         Text(
@@ -504,14 +431,16 @@ class _CreateProjectState extends State<CreateProject> {
                     child: DropdownButtonFormField(
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 0.5),
-                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           border: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 0.5),
-                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           filled: true,
                           fillColor: Colors.white,
@@ -526,49 +455,13 @@ class _CreateProjectState extends State<CreateProject> {
                         items: dropdownTypeItems),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Description",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    //decoration: BoxDecoration(border: BorderRadius()),
-                    child: Container(
-                      margin: EdgeInsets.only(left: 10, right: 10),
-                      // height: 100.0,
-                      width: 400,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        // adding borders around the widget
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: SingleChildScrollView(
-                        // for Vertical scrolling
-                        scrollDirection: Axis.vertical,
-                        child: Container(
-                          //height: maxheight,
-                          // width: maxwidth,
-                          margin: EdgeInsets.only(left: 10),
-                          child: TextFormField(
-                            controller: _longdesccontroller,
-                            maxLines: 6,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                        ),
-                      ),
+                    child: MyCustomInputBox(
+                      maxline: null,
+                      controller: _longdesccontroller,
+                      inputHint: 'Enter Description',
+                      label: 'Description',
+                      text: description,
+                      waringText: "Please enter Description",
                     ),
                   ),
                   SizedBox(
@@ -578,53 +471,8 @@ class _CreateProjectState extends State<CreateProject> {
                     height: 50,
                     width: 380,
                     child: ElevatedButton(
-                      onPressed: () async {
-                        Map data = {
-                          "ProjectName": _projectnamecontroller.text,
-                          "ProjectBegin":
-                              DateFormat('yyyyMMdd').format(_startDate!) +
-                                  DateFormat('hhmmss').format(_startTime),
-                          "ProjectFinal":
-                              DateFormat('yyyyMMdd').format(_endDate!) +
-                                  DateFormat('hhmmss').format(_endTime),
-                          "LongDesc": _longdesccontroller.text,
-                          "State": status,
-                          "Manager": user,
-                          "ProjectType": type,
-                          "ProjecTeamList": projectTeams,
-                          "ProjectFolder": projectfolder
-                        };
-
-                        var result =
-                            await Networking.getInstance().createProject(data);
-
-                        if (result) {
-                          await showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text('Done'),
-                              content: Text('Create Success'),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: Text('Ok'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-
-                          Get.to(Project());
-
-                          //handle
-                        } else {
-                          showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    title: Text("false"),
-                                  ));
-                        }
+                      onPressed: () {
+                        _createProject();
                       },
                       child: Text(
                         'Create Project',
@@ -694,7 +542,7 @@ class _CreateProjectState extends State<CreateProject> {
                                       //4
                                       setState(() {
                                         if (mounted)
-                                          _tempListOfCities =
+                                          _tempListOfFolder =
                                               _buildSearchList(value);
                                       });
                                     })),
@@ -865,29 +713,28 @@ class _CreateProjectState extends State<CreateProject> {
                       Expanded(
                         //height: deviceHeight * 0.4,
                         child: ListView.separated(
-                            itemCount: (_tempListOfCities.isNotEmpty)
-                                ? _tempListOfCities.length
+                            itemCount: (_tempListOfFolder.isNotEmpty)
+                                ? _tempListOfFolder.length
                                 : folders.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: InkWell(
-                                  child: (_tempListOfCities.isNotEmpty)
+                                  child: (_tempListOfFolder.isNotEmpty)
                                       ? _showBottomSheetWithSearch(
-                                          index, _tempListOfCities)
+                                          index, _tempListOfFolder)
                                       : _showBottomSheetWithSearch(
                                           index, folders),
                                   onTap: () {
                                     this.setState(() {
-                                      (_tempListOfCities.isNotEmpty)
+                                      (_tempListOfFolder.isNotEmpty)
                                           ? projectfolder =
-                                              _tempListOfCities[index]
+                                              _tempListOfFolder[index]
                                                   .description!
                                           : projectfolder =
                                               folders[index].description!;
                                     });
                                     Navigator.of(context).pop();
-                                    print(projectfolder);
                                   },
                                 ),
                               );
@@ -927,5 +774,61 @@ class _CreateProjectState extends State<CreateProject> {
       }
     }
     return _searchList;
+  }
+
+  void _createProject() async {
+    if (_form.currentState!.validate() == true) {
+      Map data = {
+        "ProjectName": _projectnamecontroller.text,
+        "ProjectBegin": DateFormat('yyyyMMdd').format(_startDate!) +
+            DateFormat('hhmmss').format(_startTime),
+        "ProjectFinal": DateFormat('yyyyMMdd').format(_endDate!) +
+            DateFormat('hhmmss').format(_endTime),
+        "LongDesc": _longdesccontroller.text,
+        "State": status,
+        "Manager": user,
+        "ProjectType": type,
+        "ProjecTeamList": projectTeams,
+        "ProjectFolder": projectfolder
+      };
+      var result = await Networking.getInstance().createProject(data);
+      if (result) {
+        await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Done'),
+            content: Text('Create Success'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+
+        //handle
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Failed'),
+            content: Text('Create Failed'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      }
+
+      Get.to(Project());
+    }
   }
 }

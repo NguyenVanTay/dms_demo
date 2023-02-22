@@ -7,7 +7,7 @@ import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/register.dart';
 import 'package:flutter/material.dart';
 
-import '../../network/network_request.dart';
+import '../widgets/GanttchartWidget/gantt_chart_task_item.dart';
 import 'Calendar/calendar_widget.dart';
 import 'Account/acountpage.dart';
 import 'fogetpassword.dart';
@@ -239,12 +239,6 @@ class _LoginState extends State<Login> {
                       ),
                       contentPadding: EdgeInsets.all(16),
                     ),
-                    // validator: MultiValidator(
-                    //   [
-                    //     RequiredValidator(errorText: '*Required'),
-                    //     EmailValidator(errorText: "errorText")
-                    //   ],
-                    // ),
                   ),
                   SizedBox(
                     height: 30,

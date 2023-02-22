@@ -21,6 +21,7 @@ import '../../../sources/app_colors.dart';
 
 import '../../widgets/Project/constants.dart';
 import '../../widgets/Project/date_time_selector.dart';
+import '../../widgets/inputboxwidget.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 
@@ -59,6 +60,7 @@ class _CreateTaskState extends State<CreateTask> {
   late DateTime? _endTime;
 
   String performers = '';
+  String taskName = '';
   List performersList = [];
   String previousTasks = '';
   List previousTaskList = [];
@@ -169,61 +171,17 @@ class _CreateTaskState extends State<CreateTask> {
             backgroundColor: Colors.white,
           ),
           body: SingleChildScrollView(
-            child: Container(
+            child: Form(
+              key: _form,
               child: Column(
                 children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
-                    child: Row(
-                      children: const [
-                        Text(
-                          "Task Name",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: 10, right: 10, top: 10, bottom: 10),
-                    //decoration: BoxDecoration(border: BorderRadius()),
-                    child: Container(
-                      height: 60.0,
-                      width: 400,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        // adding borders around the widget
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: SingleChildScrollView(
-                        // for Vertical scrolling
-                        scrollDirection: Axis.vertical,
-                        child: Container(
-                          // height: maxheight,
-                          // width: maxwidth,
-                          margin: EdgeInsets.all(7),
-                          child: TextFormField(
-                            controller: _tasknamecontroller,
-                            maxLines: 2,
-                            // controller: _controller,
-                            // onSaved: (newValue) {
-                            //   // setState(() {
-                            //   //   projectName = newValue??"";
-                            //   // });
-                            // },
-                            // maxLines: 1,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  MyCustomInputBox(
+                    maxline: null,
+                    controller: _tasknamecontroller,
+                    inputHint: 'Enter task names',
+                    label: 'Task Name',
+                    text: taskName,
+                    waringText: "Please enter Task name",
                   ),
                   SizedBox(
                     height: 20,
@@ -507,58 +465,13 @@ class _CreateTaskState extends State<CreateTask> {
                       )
                     ],
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Description",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: 10, right: 10, top: 10, bottom: 10),
-                    //decoration: BoxDecoration(border: BorderRadius()),
-                    child: Container(
-                      height: 100.0,
-                      width: 400,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        // adding borders around the widget
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: SingleChildScrollView(
-                        // for Vertical scrolling
-                        scrollDirection: Axis.vertical,
-                        child: Container(
-                          // height: maxheight,
-                          // width: maxwidth,
-                          margin: EdgeInsets.all(7),
-                          child: TextFormField(
-                            controller: _longdesccontroller,
-                            maxLines: 4,
-                            // controller: _controller,
-                            // onSaved: (newValue) {
-                            //   // setState(() {
-                            //   //   projectName = newValue??"";
-                            //   // });
-                            // },
-                            // maxLines: 1,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  MyCustomInputBox(
+                    maxline: null,
+                    controller: _longdesccontroller,
+                    inputHint: 'Add description ',
+                    label: 'Description ',
+                    text: taskName,
+                    waringText: "Please enter description",
                   ),
                   SizedBox(
                     height: 20,
@@ -567,54 +480,8 @@ class _CreateTaskState extends State<CreateTask> {
                     height: 50,
                     width: 380,
                     child: ElevatedButton(
-                      onPressed: () async {
-                        Map data = {
-                          "Project": widget.project.code,
-                          "TaskName": _tasknamecontroller.text,
-                          "LongDesc": _longdesccontroller.text,
-                          "PredecessorsList": previousTasks,
-                          "PerformerList": performers,
-                          "ProjectTaskBegin":
-                              DateFormat('yyyyMMdd').format(_startDate!) +
-                                  DateFormat('hhmmss').format(_startTime!),
-                          "ProjectTaskFinal":
-                              DateFormat('yyyyMMdd').format(_endDate!) +
-                                  DateFormat('hhmmss').format(_endTime!),
-                        };
-
-                        var result =
-                            await Networking.getInstance().createTask(data);
-
-                        if (result) {
-                          await showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text('Done'),
-                              content: Text('Create Success'),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: Text('Ok'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-
-                          Get.to(Tasks(
-                            project: widget.project,
-                            // task: widget.task!,
-                          ));
-
-                          //handle
-                        } else {
-                          showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    title: Text("false"),
-                                  ));
-                        }
+                      onPressed: () {
+                        _createTask();
                       },
                       child: Text(
                         'Create Task',
@@ -637,5 +504,63 @@ class _CreateTaskState extends State<CreateTask> {
             ),
           )),
     );
+  }
+
+  void _createTask() async {
+    if (_form.currentState!.validate() == true) {
+      Map data = {
+        "Project": widget.project.code,
+        "TaskName": _tasknamecontroller.text,
+        "LongDesc": _longdesccontroller.text,
+        "PredecessorsList": previousTasks,
+        "PerformerList": performers,
+        "ProjectTaskBegin": DateFormat('yyyyMMdd').format(_startDate!) +
+            DateFormat('hhmmss').format(_startTime!),
+        "ProjectTaskFinal": DateFormat('yyyyMMdd').format(_endDate!) +
+            DateFormat('hhmmss').format(_endTime!),
+      };
+
+      var result = await Networking.getInstance().createTask(data);
+
+      if (result) {
+        await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Done'),
+            content: Text('Create Success'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+
+        //handle
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Failed'),
+            content: Text('Create Failed'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      }
+      Get.to(Tasks(
+        project: widget.project,
+        // task: widget.task!,
+      ));
+    }
   }
 }

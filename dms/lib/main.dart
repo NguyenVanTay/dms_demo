@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
           GetPage(name: '/alltask', page: () => AllTasks()),
           GetPage(name: '/project', page: () => const Project()),
         ],
-        scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
         home: const Login(),
       ),
