@@ -8,6 +8,7 @@ import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/task_model.dart';
 import 'package:dms/models/typemodel.dart';
 import 'package:dms/models/usermodel.dart';
+import 'package:dms/models/performerinformation.dart';
 import 'package:dms/models/util_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -250,6 +251,31 @@ class Networking {
     } else {
       // Fail
 
+      return false;
+    }
+  }
+
+  Future<dynamic> login(String _user, String _pass) async {
+    PerformerInformationModel performerInfor;
+
+    String basicAuth = 'Basic ${base64Encode(utf8.encode('$_user:$_pass'))}';
+    Map<String, String> requestHeaders = {'authorization': basicAuth};
+
+    final response = await http.post(
+      Uri.parse(
+        '$host/v1/Authorization',
+      ),
+      headers: requestHeaders,
+      //body: jsonEncode()
+    );
+
+    if (response.statusCode == 200) {
+      //sussess
+      performerInfor =
+          PerformerInformationModel.fromJson(jsonDecode(response.body));
+      return performerInfor;
+    } else {
+      // Fail
       return false;
     }
   }

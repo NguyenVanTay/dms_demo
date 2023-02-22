@@ -6,11 +6,13 @@ class Box extends StatefulWidget {
   String title;
   Icon icon;
   Color color;
+  String task;
 
   Box(
       {required this.title,
       required this.icon,
       required this.color,
+      required this.task,
       super.key});
 
   @override
@@ -91,7 +93,7 @@ class _BoxState extends State<Box> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "3 tasks",
+                  widget.task + " tasks",
                   style: TextStyle(fontSize: 16),
                 ),
                 Container(
