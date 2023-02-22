@@ -15,13 +15,18 @@ import '../../../models/util_storage.dart';
 import '../../../routers/router.dart';
 import '../../widgets/Task/task_widget.dart';
 
-enum SampleItem { itemOne, itemTwo, itemThree }
+enum FilterItem {
+  itemAllTask,
+  itemTaskNotStart,
+  itemTaskInProgress,
+  itemTaskFinish,
+  itemTaskOverdue
+}
 
-SampleItem? selectedMenu;
+FilterItem? selectedMenu;
 
 class Tasks extends StatefulWidget {
   ProjectModel project;
-  
 
   Tasks({required this.project, super.key});
 
@@ -30,9 +35,14 @@ class Tasks extends StatefulWidget {
 }
 
 class _TasksState extends State<Tasks> {
-  List<TaskModel> tasks = [];
+  //List Task trống để lưu các Task đã lọc theo state
+  List<TaskModel> filterListTask = <TaskModel>[];
 
-  late List<ProjectModel> projects = UtilStorage.projects;
+  // List Task  khởi tạo để lọc
+  List<TaskModel> filterTaskListUtil = UtilStorage.tasks;
+
+  late List<ProjectModel> projects = [];
+  late List<TaskModel> tasks = [];
 
   @override
   void initState() {
@@ -44,8 +54,65 @@ class _TasksState extends State<Tasks> {
         tasks = taskData;
       });
     });
-    
-    
+
+    // Networking.getInstance()
+    //     .getProjectTaskByTaskCode(widget.task.code.toString())
+    //     .then((taskData) {
+    //   setState(() {
+    //     tasks = taskData;
+    //   });
+    // });
+  }
+
+  // Not Start
+
+  List<TaskModel> filterTaskByStateNotStart() {
+    filterListTask.clear();
+    for (var taskItem in filterTaskListUtil) {
+      if (taskItem.taskStatus == 'Not Started') {
+        filterListTask.add(taskItem);
+      }
+    }
+    return filterListTask;
+  }
+
+//In progress
+  List<TaskModel> filterTaskByStateInProgress() {
+    filterListTask.clear();
+
+    for (var taskItem in filterTaskListUtil) {
+      if (taskItem.taskStatus == 'In Progress') {
+        filterListTask.add(taskItem);
+      }
+    }
+
+    return filterListTask;
+  }
+
+  // Finished
+  List<TaskModel> filterTaskByStateFinished() {
+    filterListTask.clear();
+
+    for (var taskItem in filterTaskListUtil) {
+      if (taskItem.taskStatus == 'Finished') {
+        filterListTask.add(taskItem);
+      }
+    }
+
+    return filterListTask;
+  }
+
+  //Overdue
+  List<TaskModel> filterTaskByStateOverdue() {
+    filterListTask.clear();
+
+    for (var taskItem in filterTaskListUtil) {
+      if (taskItem.taskStatus == 'Overdue') {
+        filterListTask.add(taskItem);
+      }
+    }
+
+    return filterListTask;
   }
 
   formatDateTask(TaskModel task) {
@@ -60,7 +127,6 @@ class _TasksState extends State<Tasks> {
     return project;
   }
 
-
   int items = 10;
   @override
   Widget build(BuildContext context) {
@@ -72,7 +138,9 @@ class _TasksState extends State<Tasks> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Get.to(
-              CreateTask(project: widget.project,),
+              CreateTask(
+                project: widget.project,
+              ),
             );
           },
           child: Icon(Icons.add),
@@ -95,50 +163,97 @@ class _TasksState extends State<Tasks> {
               Get.back();
             },
           ),
-          actions: [
-            PopupMenuButton<SampleItem>(
-              initialValue: selectedMenu,
-              icon: Icon(
-                Icons.more_vert,
-                color: Colors.black,
-              ),
-              onSelected: (SampleItem item) {
-                setState(() {
-                  selectedMenu = item;
-                });
-              },
-              itemBuilder: (BuildContext context) =>
-                  <PopupMenuEntry<SampleItem>>[
-                const PopupMenuItem<SampleItem>(
-                  value: SampleItem.itemOne,
-                  child: Text('Item 1'),
-                ),
-                const PopupMenuItem<SampleItem>(
-                  value: SampleItem.itemTwo,
-                  child: Text('Item 2'),
-                ),
-                const PopupMenuItem<SampleItem>(
-                  value: SampleItem.itemThree,
-                  child: Text('Item 3'),
-                ),
-              ],
-            )
-          ],
+          actions: [],
           backgroundColor: Colors.white,
         ),
         body: SingleChildScrollView(
           child: Container(
             child: Column(children: [
-              Container(
-                  margin: EdgeInsets.all(10),
-                  child: Text(
-                    "${widget.project.description}",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        "${widget.project.description}",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 2,
+                      )),
+                  Container(
+                    child: PopupMenuButton<FilterItem>(
+                      initialValue: selectedMenu,
+                      icon: Icon(
+                        Icons.filter_alt_outlined,
+                        color: Colors.black,
+                      ),
+                      onSelected: (FilterItem item) {
+                        setState(() {
+                          selectedMenu = item;
+                        });
+                      },
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<FilterItem>>[
+                        PopupMenuItem<FilterItem>(
+                          value: FilterItem.itemAllTask,
+                          child: Text('All Task'),
+                          onTap: () {
+                            setState(() {
+                              tasks = filterTaskListUtil;
+                            });
+                          },
+                        ),
+                        PopupMenuItem<FilterItem>(
+                          value: FilterItem.itemTaskNotStart,
+                          child: Text('Not started'),
+                          onTap: () {
+                            if (mounted) {
+                              setState(() {
+                                tasks = filterTaskByStateNotStart();
+                              });
+                            }
+                          },
+                        ),
+                        PopupMenuItem<FilterItem>(
+                          value: FilterItem.itemTaskInProgress,
+                          child: Text('In progress'),
+                          onTap: () {
+                            if (mounted) {
+                              setState(() {
+                                tasks = filterTaskByStateInProgress();
+                              });
+                            }
+                          },
+                        ),
+                        PopupMenuItem<FilterItem>(
+                          value: FilterItem.itemTaskFinish,
+                          child: Text('Finish'),
+                          onTap: () {
+                            if (mounted) {
+                              setState(() {
+                                tasks = filterTaskByStateFinished();
+                              });
+                            }
+                          },
+                        ),
+                        PopupMenuItem<FilterItem>(
+                          value: FilterItem.itemTaskOverdue,
+                          child: Text('Overdue'),
+                          onTap: () {
+                            if (mounted) {
+                              setState(() {
+                                tasks = filterTaskByStateOverdue();
+                              });
+                            }
+                          },
+                        ),
+                      ],
                     ),
-                    maxLines: 2,
-                  )),
+                  ),
+                ],
+              ),
               Container(
                 height: height * 0.75,
                 margin: EdgeInsets.only(top: 10),
@@ -152,7 +267,6 @@ class _TasksState extends State<Tasks> {
                         children: [
                           TasksWidget(
                             task: formatDateTask(tasks[index]),
-                           
                           ),
                         ],
                       ),

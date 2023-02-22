@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables, must_be_immutable
 
 import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
-import 'package:dms/Views/screens/Task/detail_task.dart';
+import 'package:dms/Views/screens/Task/detail_task_done.dart';
+import 'package:dms/Views/screens/Task/detail_task_not_accept.dart';
+import 'package:dms/Views/screens/Task/detail_task_onprogress.dart';
+import 'package:dms/Views/screens/Task/detail_task_pending.dart';
+
 import 'package:dms/models/task_model.dart';
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +21,6 @@ MoreTaskItem? selectedMenu;
 class TasksWidget extends StatefulWidget {
   TaskModel task;
 
-
   TasksWidget({required this.task, super.key});
 
   @override
@@ -25,15 +28,12 @@ class TasksWidget extends StatefulWidget {
 }
 
 class _TasksWidgetState extends State<TasksWidget> {
+  List<TaskModel> tasks = [];
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Get.to(DetailTask(
-          task: widget.task,
-         
-        ));
-      },
+      onTap: () {},
       child: Container(
         margin: EdgeInsets.all(10),
         height: height,
@@ -87,10 +87,24 @@ class _TasksWidgetState extends State<TasksWidget> {
                           child: GestureDetector(
                             child: Text('View Detail'),
                             onTap: () {
-                              Get.to(DetailTask(
-                                task: widget.task,
-                              
-                              ));
+                              if (widget.task.taskStatus == 'Not Started') {
+                                Get.to(() => DetailTaskNotAccept(
+                                      task: widget.task,
+                                    ));
+                              } else if (widget.task.taskStatus ==
+                                  'In Progress') {
+                                Get.to(() => DetailTaskOnProgess(
+                                      task: widget.task,
+                                    ));
+                              } else if (widget.task.taskStatus == 'Finished') {
+                                Get.to(() => DetailTaskDone(
+                                      task: widget.task,
+                                    ));
+                              } else if (widget.task.taskStatus == 'Overdue') {
+                                Get.to(() => DetailTaskPendding(
+                                      task: widget.task,
+                                    ));
+                              }
                             },
                           ),
                         ),

@@ -77,12 +77,20 @@ class Networking {
       for (var projectItem in jsonDecode(response.body)) {
         projectList.add(ProjectModel.fromJson(projectItem));
       }
+
       UtilStorage.projects.clear();
       UtilStorage.projects.addAll(projectList);
-
       return projectList;
     } else {
-      throw Exception('Failed to call API, StatusCode: ${response.statusCode}');
+      if (response.statusCode == 204) {
+        projectList = [];
+        UtilStorage.projects.clear();
+        UtilStorage.projects.addAll(projectList);
+        return projectList;
+      } else {
+        throw Exception(
+            'Failed to call API, StatusCode: ${response.statusCode}');
+      }
     }
   }
 
@@ -197,6 +205,27 @@ class Networking {
 
     final response = await http.get(
         Uri.parse('$host/v1/ProjectTasks?Project=$code'),
+        headers: requestHeaders);
+    UtilStorage.tasks.clear();
+    if (response.statusCode == 200) {
+      for (var taskItem in jsonDecode(response.body)) {
+        taskList.add(TaskModel.fromJson(taskItem));
+      }
+
+      UtilStorage.tasks.addAll(taskList);
+    }
+    return taskList;
+  }
+
+  // Get Oroject Task by Task Code
+  Future<List<TaskModel>> getProjectTaskByTaskCode(String code) async {
+    String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
+    Map<String, String> requestHeaders = {'authorization': basicAuth};
+    List<TaskModel> taskList = [];
+
+    final response = await http.get(
+        Uri.parse('$host/v1/ProjectTaskDetails?ProjectTask=$code'),
         headers: requestHeaders);
     UtilStorage.tasks.clear();
     if (response.statusCode == 200) {

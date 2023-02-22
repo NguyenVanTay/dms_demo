@@ -1,14 +1,13 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables, must_be_immutable
 
 import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/Project/detail_project.dart';
 import 'package:dms/models/projectmodel.dart';
-import 'package:dms/models/task_model.dart';
-import 'package:dms/models/util_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import '../../../models/task_model.dart';
 import '../../screens/Task/tasks.dart';
 
 double? height;
@@ -19,10 +18,16 @@ enum MoreProjectItem { view, edit, delete, gantt }
 MoreProjectItem? selectedMenu;
 
 class ProjectWidget extends StatefulWidget {
-  final ProjectModel project;
+  ProjectModel project;
 
 
-   ProjectWidget({required this.project,super.key});
+  //final UserModel user;
+
+  ProjectWidget({
+    required this.project,
+   
+    super.key,
+  });
 
   @override
   State<ProjectWidget> createState() => _ProjectWidgetState();
@@ -35,10 +40,10 @@ class _ProjectWidgetState extends State<ProjectWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(Tasks(
-          project: widget.project,
-         
-        ));
+        Get.to(() => Tasks(
+              project: widget.project,
+              
+            ));
       },
       child: Container(
         margin: EdgeInsets.all(10),

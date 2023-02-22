@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import, unused_local_variable, must_be_immutable
 
 import 'package:dms/models/task_model.dart';
+import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -10,16 +11,16 @@ enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
 
-class DetailTask extends StatefulWidget {
+class DetailTaskOnProgess extends StatefulWidget {
   TaskModel task;
 
-  DetailTask({required this.task, super.key});
+  DetailTaskOnProgess({required this.task, super.key});
 
   @override
-  State<DetailTask> createState() => _DetailTaskState();
+  State<DetailTaskOnProgess> createState() => _DetailTaskOnProgessState();
 }
 
-class _DetailTaskState extends State<DetailTask> {
+class _DetailTaskOnProgessState extends State<DetailTaskOnProgess> {
   @override
   Widget build(BuildContext context) {
     double maxheight = MediaQuery.of(context).size.height;
@@ -123,9 +124,9 @@ class _DetailTaskState extends State<DetailTask> {
                     CircularPercentIndicator(
                       radius: 60.0,
                       lineWidth: 15.0,
-                      percent: 0.75,
+                      percent: 0.80,
                       center: new Text(
-                        "75%",
+                        "80%",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
@@ -136,124 +137,67 @@ class _DetailTaskState extends State<DetailTask> {
               ),
               Container(
                 margin: EdgeInsets.only(left: 10),
-                child: Row(
+                child: Column(
                   children: [
-                    Icon(Icons.calendar_month_outlined),
-                    Text(
-                      "${widget.task.projectTaskBegin.toString()} -  ${widget.task.projectTaskFinal.toString()}",
+                    Row(
+                      children: [
+                        Icon(Icons.calendar_month_outlined),
+                        Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: Text(
+                            "Start Date : ${widget.task.projectTaskBegin.toString()}",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
                     ),
+                    Row(
+                      children: [
+                        Icon(Icons.calendar_month_outlined),
+                        Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: Text(
+                            "End Date   : ${widget.task.projectTaskFinal.toString()}",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(top: 10),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: Icon(
-                        Icons.group_outlined,
-                        size: 32,
-                      ),
+                child: Row(children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Icon(
+                      Icons.group_outlined,
+                      size: 32,
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: Text(
-                        "Performers: ",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      "Performers: ",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    // Container(
-                    //   margin: EdgeInsets.only(left: 10),
-
-                    //   child: Text(
-
-                    //    "",
-                    //    // "${(widget.task.performers.)}",
-                    //     style: TextStyle(
-                    //         fontSize: 18, fontWeight: FontWeight.bold),
-                    //   ),
-                    // ),
-                    // Container(
-                    //   margin: EdgeInsets.only(left: 10),
-                    //   height: MediaQuery.of(c
-                    //ontext).size.height * 0.08,
-                    //   width: MediaQuery.of(context).size.width * 0.6,
-                    //   child: Scrollbar(
-                    //     child: ListView.builder(
-                    //       itemCount: 10,
-                    //       itemBuilder: (context, index)  =>,
-
-                    //       scrollDirection: Axis.vertical,
-
-                    //     ),
-                    //   ),
-                    // )
-                    // child: Card(
-                    //   elevation: 0,
-                    //   shape: RoundedRectangleBorder(
-                    //     side: BorderSide(
-                    //       color: Theme.of(context).colorScheme.outline,
-                    //     ),
-                    //     borderRadius:
-                    //         const BorderRadius.all(Radius.circular(12)),
-                    //   ),
-                    //   child: const SizedBox(
-                    //     child: Center(child: Text('Outlined Card')),
-                    //   ),
-                    // ),)
-                    // height: height * 0.75,
-                    // margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                    // height: 30.0,
-                    // width: maxwidth * 0.55,
-                    // child: ListView.builder(
-                    //   scrollDirection: Axis.horizontal,
-                    //   shrinkWrap: true,
-                    //   itemCount: 20,
-                    //   itemBuilder: (context, index) => Stack(
-                    //     children: [
-                    //       Column(
-                    //         children: [
-                    //           Container(
-                    //             margin: EdgeInsets.only(left: 15),
-                    //             decoration: BoxDecoration(
-                    //               color: Colors.blue[100],
-                    //               //DecorationImage
-                    //               border: Border.all(
-                    //                 color: Colors.blue,
-                    //                 width: 1,
-                    //               ), //Border.all
-                    //               borderRadius: BorderRadius.circular(15),
-                    //               boxShadow: [
-                    //                 BoxShadow(
-                    //                   color: Colors.black,
-                    //                   offset: const Offset(
-                    //                     0.1,
-                    //                     0.1,
-                    //                   ), //Offset
-                    //                   blurRadius: 0.1,
-                    //                   spreadRadius: 0.1,
-                    //                 ), //BoxShadow
-                    //                 BoxShadow(
-                    //                   color: Colors.white,
-                    //                   offset: const Offset(0.0, 0.0),
-                    //                   blurRadius: 0.0,
-                    //                   spreadRadius: 0.0,
-                    //                 ), //BoxShadow
-                    //               ],
-                    //             ),
-
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-
-                    // Container(child: Scrollbar(child:ListView(scrollDirection:  Axis.horizontal,) ),)
-                  ],
-                ),
+                  ),
+                  Container(
+                    child: FacePile(
+                      radius: 24,
+                      space: 35,
+                      images: [
+                        NetworkImage("https://i.pravatar.cc/300?img=1"),
+                        NetworkImage("https://i.pravatar.cc/300?img=2"),
+                        NetworkImage("https://i.pravatar.cc/300?img=3"),
+                        NetworkImage("https://i.pravatar.cc/300?img=4"),
+                        NetworkImage("https://i.pravatar.cc/300?img=5"),
+                      ],
+                    ),
+                  ),
+                ]),
               ),
               Container(
                 margin: EdgeInsets.only(top: 10),
@@ -276,7 +220,8 @@ class _DetailTaskState extends State<DetailTask> {
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 20),
-                      child: Text("initial", style: TextStyle(fontSize: 18)),
+                      child: Text('${widget.task.taskStatus}',
+                          style: TextStyle(fontSize: 18)),
                     ),
                   ],
                 ),
@@ -337,7 +282,7 @@ class _DetailTaskState extends State<DetailTask> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 10),
+                // margin: EdgeInsets.only(top: 10),
                 child: Row(
                   children: [
                     Container(
@@ -350,7 +295,7 @@ class _DetailTaskState extends State<DetailTask> {
                     Container(
                       margin: EdgeInsets.only(left: 10, right: 40),
                       child: Text(
-                        "Checker: ",
+                        "Reviewer: ",
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -358,7 +303,7 @@ class _DetailTaskState extends State<DetailTask> {
                     Container(
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        "Admin: ",
+                        "Lương Duy Liêm",
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -368,7 +313,7 @@ class _DetailTaskState extends State<DetailTask> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 20),
+                // margin: EdgeInsets.only(top: 20),
                 child: Row(
                   children: [
                     Container(
@@ -381,7 +326,7 @@ class _DetailTaskState extends State<DetailTask> {
                     Container(
                       margin: EdgeInsets.only(left: 10, right: 40),
                       child: Text(
-                        "Process: ",
+                        "Progress: ",
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -411,19 +356,145 @@ class _DetailTaskState extends State<DetailTask> {
                       // height: maxheight,
                       // width: maxwidth,
                       margin: EdgeInsets.only(left: 10),
-                      child: Text(
-                        "Process",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.0,
-                        ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${widget.task.projectTaskFinal} ",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                " - Lương Duy Liêm ",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                ": Done",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${widget.task.projectTaskFinal} ",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                " - Lý Trần Thanh Thảo ",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                ": Done",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${widget.task.projectTaskFinal} ",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                " - Nguyễn Ngọc Yên ",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                ": Done",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${widget.task.projectTaskFinal} ",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                " - Trịnh Văn Thương ",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                ": Done",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${widget.task.projectTaskFinal} ",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                " - Nguyễn Văn Tây ",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                ": Not Accept",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 10),
                 child: Divider(
                   height: 1,
                   thickness: 0.2,
@@ -433,50 +504,57 @@ class _DetailTaskState extends State<DetailTask> {
                 ),
               ),
               Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color.fromRGBO(185, 247, 255, 1),
-                        ),
-                        //  color: Color.fromRGBO(),
-                        child: TextButton(
-                          style: ButtonStyle(
-                            foregroundColor:
-                                MaterialStateProperty.all<Color>(Colors.black),
-                          ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
                           onPressed: () {},
-                          child: Text(
-                            'Performed',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
+                          icon: Icon(Icons.attach_file_rounded),
                         ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color.fromRGBO(146, 252, 161, 1),
+                        Text(
+                          "Kehoachchitiet.pdf",
+                          style: TextStyle(fontSize: 16),
                         ),
-                        //  color: Color.fromRGBO(),
-                        child: TextButton(
-                          style: ButtonStyle(
-                            foregroundColor:
-                                MaterialStateProperty.all<Color>(Colors.black),
-                          ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
                           onPressed: () {},
-                          child: Text(
-                            'Accept for completion',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
+                          icon: Icon(Icons.comment_outlined),
                         ),
-                      ),
-                    ],
-                  )),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.help_outlined),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10, right: 10),
+                child: SizedBox(
+                  height: 50,
+                  width: maxwidth,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        elevation: 1,
+                        // : BorderRadius.circular(10),
+                        backgroundColor: Color.fromRGBO(146, 252, 161, 1)),
+                    child: Text(
+                      'Performed',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

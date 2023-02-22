@@ -147,11 +147,31 @@ class _DetailProjectState extends State<DetailProject> {
               ),
               Container(
                 margin: EdgeInsets.only(left: 10),
-                child: Row(
+                child: Column(
                   children: [
-                    Icon(Icons.calendar_month_outlined),
-                    Text(
-                      "${widget.project.projectBegin.toString()} -  ${widget.project.projectFinal.toString()}",
+                    Row(
+                      children: [
+                        Icon(Icons.calendar_month_outlined),
+                        Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: Text(
+                            "Start Date : ${widget.project.projectBegin.toString()}",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.calendar_month_outlined),
+                        Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: Text(
+                            "End Date   : ${widget.project.projectFinal.toString()}",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),
