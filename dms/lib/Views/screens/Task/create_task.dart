@@ -39,6 +39,7 @@ List<DropdownMenuItem<String>> get dropdownPreviousTask {
 
 class CreateTask extends StatefulWidget {
   ProjectModel project;
+  TaskModel? task;
 
   CreateTask({required this.project, super.key});
 
@@ -53,9 +54,9 @@ class _CreateTaskState extends State<CreateTask> {
   late DateTime? _startDate;
   late DateTime? _endDate;
 
-  DateTime _startTime = DateTime.parse("0000-00-00 08:00:00");
+  late DateTime? _startTime;
 
-  DateTime _endTime = DateTime.parse("0000-00-00 17:00:00");
+  late DateTime? _endTime;
 
   String performers = '';
   List performersList = [];
@@ -66,8 +67,8 @@ class _CreateTaskState extends State<CreateTask> {
   final GlobalKey<FormState> _form = GlobalKey();
   final _multiSelectKey = GlobalKey<FormFieldState>();
   late TextEditingController _startDateController;
-  // late TextEditingController _startTimeController;
-  // late TextEditingController _endTimeController;
+  late TextEditingController _startTimeController;
+  late TextEditingController _endTimeController;
   late TextEditingController _endDateController;
   late TextEditingController _tasknamecontroller;
   late TextEditingController _longdesccontroller;
@@ -86,8 +87,8 @@ class _CreateTaskState extends State<CreateTask> {
 
     _startDateController = TextEditingController();
     _endDateController = TextEditingController();
-    // _startTimeController = TextEditingController();
-    // _endTimeController = TextEditingController();
+    _startTimeController = TextEditingController();
+    _endTimeController = TextEditingController();
     _tasknamecontroller = TextEditingController();
     _longdesccontroller = TextEditingController();
 
@@ -106,8 +107,8 @@ class _CreateTaskState extends State<CreateTask> {
   void dispose() {
     _startDateController.dispose();
     _endDateController.dispose();
-    // _startTimeController.dispose();
-    // _endTimeController.dispose();
+    _startTimeController.dispose();
+    _endTimeController.dispose();
     _tasknamecontroller.dispose();
     _longdesccontroller.dispose();
 
@@ -236,6 +237,39 @@ class _CreateTaskState extends State<CreateTask> {
                       children: [
                         Row(
                           children: [
+                            Expanded(
+                              child: DateTimeSelectorFormField(
+                                controller: _startTimeController,
+                                decoration:
+                                    AppConstants.inputDecoration.copyWith(
+                                  labelText: "Start Time",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value == "")
+                                    return "Please select Time.";
+
+                                  return null;
+                                },
+                                textStyle: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 18.0,
+                                ),
+                                onSave: (startTime) {
+                                  setState(() {
+                                    if (mounted) _startTime = startTime;
+                                  });
+                                },
+                                onSelect: (startTime) {
+                                  setState(() {
+                                    if (mounted) _startTime = startTime;
+                                  });
+                                },
+                                type: DateTimeSelectionType.time,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
                             // Start Date
                             Expanded(
                               child: DateTimeSelectorFormField(
@@ -265,6 +299,43 @@ class _CreateTaskState extends State<CreateTask> {
                                   });
                                 },
                                 type: DateTimeSelectionType.date,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: DateTimeSelectorFormField(
+                                controller: _endTimeController,
+                                decoration:
+                                    AppConstants.inputDecoration.copyWith(
+                                  labelText: "End Time",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value == "")
+                                    return "Please select Time.";
+
+                                  return null;
+                                },
+                                textStyle: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 18.0,
+                                ),
+                                onSave: (endTime) {
+                                  setState(() {
+                                    if (mounted) _endTime = endTime;
+                                  });
+                                },
+                                onSelect: (endTime) {
+                                  setState(() {
+                                    if (mounted) _endTime = endTime;
+                                  });
+                                },
+                                type: DateTimeSelectionType.time,
                               ),
                             ),
                             SizedBox(
@@ -299,16 +370,6 @@ class _CreateTaskState extends State<CreateTask> {
                                 },
                                 type: DateTimeSelectionType.date,
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 20,
                             ),
                           ],
                         ),
@@ -515,10 +576,10 @@ class _CreateTaskState extends State<CreateTask> {
                           "PerformerList": performers,
                           "ProjectTaskBegin":
                               DateFormat('yyyyMMdd').format(_startDate!) +
-                                  DateFormat('hhmmss').format(_startTime),
+                                  DateFormat('hhmmss').format(_startTime!),
                           "ProjectTaskFinal":
                               DateFormat('yyyyMMdd').format(_endDate!) +
-                                  DateFormat('hhmmss').format(_endTime),
+                                  DateFormat('hhmmss').format(_endTime!),
                         };
 
                         var result =
@@ -543,6 +604,7 @@ class _CreateTaskState extends State<CreateTask> {
 
                           Get.to(Tasks(
                             project: widget.project,
+                            // task: widget.task!,
                           ));
 
                           //handle

@@ -119,6 +119,7 @@ class _CreateProjectState extends State<CreateProject> {
 
     _projectnamecontroller = TextEditingController();
     _longdesccontroller = TextEditingController();
+   
     _userItems = usersList
         .map((user) =>
             MultiSelectItem<UserModel>(user, user.description.toString()))

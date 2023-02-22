@@ -1,6 +1,9 @@
-// ignore_for_file: unnecessary_this
+// ignore_for_file: unnecessary_new
 
 class TaskModel {
+  List<Predecessors>? predecessors;
+  List<Progress>? progress;
+//  String? progress;
   String? projectTaskFinal;
   String? projectTaskBegin;
   String? importance;
@@ -8,17 +11,37 @@ class TaskModel {
   List<Performers>? performers;
   String? description;
   String? code;
+  String? reviewer;
+  String? taskStatus;
 
-  TaskModel(
-      {this.projectTaskFinal,
-      this.projectTaskBegin,
-      this.importance,
-      this.longDesc,
-      this.performers,
-      this.description,
-      this.code});
+  TaskModel({
+    this.predecessors,
+    this.progress,
+    this.projectTaskFinal,
+    this.projectTaskBegin,
+    this.importance,
+    this.longDesc,
+    this.performers,
+    this.description,
+    this.code,
+    this.reviewer,
+    this.taskStatus,
+  });
 
   TaskModel.fromJson(Map<String, dynamic> json) {
+    if (json['Predecessors'] != null) {
+      predecessors = <Predecessors>[];
+      json['Predecessors'].forEach((v) {
+        predecessors!.add(new Predecessors.fromJson(v));
+      });
+    }
+    if (json['Progress'] != null) {
+      progress = <Progress>[];
+      json['Progress'].forEach((v) {
+        progress!.add(new Progress.fromJson(v));
+      });
+    }
+    //progress = json['Progress'];
     projectTaskFinal = json['ProjectTaskFinal'];
     projectTaskBegin = json['ProjectTaskBegin'];
     importance = json['Importance'];
@@ -26,40 +49,93 @@ class TaskModel {
     if (json['Performers'] != null) {
       performers = <Performers>[];
       json['Performers'].forEach((v) {
-        performers!.add(Performers.fromJson(v));
+        performers!.add(new Performers.fromJson(v));
       });
     }
+    description = json['Description'];
+    code = json['Code'];
+    reviewer = json['Reviewer'];
+    taskStatus = json['TaskStatus'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (predecessors != null) {
+      data['Predecessors'] = predecessors!.map((v) => v.toJson()).toList();
+    }
+    if (progress != null) {
+      data['Progress'] = progress!.map((v) => v.toJson()).toList();
+    }
+    data['Progress'] = progress;
+    data['ProjectTaskFinal'] = projectTaskFinal;
+    data['ProjectTaskBegin'] = projectTaskBegin;
+    data['Importance'] = importance;
+    data['LongDesc'] = longDesc;
+    if (performers != null) {
+      data['Performers'] = performers!.map((v) => v.toJson()).toList();
+    }
+    data['Description'] = description;
+    data['Code'] = code;
+    data['Reviewer'] = code;
+    data['TaskStatus'] = taskStatus;
+    return data;
+  }
+}
+
+class Performers {
+  String? avatarlink;
+  String? description;
+
+  Performers({this.avatarlink, this.description});
+
+  Performers.fromJson(Map<String, dynamic> json) {
+    avatarlink = json['Avatarlink'];
+    description = json['Description'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Avatarlink'] = avatarlink;
+    data['Description'] = description;
+    return data;
+  }
+}
+
+class Progress {
+  String? progress;
+  String? performer;
+
+  Progress({this.progress, this.performer});
+
+  Progress.fromJson(Map<String, dynamic> json) {
+    progress = json['Progress'];
+    performer = json['Performer'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Progress'] = progress;
+    data['Performer'] = performer;
+    return data;
+  }
+}
+
+class Predecessors {
+  String? code;
+  String? description;
+
+  Predecessors({this.code, this.description});
+
+  Predecessors.fromJson(Map<String, dynamic> json) {
     description = json['Description'];
     code = json['Code'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['ProjectTaskFinal'] = this.projectTaskFinal;
-    data['ProjectTaskBegin'] = this.projectTaskBegin;
-    data['Importance'] = this.importance;
-    data['LongDesc'] = this.longDesc;
-    if (this.performers != null) {
-      data['Performers'] = this.performers!.map((v) => v.toJson()).toList();
-    }
-    data['Description'] = this.description;
-    data['Code'] = this.code;
-    return data;
-  }
-}
 
-class Performers {
-  String? description;
-
-  Performers({this.description});
-
-  Performers.fromJson(Map<String, dynamic> json) {
-    description = json['Description'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['Description'] = this.description;
+    data['Description'] = description;
+    data['Code'] = code;
     return data;
   }
 }
