@@ -7,13 +7,31 @@ import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/register.dart';
 import 'package:flutter/material.dart';
 
+import '../../network/network_request.dart';
 import 'Calendar/calendar_widget.dart';
 import 'Account/acountpage.dart';
 import 'fogetpassword.dart';
 
 class Page extends StatefulWidget {
-  const Page({super.key});
+  //const Page({super.key});
+  String name;
+  String role;
+  String taskOfOnprocess;
+  String taskOfOverdue;
+  String taskOfNotaccepted;
+  String taskOfPendingapproval;
+  String taskOfTaskfromme;
+  String taskOfVerify;
 
+  Page(
+      {required this.name,
+      required this.role,
+      required this.taskOfOnprocess,
+      required this.taskOfOverdue,
+      required this.taskOfNotaccepted,
+      required this.taskOfPendingapproval,
+      required this.taskOfTaskfromme,
+      required this.taskOfVerify});
   @override
   State<Page> createState() => _PageState();
 }
@@ -27,16 +45,24 @@ class _PageState extends State<Page> {
     });
   }
 
-  List<Widget> _itemWidget = [
-    HomePage(),
-    GanttChart(),
-    CalendarWidget(),
-    Project(),
-    AccountPage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    List<Widget> _itemWidget = [
+      HomePage(
+        name: widget.name,
+        role: widget.role,
+        taskOfNotaccepted: widget.taskOfNotaccepted,
+        taskOfOnprocess: widget.taskOfOnprocess,
+        taskOfOverdue: widget.taskOfOverdue,
+        taskOfPendingapproval: widget.taskOfPendingapproval,
+        taskOfTaskfromme: widget.taskOfTaskfromme,
+        taskOfVerify: widget.taskOfVerify,
+      ),
+      GanttChart(),
+      CalendarWidget(),
+      Project(),
+      AccountPage(),
+    ];
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -75,8 +101,21 @@ class _PageState extends State<Page> {
 }
 
 class PagePerformer extends StatefulWidget {
-  const PagePerformer({super.key});
+  //const PagePerformer({super.key});
+  String name;
+  String role;
+  String taskOfOnprocess;
+  String taskOfOverdue;
+  String taskOfNotaccepted;
+  String taskOfPendingapproval;
 
+  PagePerformer(
+      {required this.name,
+      required this.role,
+      required this.taskOfOnprocess,
+      required this.taskOfOverdue,
+      required this.taskOfNotaccepted,
+      required this.taskOfPendingapproval});
   @override
   State<PagePerformer> createState() => _PagePerformerState();
 }
@@ -90,15 +129,21 @@ class _PagePerformerState extends State<PagePerformer> {
     });
   }
 
-  List<Widget> _itemWidget = [
-    HomePagePerformer(),
-    GanttChart(),
-    CalendarWidget(),
-    AccountPage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    List<Widget> _itemWidget = [
+      HomePagePerformer(
+        name: widget.name,
+        role: widget.role,
+        taskOfNotaccepted: widget.taskOfNotaccepted,
+        taskOfOnprocess: widget.taskOfOnprocess,
+        taskOfOverdue: widget.taskOfOverdue,
+        taskOfPendingapproval: widget.taskOfPendingapproval,
+      ),
+      GanttChart(),
+      CalendarWidget(),
+      AccountPage(),
+    ];
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -257,7 +302,7 @@ class _LoginState extends State<Login> {
                     height: 60,
                     width: 240,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // if (_formKey.currentState!.validate()) {
                         //   print('Validated');
                         //   Navigator.push(
@@ -265,20 +310,77 @@ class _LoginState extends State<Login> {
                         //     MaterialPageRoute(builder: (context) => Page()),
                         //   );
                         // }
-                        if (_userController.text == "lttt") {
-                          print('Validated performer');
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PagePerformer()),
+
+                        var result = await Networking.getInstance().login(
+                            _userController.text, _passWordController.text);
+
+                        if (result == false) {
+                          final snackBar = SnackBar(
+                            content:
+                                const Text("Login information don't right"),
+                            action: SnackBarAction(
+                              label: 'Undo',
+                              onPressed: () {
+                                // Some code to undo the change.
+                              },
+                            ),
                           );
+
+                          // Find the ScaffoldMessenger in the widget tree
+                          // and use it to show a SnackBar.
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else {
-                          print('Validated project manager');
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Page()),
-                          );
+                          if (result.role == "Developer") {
+                            print('Validated performer');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PagePerformer(
+                                        name: result.name,
+                                        role: result.role,
+                                        taskOfNotaccepted: result.notAcceptTask,
+                                        taskOfOnprocess:
+                                            result.inprOnprogressTask,
+                                        taskOfOverdue: result.overdueTask,
+                                        taskOfPendingapproval:
+                                            result.pendingApprovalTask,
+                                      )),
+                            );
+                          } else {
+                            print('Validated projectmanager');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Page(
+                                        name: result.name,
+                                        role: result.role,
+                                        taskOfNotaccepted: result.notAcceptTask,
+                                        taskOfOnprocess:
+                                            result.inprOnprogressTask,
+                                        taskOfOverdue: result.overdueTask,
+                                        taskOfPendingapproval:
+                                            result.pendingApprovalTask,
+                                        taskOfTaskfromme: result.taskfromMe,
+                                        taskOfVerify: result.verifyTask,
+                                      )),
+                            );
+                          }
                         }
+
+                        // if (_userController.text == "lttt") {
+                        //   print('Validated performer');
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => PagePerformer()),
+                        //   );
+                        // } else {
+                        //   print('Validated project manager');
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(builder: (context) => Page()),
+                        //   );
+                        // }
                       },
                       // icon: Icon(
                       //   Icons.login_rounded,

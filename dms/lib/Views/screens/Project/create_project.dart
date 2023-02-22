@@ -594,38 +594,37 @@ class _CreateProjectState extends State<CreateProject> {
                           "ProjecTeamList": projectTeams,
                           "ProjectFolder": projectfolder
                         };
-                        print(_projectnamecontroller.text);
 
-                        // var result =
-                        //     await Networking.getInstance().createProject(data);
+                        var result =
+                            await Networking.getInstance().createProject(data);
 
-                        // if (result) {
-                        //   await showDialog(
-                        //     context: context,
-                        //     builder: (context) => AlertDialog(
-                        //       title: Text('Done'),
-                        //       content: Text('Create Success'),
-                        //       actions: <Widget>[
-                        //         TextButton(
-                        //           child: Text('Ok'),
-                        //           onPressed: () {
-                        //             Navigator.pop(context);
-                        //           },
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   );
+                        if (result) {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Done'),
+                              content: Text('Create Success'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('Ok'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
 
-                        //   Get.to(Project());
+                          Get.to(Project());
 
-                        //   //handle
-                        // } else {
-                        //   showDialog(
-                        //       context: context,
-                        //       builder: (context) => AlertDialog(
-                        //             title: Text("false"),
-                        //           ));
-                        // }
+                          //handle
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text("false"),
+                                  ));
+                        }
                       },
                       child: Text(
                         'Create Project',
