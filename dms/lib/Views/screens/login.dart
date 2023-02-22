@@ -7,7 +7,8 @@ import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/register.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/GanttchartWidget/gantt_chart_task_item.dart';
+
+import '../../network/network_request.dart';
 import 'Calendar/calendar_widget.dart';
 import 'Account/acountpage.dart';
 import 'fogetpassword.dart';
@@ -58,7 +59,7 @@ class _PageState extends State<Page> {
         taskOfTaskfromme: widget.taskOfTaskfromme,
         taskOfVerify: widget.taskOfVerify,
       ),
-      GanttChart(),
+      GanttChart(taskItems: [],),
       CalendarWidget(),
       Project(),
       AccountPage(),
@@ -140,7 +141,7 @@ class _PagePerformerState extends State<PagePerformer> {
         taskOfOverdue: widget.taskOfOverdue,
         taskOfPendingapproval: widget.taskOfPendingapproval,
       ),
-      GanttChart(),
+      GanttChart(taskItems: [],),
       CalendarWidget(),
       AccountPage(),
     ];
