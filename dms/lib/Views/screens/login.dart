@@ -7,6 +7,7 @@ import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/register.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/GanttchartWidget/gantt_chart_task_item.dart';
 import 'Calendar/calendar_widget.dart';
 import 'Account/acountpage.dart';
 import 'fogetpassword.dart';
@@ -29,7 +30,59 @@ class _PageState extends State<Page> {
 
   List<Widget> _itemWidget = [
     HomePage(),
-    GanttChart(),
+    GanttChart(
+      taskItems: [
+        GanttChartTaskItem(
+            startDate: DateTime(2022, 12, 28),
+            endDate: DateTime(2022, 12, 31),
+            percent: 75,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.red,
+            restProgressColor: Colors.red.shade200),
+        GanttChartTaskItem(
+            startDate: DateTime(2022, 12, 29),
+            endDate: DateTime(2023, 1, 2),
+            percent: 100,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.yellow,
+            restProgressColor: Colors.yellow.shade200),
+        GanttChartTaskItem(
+            startDate: DateTime(2023, 1, 24),
+            endDate: DateTime(2023, 2, 29),
+            percent: 3,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.orange,
+            restProgressColor: Colors.orange.shade200),
+        GanttChartTaskItem(
+            startDate: DateTime(2023, 1, 24),
+            endDate: DateTime(2023, 2, 29),
+            percent: 3,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.orange,
+            restProgressColor: Colors.orange.shade200),
+        GanttChartTaskItem(
+            startDate: DateTime(2023, 1, 24),
+            endDate: DateTime(2023, 2, 29),
+            percent: 3,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.orange,
+            restProgressColor: Colors.orange.shade200),
+        GanttChartTaskItem(
+            startDate: DateTime(2023, 1, 24),
+            endDate: DateTime(2023, 2, 29),
+            percent: 3,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.orange,
+            restProgressColor: Colors.orange.shade200),
+        GanttChartTaskItem(
+            startDate: DateTime(2023, 1, 24),
+            endDate: DateTime(2023, 2, 29),
+            percent: 3,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.orange,
+            restProgressColor: Colors.orange.shade200),
+      ],
+    ),
     CalendarWidget(),
     Project(),
     AccountPage(),
@@ -92,7 +145,59 @@ class _PagePerformerState extends State<PagePerformer> {
 
   List<Widget> _itemWidget = [
     HomePagePerformer(),
-    GanttChart(),
+    GanttChart(
+      taskItems: [
+        GanttChartTaskItem(
+            startDate: DateTime(2022, 12, 28),
+            endDate: DateTime(2022, 12, 31),
+            percent: 75,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.red,
+            restProgressColor: Colors.red.shade200),
+        GanttChartTaskItem(
+            startDate: DateTime(2022, 12, 29),
+            endDate: DateTime(2023, 1, 2),
+            percent: 100,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.yellow,
+            restProgressColor: Colors.yellow.shade200),
+        GanttChartTaskItem(
+            startDate: DateTime(2023, 1, 24),
+            endDate: DateTime(2023, 2, 29),
+            percent: 3,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.orange,
+            restProgressColor: Colors.orange.shade200),
+        GanttChartTaskItem(
+            startDate: DateTime(2023, 1, 24),
+            endDate: DateTime(2023, 2, 29),
+            percent: 3,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.orange,
+            restProgressColor: Colors.orange.shade200),
+        GanttChartTaskItem(
+            startDate: DateTime(2023, 1, 24),
+            endDate: DateTime(2023, 2, 29),
+            percent: 3,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.orange,
+            restProgressColor: Colors.orange.shade200),
+        GanttChartTaskItem(
+            startDate: DateTime(2023, 1, 24),
+            endDate: DateTime(2023, 2, 29),
+            percent: 3,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.orange,
+            restProgressColor: Colors.orange.shade200),
+        GanttChartTaskItem(
+            startDate: DateTime(2023, 1, 24),
+            endDate: DateTime(2023, 2, 29),
+            percent: 3,
+            taskDescription: "Hello World",
+            onProgressColor: Colors.orange,
+            restProgressColor: Colors.orange.shade200),
+      ],
+    ),
     CalendarWidget(),
     AccountPage(),
   ];
@@ -194,12 +299,6 @@ class _LoginState extends State<Login> {
                       ),
                       contentPadding: EdgeInsets.all(16),
                     ),
-                    // validator: MultiValidator(
-                    //   [
-                    //     RequiredValidator(errorText: '*Required'),
-                    //     EmailValidator(errorText: "errorText")
-                    //   ],
-                    // ),
                   ),
                   SizedBox(
                     height: 30,

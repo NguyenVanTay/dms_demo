@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../../models/task_model.dart';
 import '../../screens/Task/tasks.dart';
+import '../GanttchartWidget/gantt_chart_task_item.dart';
 
 double? height;
 double? width;
@@ -20,12 +21,10 @@ MoreProjectItem? selectedMenu;
 class ProjectWidget extends StatefulWidget {
   ProjectModel project;
 
-
   //final UserModel user;
 
   ProjectWidget({
     required this.project,
-   
     super.key,
   });
 
@@ -42,7 +41,6 @@ class _ProjectWidgetState extends State<ProjectWidget> {
       onTap: () {
         Get.to(() => Tasks(
               project: widget.project,
-              
             ));
       },
       child: Container(
@@ -117,7 +115,33 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                           child: GestureDetector(
                             child: Text('Gantt Chart'),
                             onTap: () {
-                              Get.to(GanttChart());
+                              Get.to(GanttChart(
+                                taskItems: [
+                                  GanttChartTaskItem(
+                                      startDate: DateTime(2022, 12, 28),
+                                      endDate: DateTime(2022, 12, 31),
+                                      percent: 75,
+                                      taskDescription: "Hello World",
+                                      onProgressColor: Colors.red,
+                                      restProgressColor: Colors.red.shade200),
+                                  GanttChartTaskItem(
+                                      startDate: DateTime(2022, 12, 29),
+                                      endDate: DateTime(2023, 1, 2),
+                                      percent: 100,
+                                      taskDescription: "Hello World",
+                                      onProgressColor: Colors.yellow,
+                                      restProgressColor:
+                                          Colors.yellow.shade200),
+                                  GanttChartTaskItem(
+                                      startDate: DateTime(2023, 1, 24),
+                                      endDate: DateTime(2023, 2, 29),
+                                      percent: 3,
+                                      taskDescription: "Hello World",
+                                      onProgressColor: Colors.orange,
+                                      restProgressColor:
+                                          Colors.orange.shade200),
+                                ],
+                              ));
                             },
                           ),
                         ),

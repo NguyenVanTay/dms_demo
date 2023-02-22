@@ -116,15 +116,6 @@ class _TasksWidgetState extends State<TasksWidget> {
                           value: MoreTaskItem.delete,
                           child: Text('Delete'),
                         ),
-                        PopupMenuItem<MoreTaskItem>(
-                          value: MoreTaskItem.gantt,
-                          child: GestureDetector(
-                            child: Text('Gantt Chart'),
-                            onTap: () {
-                              Get.to(GanttChart());
-                            },
-                          ),
-                        ),
                       ],
                     ),
                   ],

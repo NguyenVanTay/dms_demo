@@ -83,13 +83,15 @@ class _DateTimeSelectorFormFieldState extends State<DateTimeSelectorFormField> {
     } else {
       date = await _showTimeSelector();
       _textEditingController.text =
-          (date ?? _selectedDate).getTimeInFormat(TimeStampFormat.parse_12);
+          (date ?? _selectedDate).getTimeInFormat(TimeStampFormat.parse_24);
     }
 
     _selectedDate = date ?? DateTime.now();
 
     if (mounted) {
-      setState(() {});
+      setState(() {
+        
+      });
     }
 
     widget.onSelect?.call(date);
