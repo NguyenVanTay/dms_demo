@@ -2,6 +2,7 @@
 
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
+import 'package:dms/Views/widgets/Project/projectwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/default_transitions.dart';
@@ -11,6 +12,25 @@ import '../widgets/boxwidget.dart';
 import '../widgets/Task/taskwidget.dart';
 
 class HomePage extends StatefulWidget {
+  String name;
+  String role;
+  String taskOfOnprocess;
+  String taskOfOverdue;
+  String taskOfNotaccepted;
+  String taskOfPendingapproval;
+  String taskOfTaskfromme;
+  String taskOfVerify;
+
+  HomePage(
+      {required this.name,
+      required this.role,
+      required this.taskOfOnprocess,
+      required this.taskOfOverdue,
+      required this.taskOfNotaccepted,
+      required this.taskOfPendingapproval,
+      required this.taskOfTaskfromme,
+      required this.taskOfVerify});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -51,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Ly Tran Thanh Thao",
+                                      widget.name,
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
@@ -66,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         //color: Colors.black54,
                                         child: Text(
-                                          "1C Developer",
+                                          widget.role,
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),
@@ -139,40 +159,51 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           GestureDetector(
                             child: Box(
-                                title: "On Process",
-                                icon: Icon(Icons.edit_note_outlined),
-                                color: Color.fromRGBO(146, 252, 161, 1)),
+                              title: "On Process",
+                              icon: Icon(Icons.edit_note_outlined),
+                              color: Color.fromRGBO(146, 252, 161, 1),
+                              task: widget.taskOfOnprocess,
+                            ),
                           ),
                           GestureDetector(
                             child: Box(
-                                title: "Overdue",
-                                icon: Icon(CarbonIcons.warning_other),
-                                color: Color.fromRGBO(255, 124, 124, 0.8)),
+                              title: "Overdue",
+                              icon: Icon(CarbonIcons.warning_other),
+                              color: Color.fromRGBO(255, 124, 124, 0.8),
+                              task: widget.taskOfOverdue,
+                            ),
                           ),
                           GestureDetector(
                             child: Box(
-                                title: "Not accepted",
-                                icon: Icon(Icons.event_busy_outlined),
-                                color: Color.fromRGBO(255, 250, 152, 1)),
+                              title: "Not accepted",
+                              icon: Icon(Icons.event_busy_outlined),
+                              color: Color.fromRGBO(255, 250, 152, 1),
+                              task: widget.taskOfNotaccepted,
+                            ),
                           ),
                           GestureDetector(
                             child: Box(
                               title: "Pending approval",
                               icon: Icon(Icons.pending_actions_outlined),
                               color: Color.fromRGBO(185, 247, 255, 1),
+                              task: widget.taskOfPendingapproval,
                             ),
                           ),
                           GestureDetector(
                             child: Box(
-                                title: "Task from me",
-                                icon: Icon(Icons.input_outlined),
-                                color: Color.fromRGBO(255, 225, 190, 1)),
+                              title: "Task from me",
+                              icon: Icon(Icons.input_outlined),
+                              color: Color.fromRGBO(255, 225, 190, 1),
+                              task: widget.taskOfTaskfromme,
+                            ),
                           ),
                           GestureDetector(
                             child: Box(
-                                title: "Verify",
-                                icon: Icon(Icons.check_circle_outline),
-                                color: Color.fromRGBO(228, 228, 228, 1)),
+                              title: "Verify",
+                              icon: Icon(Icons.check_circle_outline),
+                              color: Color.fromRGBO(228, 228, 228, 1),
+                              task: widget.taskOfVerify,
+                            ),
                           ),
                         ],
                       ),

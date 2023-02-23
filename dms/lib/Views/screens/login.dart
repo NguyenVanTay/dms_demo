@@ -10,15 +10,32 @@ import 'package:dms/Views/screens/register.dart';
 import 'package:dms/models/projectmodel.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/GanttchartWidget/gantt_chart_task_item.dart';
+
+import '../../network/network_request.dart';
 import 'Calendar/calendar_widget.dart';
 import 'Account/acountpage.dart';
 import 'fogetpassword.dart';
 
 class Page extends StatefulWidget {
-  ProjectModel? project;
-   Page({ this.project,super.key});
+  //const Page({super.key});
+  String name;
+  String role;
+  String taskOfOnprocess;
+  String taskOfOverdue;
+  String taskOfNotaccepted;
+  String taskOfPendingapproval;
+  String taskOfTaskfromme;
+  String taskOfVerify;
 
+  Page(
+      {required this.name,
+      required this.role,
+      required this.taskOfOnprocess,
+      required this.taskOfOverdue,
+      required this.taskOfNotaccepted,
+      required this.taskOfPendingapproval,
+      required this.taskOfTaskfromme,
+      required this.taskOfVerify});
   @override
   State<Page> createState() => _PageState();
 }
@@ -32,83 +49,24 @@ class _PageState extends State<Page> {
     });
   }
 
-  List<Widget> _itemWidget = [
-    HomePage(),
-    //GanttChart(
-    
-      // taskItems: [
-      //   // GanttChartTaskItem(
-      //   //     startDate: DateTime(2022, 12, 28),
-      //   //     endDate: DateTime(2022, 12, 31),
-      //   //     percent: 75,
-      //   //     taskDescription: "Hello World",
-      //   //     onProgressColor: Colors.red,
-      //   //     restProgressColor: Colors.red.shade200),
-      //   // GanttChartTaskItem(
-      //   //     startDate: DateTime(2022, 12, 29),
-      //   //     endDate: DateTime(2023, 1, 2),
-      //   //     percent: 100,
-      //   //     taskDescription: "Hello World",
-      //   //     onProgressColor: Colors.yellow,
-      //   //     restProgressColor: Colors.yellow.shade200),
-      //   // GanttChartTaskItem(
-      //   //     startDate: DateTime(2023, 1, 24),
-      //   //     endDate: DateTime(2023, 2, 29),
-      //   //     percent: 3,
-      //   //     taskDescription: "Hello World",
-      //   //     onProgressColor: Colors.orange,
-      //   //     restProgressColor: Colors.orange.shade200),
-      //   // GanttChartTaskItem(
-      //   //     startDate: DateTime(2023, 1, 24),
-      //   //     endDate: DateTime(2023, 2, 29),
-      //   //     percent: 3,
-      //   //     taskDescription: "Hello World",
-      //   //     onProgressColor: Colors.orange,
-      //   //     restProgressColor: Colors.orange.shade200),
-      //   // GanttChartTaskItem(
-      //   //     startDate: DateTime(2023, 1, 24),
-      //   //     endDate: DateTime(2023, 2, 29),
-      //   //     percent: 3,
-      //   //     taskDescription: "Hello World",
-      //   //     onProgressColor: Colors.orange,
-      //   //     restProgressColor: Colors.orange.shade200),
-      //   // GanttChartTaskItem(
-      //   //     startDate: DateTime(2023, 1, 24),
-      //   //     endDate: DateTime(2023, 2, 29),
-      //   //     percent: 3,
-      //   //     taskDescription: "Hello World",
-      //   //     onProgressColor: Colors.orange,
-      //   //     restProgressColor: Colors.orange.shade200),
-      //   // GanttChartTaskItem(
-      //   //     startDate: DateTime(2023, 1, 24),
-      //   //     endDate: DateTime(2023, 2, 29),
-      //   //     percent: 3,
-      //   //     taskDescription: "Hello World",
-      //   //     onProgressColor: Colors.orange,
-      //   //     restProgressColor: Colors.orange.shade200),
-      //   // GanttChartTaskItem(
-      //   //     startDate: DateTime(2023, 2, 22),
-      //   //     endDate: DateTime(2023, 2, 28),
-      //   //     percent: 75,
-      //   //     taskDescription: "Project Planning",
-      //   //     onProgressColor: Colors.green,
-      //   //     restProgressColor: Colors.green.shade200),
-      //   // GanttChartTaskItem(
-      //       // startDate: DateTime(2023, 2, 22),
-      //       // endDate: DateTime(2023, 2, 28),
-      //       // percent: 75,
-      //       // taskDescription: "Project Equipment Check",
-      //       // onProgressColor: Colors.green,
-      //       // restProgressColor: Colors.green.shade200)
-      // ],
-  //  ),
-    CalendarWidget(),
-    Project(),
-    AccountPage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    List<Widget> _itemWidget = [
+      HomePage(
+        name: widget.name,
+        role: widget.role,
+        taskOfNotaccepted: widget.taskOfNotaccepted,
+        taskOfOnprocess: widget.taskOfOnprocess,
+        taskOfOverdue: widget.taskOfOverdue,
+        taskOfPendingapproval: widget.taskOfPendingapproval,
+        taskOfTaskfromme: widget.taskOfTaskfromme,
+        taskOfVerify: widget.taskOfVerify,
+      ),
+      GanttChart(taskItems: [],),
+      CalendarWidget(),
+      Project(),
+      AccountPage(),
+    ];
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -147,8 +105,21 @@ class _PageState extends State<Page> {
 }
 
 class PagePerformer extends StatefulWidget {
-  const PagePerformer({super.key});
+  //const PagePerformer({super.key});
+  String name;
+  String role;
+  String taskOfOnprocess;
+  String taskOfOverdue;
+  String taskOfNotaccepted;
+  String taskOfPendingapproval;
 
+  PagePerformer(
+      {required this.name,
+      required this.role,
+      required this.taskOfOnprocess,
+      required this.taskOfOverdue,
+      required this.taskOfNotaccepted,
+      required this.taskOfPendingapproval});
   @override
   State<PagePerformer> createState() => _PagePerformerState();
 }
@@ -162,69 +133,21 @@ class _PagePerformerState extends State<PagePerformer> {
     });
   }
 
-  List<Widget> _itemWidget = [
-    HomePagePerformer(),
-    // GanttChart(
-      
-    //  // pro: [
-        
-    //     // GanttChartTaskItem(
-    //     //     startDate: DateTime(2022, 12, 28),
-    //     //     endDate: DateTime(2022, 12, 31),
-    //     //     percent: 75,
-    //     //     taskDescription: "Hello World",
-    //     //     onProgressColor: Colors.red,
-    //     //     restProgressColor: Colors.red.shade200),
-    //     // GanttChartTaskItem(
-    //     //     startDate: DateTime(2022, 12, 29),
-    //     //     endDate: DateTime(2023, 1, 2),
-    //     //     percent: 100,
-    //     //     taskDescription: "Hello World",
-    //     //     onProgressColor: Colors.yellow,
-    //     //     restProgressColor: Colors.yellow.shade200),
-    //     // GanttChartTaskItem(
-    //     //     startDate: DateTime(2023, 1, 24),
-    //     //     endDate: DateTime(2023, 2, 29),
-    //     //     percent: 3,
-    //     //     taskDescription: "Hello World",
-    //     //     onProgressColor: Colors.orange,
-    //     //     restProgressColor: Colors.orange.shade200),
-    //     // GanttChartTaskItem(
-    //     //     startDate: DateTime(2023, 1, 24),
-    //     //     endDate: DateTime(2023, 2, 29),
-    //     //     percent: 3,
-    //     //     taskDescription: "Hello World",
-    //     //     onProgressColor: Colors.orange,
-    //     //     restProgressColor: Colors.orange.shade200),
-    //     // GanttChartTaskItem(
-    //     //     startDate: DateTime(2023, 1, 24),
-    //     //     endDate: DateTime(2023, 2, 29),
-    //     //     percent: 3,
-    //     //     taskDescription: "Hello World",
-    //     //     onProgressColor: Colors.orange,
-    //     //     restProgressColor: Colors.orange.shade200),
-    //     // GanttChartTaskItem(
-    //     //     startDate: DateTime(2023, 1, 24),
-    //     //     endDate: DateTime(2023, 2, 29),
-    //     //     percent: 3,
-    //     //     taskDescription: "Hello World",
-    //     //     onProgressColor: Colors.orange,
-    //     //     restProgressColor: Colors.orange.shade200),
-    //     // GanttChartTaskItem(
-    //     //     startDate: DateTime(2023, 1, 24),
-    //     //     endDate: DateTime(2023, 2, 29),
-    //     //     percent: 3,
-    //     //     taskDescription: "Hello World",
-    //     //     onProgressColor: Colors.orange,
-    //     //     restProgressColor: Colors.orange.shade200),
-    //   //],
-    // ),
-    CalendarWidget(),
-    AccountPage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    List<Widget> _itemWidget = [
+      HomePagePerformer(
+        name: widget.name,
+        role: widget.role,
+        taskOfNotaccepted: widget.taskOfNotaccepted,
+        taskOfOnprocess: widget.taskOfOnprocess,
+        taskOfOverdue: widget.taskOfOverdue,
+        taskOfPendingapproval: widget.taskOfPendingapproval,
+      ),
+      GanttChart(taskItems: [],),
+      CalendarWidget(),
+      AccountPage(),
+    ];
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -377,7 +300,7 @@ class _LoginState extends State<Login> {
                     height: 60,
                     width: 240,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // if (_formKey.currentState!.validate()) {
                         //   print('Validated');
                         //   Navigator.push(
@@ -385,20 +308,77 @@ class _LoginState extends State<Login> {
                         //     MaterialPageRoute(builder: (context) => Page()),
                         //   );
                         // }
-                        if (_userController.text == "lttt") {
-                          print('Validated performer');
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PagePerformer()),
+
+                        var result = await Networking.getInstance().login(
+                            _userController.text, _passWordController.text);
+
+                        if (result == false) {
+                          final snackBar = SnackBar(
+                            content:
+                                const Text("Login information don't right"),
+                            action: SnackBarAction(
+                              label: 'Undo',
+                              onPressed: () {
+                                // Some code to undo the change.
+                              },
+                            ),
                           );
+
+                          // Find the ScaffoldMessenger in the widget tree
+                          // and use it to show a SnackBar.
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else {
-                          print('Validated project manager');
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Page()),
-                          );
+                          if (result.role == "Developer") {
+                            print('Validated performer');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PagePerformer(
+                                        name: result.name,
+                                        role: result.role,
+                                        taskOfNotaccepted: result.notAcceptTask,
+                                        taskOfOnprocess:
+                                            result.inprOnprogressTask,
+                                        taskOfOverdue: result.overdueTask,
+                                        taskOfPendingapproval:
+                                            result.pendingApprovalTask,
+                                      )),
+                            );
+                          } else {
+                            print('Validated projectmanager');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Page(
+                                        name: result.name,
+                                        role: result.role,
+                                        taskOfNotaccepted: result.notAcceptTask,
+                                        taskOfOnprocess:
+                                            result.inprOnprogressTask,
+                                        taskOfOverdue: result.overdueTask,
+                                        taskOfPendingapproval:
+                                            result.pendingApprovalTask,
+                                        taskOfTaskfromme: result.taskfromMe,
+                                        taskOfVerify: result.verifyTask,
+                                      )),
+                            );
+                          }
                         }
+
+                        // if (_userController.text == "lttt") {
+                        //   print('Validated performer');
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => PagePerformer()),
+                        //   );
+                        // } else {
+                        //   print('Validated project manager');
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(builder: (context) => Page()),
+                        //   );
+                        // }
                       },
                       // icon: Icon(
                       //   Icons.login_rounded,
