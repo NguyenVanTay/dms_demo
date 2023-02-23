@@ -1,4 +1,4 @@
-// ignore_for_file: sort_child_properties_last, avoid_print, prefer_final_fields, unused_field, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
+// ignore_for_file: sort_child_properties_last, avoid_print, prefer_final_fields, unused_field, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'dart:ui';
 
@@ -9,7 +9,6 @@ import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/register.dart';
 import 'package:dms/models/projectmodel.dart';
 import 'package:flutter/material.dart';
-
 
 import '../../network/network_request.dart';
 import 'Calendar/calendar_widget.dart';
@@ -62,7 +61,9 @@ class _PageState extends State<Page> {
         taskOfTaskfromme: widget.taskOfTaskfromme,
         taskOfVerify: widget.taskOfVerify,
       ),
-      GanttChart(taskItems: [],),
+      GanttChart(
+        taskItems: [],
+      ),
       CalendarWidget(),
       Project(),
       AccountPage(),
@@ -78,10 +79,10 @@ class _PageState extends State<Page> {
             icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.task_outlined),
-          //   label: 'Gantt Chart',
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.task_outlined),
+            label: 'Gantt Chart',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month_outlined),
             label: 'Calendar',
@@ -144,7 +145,9 @@ class _PagePerformerState extends State<PagePerformer> {
         taskOfOverdue: widget.taskOfOverdue,
         taskOfPendingapproval: widget.taskOfPendingapproval,
       ),
-      GanttChart(taskItems: [],),
+      GanttChart(
+        taskItems: [],
+      ),
       CalendarWidget(),
       AccountPage(),
     ];

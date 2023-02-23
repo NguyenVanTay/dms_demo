@@ -123,7 +123,7 @@ class _ProjectState extends State<Project> {
             icon: Icon(Icons.arrow_back_outlined),
             splashColor: Colors.grey,
             onPressed: () {
-              Navigator.pop(context);
+            
             },
           ),
           actions: [],

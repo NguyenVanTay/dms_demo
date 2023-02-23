@@ -33,7 +33,25 @@ class _TasksWidgetState extends State<TasksWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        if (widget.task.taskStatus == 'Not Started') {
+          Get.to(() => DetailTaskNotAccept(
+                task: widget.task,
+              ));
+        } else if (widget.task.taskStatus == 'In Progress') {
+          Get.to(() => DetailTaskOnProgess(
+                task: widget.task,
+              ));
+        } else if (widget.task.taskStatus == 'Finished') {
+          Get.to(() => DetailTaskDone(
+                task: widget.task,
+              ));
+        } else if (widget.task.taskStatus == 'Overdue') {
+          Get.to(() => DetailTaskPendding(
+                task: widget.task,
+              ));
+        }
+      },
       child: Container(
         margin: EdgeInsets.all(10),
         height: height,

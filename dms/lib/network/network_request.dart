@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:dms/models/foldermodel.dart';
+import 'package:dms/models/managerinformation.dart';
 import 'package:dms/models/projectmodel.dart';
 import 'package:dms/models/statusmodel.dart';
 import 'package:dms/models/task_model.dart';
@@ -286,6 +287,7 @@ class Networking {
 
   Future<dynamic> login(String _user, String _pass) async {
     PerformerInformationModel performerInfor;
+    ManagerInformationModel managerInfor;
 
     String basicAuth = 'Basic ${base64Encode(utf8.encode('$_user:$_pass'))}';
     Map<String, String> requestHeaders = {'authorization': basicAuth};
@@ -299,10 +301,15 @@ class Networking {
     );
 
     if (response.statusCode == 200) {
-      //sussess
-      performerInfor =
-          PerformerInformationModel.fromJson(jsonDecode(response.body));
-      return performerInfor;
+      if (_user == "Administrator") {
+        managerInfor =
+            ManagerInformationModel.fromJson(jsonDecode(response.body));
+        return managerInfor;
+      } else {
+        performerInfor =
+            PerformerInformationModel.fromJson(jsonDecode(response.body));
+        return performerInfor;
+      }
     } else {
       // Fail
       return false;
