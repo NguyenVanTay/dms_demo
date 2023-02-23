@@ -9,6 +9,7 @@ import 'package:dms/models/task_model.dart';
 import 'package:dms/models/typemodel.dart';
 import 'package:dms/models/usermodel.dart';
 import 'package:dms/models/performerinformation.dart';
+import 'package:dms/models/managerinformation.dart';
 import 'package:dms/models/util_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -286,6 +287,7 @@ class Networking {
 
   Future<dynamic> login(String _user, String _pass) async {
     PerformerInformationModel performerInfor;
+    ManagerInformationModel managerInfor;
 
     String basicAuth = 'Basic ${base64Encode(utf8.encode('$_user:$_pass'))}';
     Map<String, String> requestHeaders = {'authorization': basicAuth};
@@ -300,9 +302,18 @@ class Networking {
 
     if (response.statusCode == 200) {
       //sussess
-      performerInfor =
-          PerformerInformationModel.fromJson(jsonDecode(response.body));
-      return performerInfor;
+      var tmp = jsonDecode(response.body);
+      if (jsonDecode(response.body)['Role'] == 'Developer') {
+        //Login by role developer
+        performerInfor =
+            PerformerInformationModel.fromJson(jsonDecode(response.body));
+        return performerInfor;
+      } else {
+        //Login by role admin/ project manager
+        managerInfor =
+            ManagerInformationModel.fromJson(jsonDecode(response.body));
+        return managerInfor;
+      }
     } else {
       // Fail
       return false;
