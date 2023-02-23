@@ -1,7 +1,7 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:dms/models/task_model.dart';
 import 'package:flutter/material.dart';
-
-
-import 'gantt_chart_task_item.dart';
 
 class GanttChartTaskItemWidget extends StatelessWidget {
   /*
@@ -13,7 +13,7 @@ class GanttChartTaskItemWidget extends StatelessWidget {
 
   DateTime? startDate;
   DateTime? endDate;
-  final GanttChartTaskItem taskItem;
+  final TaskModel taskItem;
 
   GanttChartTaskItemWidget(
       {this.dateWidth = 60.0,
@@ -23,9 +23,10 @@ class GanttChartTaskItemWidget extends StatelessWidget {
 
   late int dateDiff;
   void onInit() {
-    startDate = taskItem.startDate ?? DateTime.now();
+    startDate =
+        DateTime.parse('${taskItem.projectTaskBegin}') ?? DateTime.now();
 
-    endDate = taskItem.endDate ?? DateTime.now();
+    endDate = DateTime.parse('${taskItem.projectTaskFinal}') ?? DateTime.now();
 
     dateDiff = endDate!.difference(startDate!).inDays + 1;
   }
@@ -41,7 +42,8 @@ class GanttChartTaskItemWidget extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(5.0),
             child: Container(
-              color: taskItem.restProgressColor,
+              // color: taskItem.restProgressColor,
+              color: Colors.green.shade200,
               width: taskWidth,
               height: rowHeight,
               child: Row(
@@ -50,18 +52,22 @@ class GanttChartTaskItemWidget extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.only(left: 4.0),
-                    decoration: BoxDecoration(
-                      color: taskItem.onProgressColor,
-                      borderRadius: const BorderRadius.only(
+                    decoration: const BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(5.0),
                         bottomLeft: Radius.circular(5.0),
                       ),
                     ),
-                    width: taskWidth * taskItem.percent / 100,
+                    width: taskWidth *
+                        double.parse('${taskItem.percent}'
+                            .replaceAll("\"\"", "")
+                            .replaceAll("%", "")) /
+                        100,
                     height: rowHeight,
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      taskItem.taskDescription,
+                      taskItem.description.toString(),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -70,12 +76,17 @@ class GanttChartTaskItemWidget extends StatelessWidget {
             ),
           ),
           Positioned(
-              left: taskWidth * taskItem.percent / 100 + 4,
+              left: taskWidth *
+                      double.parse('${taskItem.percent}'
+                          .replaceAll("\"\"", "")
+                          .replaceAll("%", "")) /
+                      100 +
+                  4,
               child: Container(
                 alignment: Alignment.centerLeft,
                 height: rowHeight,
                 child: Text(
-                  "${taskItem.percent.ceil()}%",
+                  "${taskItem.percent}",
                 ),
               ))
         ],

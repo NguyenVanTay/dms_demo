@@ -5,6 +5,7 @@
 //   return diff;
 // }
 
+import 'package:dms/models/task_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
@@ -24,18 +25,24 @@ TextStyle dayText = const TextStyle(
 
 //end style configuration
 
-Map<String, DateTime> getStartEndOfProject(List<GanttChartTaskItem> taskList) {
+Map<String, DateTime> getStartEndOfProject(List<TaskModel> taskList) {
   if (taskList.isEmpty) {
     return {
       "start": DateTime.now(),
       "end": DateTime.now(),
     };
   }
-  DateTime start = taskList[0].startDate ?? DateTime.now();
-  DateTime end = taskList[0].endDate ?? DateTime.now();
+  DateTime start =
+      DateTime.parse('${taskList[0].projectTaskBegin}') ?? DateTime.now();
+
+  DateTime end =
+      DateTime.parse('${taskList[0].projectTaskFinal}') ?? DateTime.now();
+
   for (int i = 1; i < taskList.length; i++) {
-    var startTask = taskList[i].startDate ?? DateTime.now();
-    var endTask = taskList[i].endDate ?? DateTime.now();
+    var startTask =
+        DateTime.parse('${taskList[i].projectTaskBegin}') ?? DateTime.now();
+    var endTask =
+        DateTime.parse('${taskList[i].projectTaskFinal}') ?? DateTime.now();
     if (startTask.isBefore(start)) {
       start = startTask;
     }

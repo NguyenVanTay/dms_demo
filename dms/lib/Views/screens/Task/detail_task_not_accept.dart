@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../../network/network_request.dart';
+
 enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
@@ -22,6 +24,18 @@ class DetailTaskNotAccept extends StatefulWidget {
 }
 
 class _DetailTaskNotAcceptState extends State<DetailTaskNotAccept> {
+    late List<TaskModel> tasks = [];
+  @override
+  void initState() {
+    super.initState();
+    Networking.getInstance()
+        .getProjectTaskByTaskCode(widget.task.code.toString())
+        .then((taskData) {
+      setState(() {
+        tasks = taskData;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     double maxheight = MediaQuery.of(context).size.height;
@@ -125,9 +139,12 @@ class _DetailTaskNotAcceptState extends State<DetailTaskNotAccept> {
                     CircularPercentIndicator(
                       radius: 60.0,
                       lineWidth: 15.0,
-                      percent: 0,
+                      percent: double.parse('${widget.task.percent}'
+                              .replaceAll("\"\"", "")
+                              .replaceAll("%", "")) /
+                          100,
                       center: new Text(
-                        "0%",
+                        "${widget.task.percent}",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
@@ -350,148 +367,45 @@ class _DetailTaskNotAcceptState extends State<DetailTaskNotAccept> {
                       width: 1.0,
                     ),
                   ),
-                  child: SingleChildScrollView(
-                    // for Vertical scrolling
+                  child: ListView.builder(
                     scrollDirection: Axis.vertical,
-                    child: Container(
-                      // height: maxheight,
-                      // width: maxwidth,
-                      margin: EdgeInsets.only(left: 10),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
+                    shrinkWrap: true,
+                    itemCount: tasks.length,
+                    itemBuilder: ((context, index) => Stack(
+                          children: [
+                            Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      "${widget.task.projectTaskFinal} ",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      " ${widget.task.performers![index].description} ",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      "${widget.task.progress![index].progress}",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Text(
-                                " - Lương Duy Liêm ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Not Accept",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                " - Lý Trần Thanh Thảo ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Not Accept",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                " - Nguyễn Ngọc Yên ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Not Accept",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                " - Trịnh Văn Thương ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Not Accept",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                " - Nguyễn Văn Tây ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Not Accept",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                              ],
+                            ),
+                          ],
+                        )),
                   ),
                 ),
               ),

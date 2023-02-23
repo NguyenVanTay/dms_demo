@@ -1,10 +1,13 @@
 // ignore_for_file: sort_child_properties_last, avoid_print, prefer_final_fields, unused_field, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
 
+import 'dart:ui';
+
 import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/homepage.dart';
 import 'package:dms/Views/screens/homepage_performer.dart';
 import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/register.dart';
+import 'package:dms/models/projectmodel.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/GanttchartWidget/gantt_chart_task_item.dart';
@@ -13,7 +16,8 @@ import 'Account/acountpage.dart';
 import 'fogetpassword.dart';
 
 class Page extends StatefulWidget {
-  const Page({super.key});
+  ProjectModel? project;
+   Page({ this.project,super.key});
 
   @override
   State<Page> createState() => _PageState();
@@ -30,59 +34,74 @@ class _PageState extends State<Page> {
 
   List<Widget> _itemWidget = [
     HomePage(),
-    GanttChart(
-      taskItems: [
-        GanttChartTaskItem(
-            startDate: DateTime(2022, 12, 28),
-            endDate: DateTime(2022, 12, 31),
-            percent: 75,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.red,
-            restProgressColor: Colors.red.shade200),
-        GanttChartTaskItem(
-            startDate: DateTime(2022, 12, 29),
-            endDate: DateTime(2023, 1, 2),
-            percent: 100,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.yellow,
-            restProgressColor: Colors.yellow.shade200),
-        GanttChartTaskItem(
-            startDate: DateTime(2023, 1, 24),
-            endDate: DateTime(2023, 2, 29),
-            percent: 3,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.orange,
-            restProgressColor: Colors.orange.shade200),
-        GanttChartTaskItem(
-            startDate: DateTime(2023, 1, 24),
-            endDate: DateTime(2023, 2, 29),
-            percent: 3,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.orange,
-            restProgressColor: Colors.orange.shade200),
-        GanttChartTaskItem(
-            startDate: DateTime(2023, 1, 24),
-            endDate: DateTime(2023, 2, 29),
-            percent: 3,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.orange,
-            restProgressColor: Colors.orange.shade200),
-        GanttChartTaskItem(
-            startDate: DateTime(2023, 1, 24),
-            endDate: DateTime(2023, 2, 29),
-            percent: 3,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.orange,
-            restProgressColor: Colors.orange.shade200),
-        GanttChartTaskItem(
-            startDate: DateTime(2023, 1, 24),
-            endDate: DateTime(2023, 2, 29),
-            percent: 3,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.orange,
-            restProgressColor: Colors.orange.shade200),
-      ],
-    ),
+    //GanttChart(
+    
+      // taskItems: [
+      //   // GanttChartTaskItem(
+      //   //     startDate: DateTime(2022, 12, 28),
+      //   //     endDate: DateTime(2022, 12, 31),
+      //   //     percent: 75,
+      //   //     taskDescription: "Hello World",
+      //   //     onProgressColor: Colors.red,
+      //   //     restProgressColor: Colors.red.shade200),
+      //   // GanttChartTaskItem(
+      //   //     startDate: DateTime(2022, 12, 29),
+      //   //     endDate: DateTime(2023, 1, 2),
+      //   //     percent: 100,
+      //   //     taskDescription: "Hello World",
+      //   //     onProgressColor: Colors.yellow,
+      //   //     restProgressColor: Colors.yellow.shade200),
+      //   // GanttChartTaskItem(
+      //   //     startDate: DateTime(2023, 1, 24),
+      //   //     endDate: DateTime(2023, 2, 29),
+      //   //     percent: 3,
+      //   //     taskDescription: "Hello World",
+      //   //     onProgressColor: Colors.orange,
+      //   //     restProgressColor: Colors.orange.shade200),
+      //   // GanttChartTaskItem(
+      //   //     startDate: DateTime(2023, 1, 24),
+      //   //     endDate: DateTime(2023, 2, 29),
+      //   //     percent: 3,
+      //   //     taskDescription: "Hello World",
+      //   //     onProgressColor: Colors.orange,
+      //   //     restProgressColor: Colors.orange.shade200),
+      //   // GanttChartTaskItem(
+      //   //     startDate: DateTime(2023, 1, 24),
+      //   //     endDate: DateTime(2023, 2, 29),
+      //   //     percent: 3,
+      //   //     taskDescription: "Hello World",
+      //   //     onProgressColor: Colors.orange,
+      //   //     restProgressColor: Colors.orange.shade200),
+      //   // GanttChartTaskItem(
+      //   //     startDate: DateTime(2023, 1, 24),
+      //   //     endDate: DateTime(2023, 2, 29),
+      //   //     percent: 3,
+      //   //     taskDescription: "Hello World",
+      //   //     onProgressColor: Colors.orange,
+      //   //     restProgressColor: Colors.orange.shade200),
+      //   // GanttChartTaskItem(
+      //   //     startDate: DateTime(2023, 1, 24),
+      //   //     endDate: DateTime(2023, 2, 29),
+      //   //     percent: 3,
+      //   //     taskDescription: "Hello World",
+      //   //     onProgressColor: Colors.orange,
+      //   //     restProgressColor: Colors.orange.shade200),
+      //   // GanttChartTaskItem(
+      //   //     startDate: DateTime(2023, 2, 22),
+      //   //     endDate: DateTime(2023, 2, 28),
+      //   //     percent: 75,
+      //   //     taskDescription: "Project Planning",
+      //   //     onProgressColor: Colors.green,
+      //   //     restProgressColor: Colors.green.shade200),
+      //   // GanttChartTaskItem(
+      //       // startDate: DateTime(2023, 2, 22),
+      //       // endDate: DateTime(2023, 2, 28),
+      //       // percent: 75,
+      //       // taskDescription: "Project Equipment Check",
+      //       // onProgressColor: Colors.green,
+      //       // restProgressColor: Colors.green.shade200)
+      // ],
+  //  ),
     CalendarWidget(),
     Project(),
     AccountPage(),
@@ -101,10 +120,10 @@ class _PageState extends State<Page> {
             icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.task_outlined),
-            label: 'Gantt Chart',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.task_outlined),
+          //   label: 'Gantt Chart',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month_outlined),
             label: 'Calendar',
@@ -145,59 +164,61 @@ class _PagePerformerState extends State<PagePerformer> {
 
   List<Widget> _itemWidget = [
     HomePagePerformer(),
-    GanttChart(
-      taskItems: [
-        GanttChartTaskItem(
-            startDate: DateTime(2022, 12, 28),
-            endDate: DateTime(2022, 12, 31),
-            percent: 75,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.red,
-            restProgressColor: Colors.red.shade200),
-        GanttChartTaskItem(
-            startDate: DateTime(2022, 12, 29),
-            endDate: DateTime(2023, 1, 2),
-            percent: 100,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.yellow,
-            restProgressColor: Colors.yellow.shade200),
-        GanttChartTaskItem(
-            startDate: DateTime(2023, 1, 24),
-            endDate: DateTime(2023, 2, 29),
-            percent: 3,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.orange,
-            restProgressColor: Colors.orange.shade200),
-        GanttChartTaskItem(
-            startDate: DateTime(2023, 1, 24),
-            endDate: DateTime(2023, 2, 29),
-            percent: 3,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.orange,
-            restProgressColor: Colors.orange.shade200),
-        GanttChartTaskItem(
-            startDate: DateTime(2023, 1, 24),
-            endDate: DateTime(2023, 2, 29),
-            percent: 3,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.orange,
-            restProgressColor: Colors.orange.shade200),
-        GanttChartTaskItem(
-            startDate: DateTime(2023, 1, 24),
-            endDate: DateTime(2023, 2, 29),
-            percent: 3,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.orange,
-            restProgressColor: Colors.orange.shade200),
-        GanttChartTaskItem(
-            startDate: DateTime(2023, 1, 24),
-            endDate: DateTime(2023, 2, 29),
-            percent: 3,
-            taskDescription: "Hello World",
-            onProgressColor: Colors.orange,
-            restProgressColor: Colors.orange.shade200),
-      ],
-    ),
+    // GanttChart(
+      
+    //  // pro: [
+        
+    //     // GanttChartTaskItem(
+    //     //     startDate: DateTime(2022, 12, 28),
+    //     //     endDate: DateTime(2022, 12, 31),
+    //     //     percent: 75,
+    //     //     taskDescription: "Hello World",
+    //     //     onProgressColor: Colors.red,
+    //     //     restProgressColor: Colors.red.shade200),
+    //     // GanttChartTaskItem(
+    //     //     startDate: DateTime(2022, 12, 29),
+    //     //     endDate: DateTime(2023, 1, 2),
+    //     //     percent: 100,
+    //     //     taskDescription: "Hello World",
+    //     //     onProgressColor: Colors.yellow,
+    //     //     restProgressColor: Colors.yellow.shade200),
+    //     // GanttChartTaskItem(
+    //     //     startDate: DateTime(2023, 1, 24),
+    //     //     endDate: DateTime(2023, 2, 29),
+    //     //     percent: 3,
+    //     //     taskDescription: "Hello World",
+    //     //     onProgressColor: Colors.orange,
+    //     //     restProgressColor: Colors.orange.shade200),
+    //     // GanttChartTaskItem(
+    //     //     startDate: DateTime(2023, 1, 24),
+    //     //     endDate: DateTime(2023, 2, 29),
+    //     //     percent: 3,
+    //     //     taskDescription: "Hello World",
+    //     //     onProgressColor: Colors.orange,
+    //     //     restProgressColor: Colors.orange.shade200),
+    //     // GanttChartTaskItem(
+    //     //     startDate: DateTime(2023, 1, 24),
+    //     //     endDate: DateTime(2023, 2, 29),
+    //     //     percent: 3,
+    //     //     taskDescription: "Hello World",
+    //     //     onProgressColor: Colors.orange,
+    //     //     restProgressColor: Colors.orange.shade200),
+    //     // GanttChartTaskItem(
+    //     //     startDate: DateTime(2023, 1, 24),
+    //     //     endDate: DateTime(2023, 2, 29),
+    //     //     percent: 3,
+    //     //     taskDescription: "Hello World",
+    //     //     onProgressColor: Colors.orange,
+    //     //     restProgressColor: Colors.orange.shade200),
+    //     // GanttChartTaskItem(
+    //     //     startDate: DateTime(2023, 1, 24),
+    //     //     endDate: DateTime(2023, 2, 29),
+    //     //     percent: 3,
+    //     //     taskDescription: "Hello World",
+    //     //     onProgressColor: Colors.orange,
+    //     //     restProgressColor: Colors.orange.shade200),
+    //   //],
+    // ),
     CalendarWidget(),
     AccountPage(),
   ];

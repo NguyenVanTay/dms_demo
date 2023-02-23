@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_new, unused_local_variable, unused_import, avoid_print, unused_element
 
+import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/Project/create_project.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
 import 'package:dms/Views/widgets/Project/projectwidget.dart';
@@ -13,6 +14,7 @@ import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 import '../../../routers/router.dart';
+import '../../widgets/GanttchartWidget/gantt_chart_task_item.dart';
 
 enum FilterItem { iteminitiated, itemplanning, itemPerforming, itemfinish }
 
@@ -42,7 +44,7 @@ class _ProjectState extends State<Project> {
 
     Networking.getInstance().getAllProject().then((projectData) {
       setState(() {
-        projects = projectData;
+        if (mounted) projects = projectData;
       });
     });
   }

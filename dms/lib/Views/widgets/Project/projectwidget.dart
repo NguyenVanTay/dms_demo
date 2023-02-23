@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../../models/task_model.dart';
+import '../../../models/util_storage.dart';
+import '../../../network/network_request.dart';
 import '../../screens/Task/tasks.dart';
 import '../GanttchartWidget/gantt_chart_task_item.dart';
 
@@ -33,7 +35,19 @@ class ProjectWidget extends StatefulWidget {
 }
 
 class _ProjectWidgetState extends State<ProjectWidget> {
-//  late List<ProjectModel> projects = UtilStorage.projects;
+  //late List<TaskModel> task = UtilStorage.tasks;
+  List<TaskModel> tasks = <TaskModel>[];
+  @override
+  void initState() {
+    super.initState();
+    Networking.getInstance()
+        .getProjectTaskByProjectCode(widget.project.code.toString())
+        .then((taskData) {
+      setState(() {
+        if (mounted) tasks = taskData;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +99,7 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                       ),
                       onSelected: (MoreProjectItem item) {
                         setState(() {
-                          selectedMenu = item;
+                          if (mounted) selectedMenu = item;
                         });
                       },
                       itemBuilder: (BuildContext context) =>
@@ -115,33 +129,45 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                           child: GestureDetector(
                             child: Text('Gantt Chart'),
                             onTap: () {
-                              Get.to(GanttChart(
-                                taskItems: [
-                                  GanttChartTaskItem(
-                                      startDate: DateTime(2022, 12, 28),
-                                      endDate: DateTime(2022, 12, 31),
-                                      percent: 75,
-                                      taskDescription: "Hello World",
-                                      onProgressColor: Colors.red,
-                                      restProgressColor: Colors.red.shade200),
-                                  GanttChartTaskItem(
-                                      startDate: DateTime(2022, 12, 29),
-                                      endDate: DateTime(2023, 1, 2),
-                                      percent: 100,
-                                      taskDescription: "Hello World",
-                                      onProgressColor: Colors.yellow,
-                                      restProgressColor:
-                                          Colors.yellow.shade200),
-                                  GanttChartTaskItem(
-                                      startDate: DateTime(2023, 1, 24),
-                                      endDate: DateTime(2023, 2, 29),
-                                      percent: 3,
-                                      taskDescription: "Hello World",
-                                      onProgressColor: Colors.orange,
-                                      restProgressColor:
-                                          Colors.orange.shade200),
-                                ],
-                              ));
+                              Get.to(() => GanttChart(taskItems: tasks)
+                                  // taskItems: [
+                                  //   GanttChartTaskItem(
+                                  //       startDate: DateTime(2023, 1, 24),
+                                  //       endDate: DateTime(2023, 2, 29),
+                                  //       percent: 100,
+                                  //       taskDescription: "Project Planning",
+                                  //       onProgressColor: Colors.green,
+                                  //       restProgressColor:
+                                  //           Colors.green.shade200),
+                                  //   GanttChartTaskItem(
+                                  //       startDate: DateTime(2023, 1, 24),
+                                  //       endDate: DateTime(2023, 2, 29),
+                                  //       percent: 50,
+                                  //       taskDescription:
+                                  //           "Project Equipment Check",
+                                  //       onProgressColor: Colors.yellow,
+                                  //       restProgressColor:
+                                  //           Colors.yellow.shade200),
+                                  //   GanttChartTaskItem(
+                                  //       startDate: DateTime(2023, 1, 24),
+                                  //       endDate: DateTime(2023, 2, 29),
+                                  //       percent: 50,
+                                  //       taskDescription:
+                                  //           "Project Equipment Check",
+                                  //       onProgressColor: Colors.yellow,
+                                  //       restProgressColor:
+                                  //           Colors.yellow.shade200),
+                                  //   GanttChartTaskItem(
+                                  //       startDate: DateTime(2023, 1, 24),
+                                  //       endDate: DateTime(2023, 2, 29),
+                                  //       percent: 50,
+                                  //       taskDescription:
+                                  //           "Project Equipment Check",
+                                  //       onProgressColor: Colors.yellow,
+                                  //       restProgressColor:
+                                  //           Colors.yellow.shade200),
+                                  // ],
+                                  );
                             },
                           ),
                         ),

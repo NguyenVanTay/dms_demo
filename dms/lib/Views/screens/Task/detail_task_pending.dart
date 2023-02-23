@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import, unused_local_variable, must_be_immutable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import, unused_local_variable, must_be_immutable, unnecessary_string_interpolations
 
 import 'package:dms/models/task_model.dart';
 import 'package:face_pile/face_pile.dart';
@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+
+import '../../../network/network_request.dart';
 
 enum SampleItem { itemOne, itemTwo, itemThree }
 
@@ -21,6 +23,19 @@ class DetailTaskPendding extends StatefulWidget {
 }
 
 class _DetailTaskPenddingState extends State<DetailTaskPendding> {
+  late List<TaskModel> tasks = [];
+  @override
+  void initState() {
+    super.initState();
+    Networking.getInstance()
+        .getProjectTaskByTaskCode(widget.task.code.toString())
+        .then((taskData) {
+      setState(() {
+        tasks = taskData;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double maxheight = MediaQuery.of(context).size.height;
@@ -124,9 +139,12 @@ class _DetailTaskPenddingState extends State<DetailTaskPendding> {
                     CircularPercentIndicator(
                       radius: 60.0,
                       lineWidth: 15.0,
-                      percent: 1,
+                      percent: double.parse('${widget.task.percent}'
+                              .replaceAll("\"\"", "")
+                              .replaceAll("%", "")) /
+                          100,
                       center: new Text(
-                        "100%",
+                        "${widget.task.percent}",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
@@ -349,148 +367,45 @@ class _DetailTaskPenddingState extends State<DetailTaskPendding> {
                       width: 1.0,
                     ),
                   ),
-                  child: SingleChildScrollView(
-                    // for Vertical scrolling
+                  child: ListView.builder(
                     scrollDirection: Axis.vertical,
-                    child: Container(
-                      // height: maxheight,
-                      // width: maxwidth,
-                      margin: EdgeInsets.only(left: 10),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
+                    shrinkWrap: true,
+                    itemCount: tasks.length,
+                    itemBuilder: ((context, index) => Stack(
+                          children: [
+                            Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      "${widget.task.projectTaskFinal} ",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      " ${widget.task.performers![index].description} ",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      "${widget.task.progress![index].progress}",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Text(
-                                " - Lương Duy Liêm ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Done",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                " - Lý Trần Thanh Thảo ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Done",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                " - Nguyễn Ngọc Yên ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Done",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                " - Trịnh Văn Thương ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Done",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                " - Nguyễn Văn Tây ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Done",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                              ],
+                            ),
+                          ],
+                        )),
                   ),
                 ),
               ),
