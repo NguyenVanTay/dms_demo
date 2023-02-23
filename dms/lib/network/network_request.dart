@@ -10,6 +10,7 @@ import 'package:dms/models/task_model.dart';
 import 'package:dms/models/typemodel.dart';
 import 'package:dms/models/usermodel.dart';
 import 'package:dms/models/performerinformation.dart';
+import 'package:dms/models/managerinformation.dart';
 import 'package:dms/models/util_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -301,14 +302,18 @@ class Networking {
     );
 
     if (response.statusCode == 200) {
-      if (_user == "Administrator") {
-        managerInfor =
-            ManagerInformationModel.fromJson(jsonDecode(response.body));
-        return managerInfor;
-      } else {
+      //sussess
+      var tmp = jsonDecode(response.body);
+      if (jsonDecode(response.body)['Role'] == 'Developer') {
+        //Login by role developer
         performerInfor =
             PerformerInformationModel.fromJson(jsonDecode(response.body));
         return performerInfor;
+      } else {
+        //Login by role admin/ project manager
+        managerInfor =
+            ManagerInformationModel.fromJson(jsonDecode(response.body));
+        return managerInfor;
       }
     } else {
       // Fail
