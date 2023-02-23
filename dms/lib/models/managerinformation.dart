@@ -25,8 +25,8 @@ class ManagerInformationModel {
     inprOnprogressTask = json['InProgressTask'];
     pendingApprovalTask = json['PendingApprovalTask'];
     overdueTask = json['OverDueTask'];
-    taskfromMe = json['OverDueTask'];
-    verifyTask = json['OverDueTask'];
+    taskfromMe = json['TaskFromMe'];
+    verifyTask = json['Verify'];
   }
 
   Map<String, dynamic> toJson() {
