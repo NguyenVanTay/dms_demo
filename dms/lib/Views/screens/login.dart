@@ -202,6 +202,8 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -212,40 +214,46 @@ class _LoginState extends State<Login> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: [
-                  Text(
-                    "Welcome Dms System",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Image(
+                      //     image: AssetImage("images/dog.png"),
+                      //     height: deviceHeight * 0.2),
+                      Text("Welcome back,",
+                          style: Theme.of(context).textTheme.headline4),
+                      Text("Document Management System",
+                          style: Theme.of(context).textTheme.headline5),
+                    ],
                   ),
+                  // Text(
+                  //   "Welcome Dms System",
+                  //   textAlign: TextAlign.center,
+                  //   style: TextStyle(
+                  //       fontSize: 22,
+                  //       fontWeight: FontWeight.bold,
+                  //       color: Colors.blue),
+                  // ),
                   SizedBox(
                     height: 40,
                   ),
                   TextFormField(
-                    inputFormatters: [],
-                    keyboardType: TextInputType.text,
                     controller: _userController,
                     decoration: InputDecoration(
-                      labelText: 'UserName',
-                      hintText: 'Enter User Name',
-                      prefixIcon: Align(
-                        widthFactor: 1.0,
-                        child: Icon(Icons.person_outline),
-                      ),
+                      prefixIcon: Icon(Icons.person_outline_outlined),
+                      labelText: "Username",
+                      hintText: "Username",
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
                           width: 1,
                           style: BorderStyle.solid,
                         ),
                       ),
-                      contentPadding: EdgeInsets.all(16),
                     ),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: deviceHeight * 0.04,
                   ),
                   Stack(
                     alignment: AlignmentDirectional.centerEnd,
@@ -254,14 +262,20 @@ class _LoginState extends State<Login> {
                         controller: _passWordController,
                         obscureText: _showPassword,
                         decoration: InputDecoration(
-                          labelText: 'PassWord',
-                          hintText: 'Enter PassWord',
+                          labelText: 'Password',
+                          hintText: 'Enter Password',
                           prefixIcon: Align(
                             widthFactor: 1.0,
-                            child: Icon(Icons.password_outlined),
+                            child: Icon(Icons.lock_outline),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: _showPassword
+                                ? (Icon(Icons.visibility))
+                                : (Icon(Icons.visibility_off)),
+                            onPressed: () => {onToggleShowPass()},
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide(
                               width: 1,
                               style: BorderStyle.solid,
@@ -269,36 +283,29 @@ class _LoginState extends State<Login> {
                           ),
                           fillColor: Colors.blue,
                           filled: false,
-                          contentPadding: EdgeInsets.all(16),
-                        ),
-                        // validator: MultiValidator(
-                        //   [
-                        //     RequiredValidator(errorText: '*Required'),
-                        //     MinLengthValidator(8, errorText: "errorText")
-                        //   ],
-                        // ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: onToggleShowPass,
-                          child: Text(
-                            _showPassword ? "HIDE" : "SHOW",
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          //contentPadding: EdgeInsets.all(16),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 30,
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ForgetPassword()),
+                          );
+                        },
+                        child: const Text("Forget password")),
                   ),
                   SizedBox(
-                    height: 60,
-                    width: 240,
+                    height: deviceHeight * 0.03,
+                  ),
+                  SizedBox(
+                    height: deviceHeight * 0.06,
+                    width: deviceWidth * 0.5,
                     child: ElevatedButton(
                       onPressed: () async {
                         showDialog(
@@ -308,18 +315,10 @@ class _LoginState extends State<Login> {
                           },
                           barrierDismissible: false,
                         );
-                        // if (_formKey.currentState!.validate()) {
-                        //   print('Validated');
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(builder: (context) => Page()),
-                        //   );
-                        // }
 
                         var result = await Networking.getInstance().login(
                             _userController.text, _passWordController.text);
 
-                        // ignore: use_build_context_synchronously
                         Navigator.of(context).pop();
 
                         if (result == false) {
@@ -335,8 +334,6 @@ class _LoginState extends State<Login> {
                             ),
                           );
 
-                          // Find the ScaffoldMessenger in the widget tree
-                          // and use it to show a SnackBar.
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else {
                           // Login sucess
@@ -382,40 +379,22 @@ class _LoginState extends State<Login> {
                             );
                           }
                         }
-
-                        // if (_userController.text == "lttt") {
-                        //   print('Validated performer');
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => PagePerformer()),
-                        //   );
-                        // } else {
-                        //   print('Validated project manager');
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(builder: (context) => Page()),
-                        //   );
-                        // }
                       },
-                      // icon: Icon(
-                      //   Icons.login_rounded,
-                      //   color: Colors.white,
-                      //   size: 30,
-                      // ),
                       child: Text(
-                        'Login',
+                        'Login'.toUpperCase(),
                         style: TextStyle(fontSize: 20),
                       ),
                       style: ElevatedButton.styleFrom(
-                          elevation: 20, shape: StadiumBorder()),
+                        backgroundColor: Color.fromRGBO(2, 62, 115, 1),
+                        elevation: 0,
+                      ),
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: deviceHeight * 0.01,
                   ),
-                  InkWell(
-                    onTap: () {
+                  TextButton(
+                    onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Register()),
@@ -423,30 +402,15 @@ class _LoginState extends State<Login> {
                     },
                     child: Text.rich(
                       TextSpan(
-                          text: "Don't Have Account ",
-                          style: TextStyle(fontSize: 20),
+                          text: "Don't have account? ",
+                          style: Theme.of(context).textTheme.bodyLarge,
                           children: const [
                             TextSpan(
-                                text: "SignUp",
-                                style: TextStyle(
-                                    fontSize: 22,
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold))
+                                text: "Sign up",
+                                style: TextStyle(color: Colors.blue))
                           ]),
                     ),
                   ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ForgetPassword()),
-                        );
-                      },
-                      child: Text(
-                        'Forget Password ?',
-                        style: TextStyle(fontSize: 18, color: Colors.blue),
-                      ))
                 ],
               ),
             ),

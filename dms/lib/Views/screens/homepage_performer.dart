@@ -31,6 +31,32 @@ class HomePagePerformer extends StatefulWidget {
 }
 
 class _HomePagePerformerState extends State<HomePagePerformer> {
+  static TextStyle defaultAvatarText = const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      fontFamily: 'Roboto, sans-serif',
+      color: Colors.white,
+      height: 1.45);
+  Widget DefaultAvatar(String name, {int size = 20}) {
+    var names = name.split(" ");
+    while (names.length < 2) {
+      names.add(" ");
+    }
+    String defaultString =
+        names[0].toUpperCase()[0] + names[names.length - 1].toUpperCase()[0];
+    return Container(
+      height: 60,
+      width: 60,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+      child: Center(
+        child: Text(
+          defaultString,
+          style: defaultAvatarText,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -54,10 +80,9 @@ class _HomePagePerformerState extends State<HomePagePerformer> {
                           ),
                           Row(children: [
                             Column(children: [
-                              CircleAvatar(
-                                backgroundImage: AssetImage("images/dog.jpg"),
-                                radius: 28,
-                              )
+                              DefaultAvatar(
+                                widget.name,
+                              ),
                             ]),
                             SizedBox(width: 8),
                             Row(children: [
