@@ -370,7 +370,8 @@ class _DetailTaskNotAcceptState extends State<DetailTaskNotAccept> {
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    itemCount: tasks.length,
+                                      itemCount: widget.task.performers!.length,
+
                     itemBuilder: ((context, index) => Stack(
                           children: [
                             Column(

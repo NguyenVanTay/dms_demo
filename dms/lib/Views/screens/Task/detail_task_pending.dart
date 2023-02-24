@@ -31,7 +31,7 @@ class _DetailTaskPenddingState extends State<DetailTaskPendding> {
         .getProjectTaskByTaskCode(widget.task.code.toString())
         .then((taskData) {
       setState(() {
-        tasks = taskData;
+        if (mounted) tasks = taskData;
       });
     });
   }
@@ -69,7 +69,7 @@ class _DetailTaskPenddingState extends State<DetailTaskPendding> {
               ),
               onSelected: (SampleItem item) {
                 setState(() {
-                  selectedMenu = item;
+                  if (mounted) selectedMenu = item;
                 });
               },
               itemBuilder: (BuildContext context) =>
@@ -370,7 +370,7 @@ class _DetailTaskPenddingState extends State<DetailTaskPendding> {
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    itemCount: tasks.length,
+                    itemCount: widget.task.performers!.length,
                     itemBuilder: ((context, index) => Stack(
                           children: [
                             Column(
@@ -387,7 +387,7 @@ class _DetailTaskPenddingState extends State<DetailTaskPendding> {
                                       ),
                                     ),
                                     Text(
-                                      " ${widget.task.performers![index].description} ",
+                                      " ${widget.task.performers![index].description}",
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 16.0,

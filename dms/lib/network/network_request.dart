@@ -222,6 +222,7 @@ class Networking {
 
   // Get Oroject Task by Task Code
   Future<List<TaskModel>> getProjectTaskByTaskCode(String code) async {
+    
     String basicAuth =
         'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
     Map<String, String> requestHeaders = {'authorization': basicAuth};
@@ -254,7 +255,7 @@ class Networking {
         headers: requestHeaders,
         body: jsonEncode(body));
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       //sussess
       return true;
     } else {
@@ -315,7 +316,8 @@ class Networking {
             ManagerInformationModel.fromJson(jsonDecode(response.body));
         return managerInfor;
       }
-    } else {
+    } 
+    else {
       // Fail
       return false;
     }

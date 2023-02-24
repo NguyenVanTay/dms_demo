@@ -1,13 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import, unused_local_variable, must_be_immutable, unnecessary_string_interpolations
 
-import 'package:dms/Views/widgets/Task/task_widget.dart';
-import 'package:dms/models/statusmodel.dart';
+
 import 'package:dms/models/task_model.dart';
 import 'package:face_pile/face_pile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../../../network/network_request.dart';

@@ -370,7 +370,7 @@ class _DetailTaskOnProgessState extends State<DetailTaskOnProgess> {
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    itemCount: tasks.length,
+                    itemCount: widget.task.performers!.length,
                     itemBuilder: ((context, index) => Stack(
                           children: [
                             Column(

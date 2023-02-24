@@ -5,6 +5,7 @@ import 'package:dms/Views/screens/Task/detail_task_done.dart';
 import 'package:dms/Views/screens/Task/detail_task_not_accept.dart';
 import 'package:dms/Views/screens/Task/detail_task_onprogress.dart';
 import 'package:dms/Views/screens/Task/detail_task_pending.dart';
+import 'package:dms/Views/screens/Task/send_task.dart';
 
 import 'package:dms/models/task_model.dart';
 import 'package:face_pile/face_pile.dart';
@@ -35,8 +36,9 @@ class _TasksWidgetState extends State<TasksWidget> {
     return GestureDetector(
       onTap: () {
         if (widget.task.taskStatus == 'Not Started') {
-          Get.to(() => DetailTaskNotAccept(
+          Get.to(() => SendTask(
                 task: widget.task,
+                //task: widget.task,
               ));
         } else if (widget.task.taskStatus == 'In Progress') {
           Get.to(() => DetailTaskOnProgess(

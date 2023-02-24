@@ -54,17 +54,7 @@ class _TasksState extends State<Tasks> {
         tasks = taskData;
       });
     });
-
-    // Networking.getInstance()
-    //     .getProjectTaskByTaskCode(widget.task.code.toString())
-    //     .then((taskData) {
-    //   setState(() {
-    //     tasks = taskData;
-    //   });
-    // });
   }
-
-  // Not Start
 
   List<TaskModel> filterTaskByStateNotStart() {
     filterListTask.clear();

@@ -557,6 +557,7 @@ class _CreateTaskState extends State<CreateTask> {
           ),
         );
       }
+
       Get.to(Tasks(
         project: widget.project,
         // task: widget.task!,
