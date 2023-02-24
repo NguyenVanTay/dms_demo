@@ -1,6 +1,4 @@
-// ignore_for_file: sort_child_properties_last, avoid_print, prefer_final_fields, unused_field, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, use_build_context_synchronously
-
-import 'dart:ui';
+// ignore_for_file: sort_child_properties_last, avoid_print, prefer_final_fields, unused_field, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
 
 import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/homepage.dart';
@@ -148,7 +146,7 @@ class _PagePerformerState extends State<PagePerformer> {
       ),
       GanttChart(
         taskItems: [],
-        project: (ProjectModel()),
+        project: ProjectModel(),
       ),
       CalendarWidget(),
       AccountPage(),
@@ -219,26 +217,14 @@ class _LoginState extends State<Login> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Image(
-                      //     image: AssetImage("images/dog.png"),
-                      //     height: deviceHeight * 0.2),
-                      Text("Welcome back,",
-                          style: Theme.of(context).textTheme.headline4),
-                      Text("Document Management System",
-                          style: Theme.of(context).textTheme.headline5),
-                    ],
+                  Text(
+                    "Welcome Dms System",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue),
                   ),
-                  // Text(
-                  //   "Welcome Dms System",
-                  //   textAlign: TextAlign.center,
-                  //   style: TextStyle(
-                  //       fontSize: 22,
-                  //       fontWeight: FontWeight.bold,
-                  //       color: Colors.blue),
-                  // ),
                   SizedBox(
                     height: 40,
                   ),
@@ -396,10 +382,10 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   SizedBox(
-                    height: deviceHeight * 0.01,
+                    height: 20,
                   ),
-                  TextButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Register()),
@@ -407,12 +393,15 @@ class _LoginState extends State<Login> {
                     },
                     child: Text.rich(
                       TextSpan(
-                          text: "Don't have account? ",
-                          style: Theme.of(context).textTheme.bodyLarge,
+                          text: "Don't Have Account ",
+                          style: TextStyle(fontSize: 20),
                           children: const [
                             TextSpan(
-                                text: "Sign up",
-                                style: TextStyle(color: Colors.blue))
+                                text: "SignUp",
+                                style: TextStyle(
+                                    fontSize: 22,
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold))
                           ]),
                     ),
                   ),

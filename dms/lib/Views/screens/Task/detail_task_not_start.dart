@@ -8,20 +8,35 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../../network/network_request.dart';
+
 enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
 
-class DetailTaskNotAccept extends StatefulWidget {
+class DetailTaskNotStart extends StatefulWidget {
   TaskModel task;
 
-  DetailTaskNotAccept({required this.task, super.key});
+  DetailTaskNotStart({required this.task, super.key});
 
   @override
-  State<DetailTaskNotAccept> createState() => _DetailTaskNotAcceptState();
+  State<DetailTaskNotStart> createState() => _DetailTaskNotStartState();
 }
 
-class _DetailTaskNotAcceptState extends State<DetailTaskNotAccept> {
+class _DetailTaskNotStartState extends State<DetailTaskNotStart> {
+  late List<TaskModel> tasks = [];
+  @override
+  void initState() {
+    super.initState();
+    Networking.getInstance()
+        .getProjectTaskByTaskCode(widget.task.code.toString())
+        .then((taskData) {
+      setState(() {
+        tasks = taskData;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double maxheight = MediaQuery.of(context).size.height;
@@ -93,7 +108,7 @@ class _DetailTaskNotAcceptState extends State<DetailTaskNotAccept> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      "Overdue",
+                      "${widget.task.taskStatus}",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -125,9 +140,12 @@ class _DetailTaskNotAcceptState extends State<DetailTaskNotAccept> {
                     CircularPercentIndicator(
                       radius: 60.0,
                       lineWidth: 15.0,
-                      percent: 0,
+                      percent: double.parse('${widget.task.percent}'
+                              .replaceAll("\"\"", "")
+                              .replaceAll("%", "")) /
+                          100,
                       center: new Text(
-                        "0%",
+                        "${widget.task.percent}",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
@@ -350,148 +368,45 @@ class _DetailTaskNotAcceptState extends State<DetailTaskNotAccept> {
                       width: 1.0,
                     ),
                   ),
-                  child: SingleChildScrollView(
-                    // for Vertical scrolling
+                  child: ListView.builder(
                     scrollDirection: Axis.vertical,
-                    child: Container(
-                      // height: maxheight,
-                      // width: maxwidth,
-                      margin: EdgeInsets.only(left: 10),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
+                    shrinkWrap: true,
+                    itemCount: widget.task.performers!.length,
+                    itemBuilder: ((context, index) => Stack(
+                          children: [
+                            Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      "${widget.task.projectTaskFinal} ",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      " ${widget.task.performers![index].description} ",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      "${widget.task.progress![index].progress}",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Text(
-                                " - Lương Duy Liêm ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Not Accept",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                " - Lý Trần Thanh Thảo ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Not Accept",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                " - Nguyễn Ngọc Yên ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Not Accept",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                " - Trịnh Văn Thương ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Not Accept",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${widget.task.projectTaskFinal} ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                " - Nguyễn Văn Tây ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                ": Not Accept",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                              ],
+                            ),
+                          ],
+                        )),
                   ),
                 ),
               ),
@@ -505,81 +420,29 @@ class _DetailTaskNotAcceptState extends State<DetailTaskNotAccept> {
                 ),
               ),
               Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.attach_file_rounded),
-                        ),
-                        Text(
-                          "Kehoachchitiet.pdf",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.comment_outlined),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.help_outlined),
-                        )
-                      ],
-                    ),
-                  ],
+                margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  color: Color.fromRGBO(146, 252, 161, 1),
                 ),
-              ),
-              Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: SizedBox(
-                      height: 50,
-                      width: 140,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            elevation: 1,
-                            // : BorderRadius.circular(10),
-                            backgroundColor: Color.fromRGBO(146, 252, 161, 1)),
-                        child: Text(
-                          'Performed',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        elevation: 1,
+                        // : BorderRadius.circular(10),
+                        backgroundColor: Color.fromRGBO(146, 252, 161, 1)),
+                    child: Text(
+                      'Send',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: SizedBox(
-                      height: 50,
-                      width: 240,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            elevation: 1,
-                            // : BorderRadius.circular(10),
-                            backgroundColor: Color.fromRGBO(255, 241, 114, 1)),
-                        child: Text(
-                          'Accept for completion',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               )
             ],
           ),

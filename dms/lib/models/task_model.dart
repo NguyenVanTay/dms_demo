@@ -13,6 +13,7 @@ class TaskModel {
   String? code;
   String? reviewer;
   String? taskStatus;
+  String? percent;
 
   TaskModel({
     this.predecessors,
@@ -26,6 +27,7 @@ class TaskModel {
     this.code,
     this.reviewer,
     this.taskStatus,
+    this.percent,
   });
 
   TaskModel.fromJson(Map<String, dynamic> json) {
@@ -56,6 +58,7 @@ class TaskModel {
     code = json['Code'];
     reviewer = json['Reviewer'];
     taskStatus = json['TaskStatus'];
+    percent = json['Percent'];
   }
 
   Map<String, dynamic> toJson() {
@@ -78,6 +81,7 @@ class TaskModel {
     data['Code'] = code;
     data['Reviewer'] = code;
     data['TaskStatus'] = taskStatus;
+    data['Percent'] = percent;
     return data;
   }
 }

@@ -2,9 +2,11 @@
 
 import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/Task/detail_task_done.dart';
-import 'package:dms/Views/screens/Task/detail_task_not_accept.dart';
+import 'package:dms/Views/screens/Task/detail_task_not_start.dart';
 import 'package:dms/Views/screens/Task/detail_task_onprogress.dart';
 import 'package:dms/Views/screens/Task/detail_task_pending.dart';
+import 'package:dms/Views/screens/Task/send_task.dart';
+import 'package:dms/Views/screens/Task/verify_task.dart';
 
 import 'package:dms/models/task_model.dart';
 import 'package:face_pile/face_pile.dart';
@@ -33,7 +35,26 @@ class _TasksWidgetState extends State<TasksWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        if (widget.task.taskStatus == 'Not Started') {
+          Get.to(() => SendTask(
+                task: widget.task,
+                //task: widget.task,
+              ));
+        } else if (widget.task.taskStatus == 'In Progress') {
+          Get.to(() => DetailTaskOnProgess(
+                task: widget.task,
+              ));
+        } else if (widget.task.taskStatus == 'Finished') {
+          Get.to(() => VerifyTask(
+              //task: widget.task,
+              ));
+        } else if (widget.task.taskStatus == 'Overdue') {
+          Get.to(() => VerifyTask(
+              //task: widget.task,
+              ));
+        }
+      },
       child: Container(
         margin: EdgeInsets.all(10),
         height: height,
@@ -82,32 +103,6 @@ class _TasksWidgetState extends State<TasksWidget> {
                       },
                       itemBuilder: (BuildContext context) =>
                           <PopupMenuEntry<MoreTaskItem>>[
-                        PopupMenuItem<MoreTaskItem>(
-                          value: MoreTaskItem.view,
-                          child: GestureDetector(
-                            child: Text('View Detail'),
-                            onTap: () {
-                              if (widget.task.taskStatus == 'Not Started') {
-                                Get.to(() => DetailTaskNotAccept(
-                                      task: widget.task,
-                                    ));
-                              } else if (widget.task.taskStatus ==
-                                  'In Progress') {
-                                Get.to(() => DetailTaskOnProgess(
-                                      task: widget.task,
-                                    ));
-                              } else if (widget.task.taskStatus == 'Finished') {
-                                Get.to(() => DetailTaskDone(
-                                      task: widget.task,
-                                    ));
-                              } else if (widget.task.taskStatus == 'Overdue') {
-                                Get.to(() => DetailTaskPendding(
-                                      task: widget.task,
-                                    ));
-                              }
-                            },
-                          ),
-                        ),
                         PopupMenuItem<MoreTaskItem>(
                           value: MoreTaskItem.edit,
                           child: Text('Edit'),
