@@ -2,7 +2,7 @@ import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
 
 import 'package:dms/Views/screens/homepage.dart';
-import 'package:dms/Views/screens/loginDMS.dart';
+import 'package:dms/Views/screens/login.dart';
 
 import 'package:dms/network/network_request.dart';
 import 'package:flutter/material.dart';
