@@ -44,11 +44,21 @@ class _HomePageState extends State<HomePage> {
       height: 1.45);
   Widget DefaultAvatar(String name, {String teacherName = "", int size = 20}) {
     var names = name.split(" ");
-    while (names.length < 2) {
-      names.add(" ");
+    // while (names.length < 2) {
+    //   names.add(" ");
+    // }
+    String defaultString = "";
+    // String defaultString =
+    //     names[0].toUpperCase()[0] + names[names.length - 1].toUpperCase()[0];
+
+    if (name.length < 1) {
+      defaultString = "";
+    } else if (names.length < 2) {
+      defaultString = names[0].toUpperCase()[0];
+    } else {
+      defaultString =
+          names[0].toUpperCase()[0] + names[names.length - 1].toUpperCase()[0];
     }
-    String defaultString =
-        names[0].toUpperCase()[0] + names[1].toUpperCase()[0];
     return Container(
       height: 60,
       width: 60,
