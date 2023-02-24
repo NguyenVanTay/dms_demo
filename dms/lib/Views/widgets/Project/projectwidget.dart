@@ -37,6 +37,7 @@ class ProjectWidget extends StatefulWidget {
 class _ProjectWidgetState extends State<ProjectWidget> {
   //late List<TaskModel> task = UtilStorage.tasks;
   List<TaskModel> tasks = <TaskModel>[];
+  List<ProjectModel> projects = <ProjectModel>[];
   @override
   void initState() {
     super.initState();
@@ -129,7 +130,10 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                           child: GestureDetector(
                             child: Text('Gantt Chart'),
                             onTap: () {
-                              Get.to(() => GanttChart(taskItems: tasks)
+                              Get.to(() => GanttChart(
+                                        taskItems: tasks,
+                                        project: widget.project,
+                                      )
                                   // taskItems: [
                                   //   GanttChartTaskItem(
                                   //       startDate: DateTime(2023, 1, 24),

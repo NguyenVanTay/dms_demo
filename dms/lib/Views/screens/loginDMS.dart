@@ -5,6 +5,7 @@ import 'package:dms/Views/screens/homepage.dart';
 import 'package:dms/Views/screens/homepage_performer.dart';
 import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/register.dart';
+import 'package:dms/models/projectmodel.dart';
 import 'package:flutter/material.dart';
 
 import '../../network/network_request.dart';
@@ -60,6 +61,7 @@ class _PageState extends State<Page> {
       ),
       GanttChart(
         taskItems: [],
+        project: ProjectModel(),
       ),
       CalendarWidget(),
       Project(),
@@ -144,6 +146,7 @@ class _PagePerformerState extends State<PagePerformer> {
       ),
       GanttChart(
         taskItems: [],
+        project: ProjectModel(),
       ),
       CalendarWidget(),
       AccountPage(),

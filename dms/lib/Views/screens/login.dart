@@ -63,6 +63,7 @@ class _PageState extends State<Page> {
       ),
       GanttChart(
         taskItems: [],
+        project: ProjectModel(),
       ),
       CalendarWidget(),
       Project(),
@@ -147,6 +148,7 @@ class _PagePerformerState extends State<PagePerformer> {
       ),
       GanttChart(
         taskItems: [],
+        project: (ProjectModel()),
       ),
       CalendarWidget(),
       AccountPage(),

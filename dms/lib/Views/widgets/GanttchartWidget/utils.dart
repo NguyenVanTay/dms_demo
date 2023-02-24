@@ -32,17 +32,13 @@ Map<String, DateTime> getStartEndOfProject(List<TaskModel> taskList) {
       "end": DateTime.now(),
     };
   }
-  DateTime start =
-      DateTime.parse('${taskList[0].projectTaskBegin}') ?? DateTime.now();
+  DateTime start = DateTime.parse('${taskList[0].projectTaskBegin}');
 
-  DateTime end =
-      DateTime.parse('${taskList[0].projectTaskFinal}') ?? DateTime.now();
+  DateTime end = DateTime.parse('${taskList[0].projectTaskFinal}');
 
   for (int i = 1; i < taskList.length; i++) {
-    var startTask =
-        DateTime.parse('${taskList[i].projectTaskBegin}') ?? DateTime.now();
-    var endTask =
-        DateTime.parse('${taskList[i].projectTaskFinal}') ?? DateTime.now();
+    var startTask = DateTime.parse('${taskList[i].projectTaskBegin}');
+    var endTask = DateTime.parse('${taskList[i].projectTaskFinal}');
     if (startTask.isBefore(start)) {
       start = startTask;
     }

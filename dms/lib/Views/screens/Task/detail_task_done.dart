@@ -396,8 +396,8 @@ class _DetailTaskDoneState extends State<DetailTaskDone> {
                                       ),
                                     ),
                                     Text(
-                                      // "${widget.task.progress![index].progress?? "Finished"}",
-                                      "Finished",
+                                       "${widget.task.progress![index].progress?? "Finished"}",
+                                     
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 16.0,

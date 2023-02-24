@@ -24,6 +24,7 @@ class DetailTaskOnProgess extends StatefulWidget {
 
 class _DetailTaskOnProgessState extends State<DetailTaskOnProgess> {
   late List<TaskModel> tasks = [];
+
   @override
   void initState() {
     super.initState();
@@ -95,28 +96,88 @@ class _DetailTaskOnProgessState extends State<DetailTaskOnProgess> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.only(top: 20, left: 10, right: 300),
-                height: 35,
-                width: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color.fromRGBO(255, 124, 124, 0.3),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      "Overdue",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(214, 70, 70, 1),
+              if (DateTime.parse(widget.task.projectTaskFinal!)
+                      .difference(DateTime.now())
+                      .inDays >
+                  1)
+                Container(
+                  margin: EdgeInsets.only(top: 20, left: 10, right: 300),
+                  height: 35,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color.fromRGBO(146, 252, 161, 0.3),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Undue",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(10, 187, 133, 1),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              if (DateTime.parse(widget.task.projectTaskFinal!)
+                      .difference(DateTime.now())
+                      .inDays <
+                  1)
+                Container(
+                  margin: EdgeInsets.only(top: 20, left: 10, right: 300),
+                  height: 35,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color.fromRGBO(255, 124, 124, 0.3),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Overdue",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(214, 70, 70, 1),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              // if (DateTime.parse(widget.task.projectTaskFinal!)
+              //             .difference(DateTime.now())
+              //             .inHours >
+              //         1 &&
+              //     DateTime.parse(widget.task.projectTaskFinal!)
+              //             .difference(DateTime.now())
+              //             .inHours <
+              //         23)
+              //   Container(
+              //     margin: EdgeInsets.only(top: 20, left: 10, right: 300),
+              //     height: 35,
+              //     width: 100,
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(20),
+              //       color: Color.fromRGBO(243, 178, 31, 0.08),
+              //     ),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //       children: [
+              //         Text(
+              //           "Due Soon",
+              //           style: TextStyle(
+              //             fontSize: 16,
+              //             fontWeight: FontWeight.bold,
+              //             color: Color.fromRGBO(243, 178, 31, 1),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -344,7 +405,7 @@ class _DetailTaskOnProgessState extends State<DetailTaskOnProgess> {
                     Container(
                       margin: EdgeInsets.only(left: 10, right: 40),
                       child: Text(
-                        "Progress: ",
+                        "Previous Task: ",
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -357,6 +418,66 @@ class _DetailTaskOnProgessState extends State<DetailTaskOnProgess> {
                 //decoration: BoxDecoration(border: BorderRadius()),
                 child: Container(
                   margin: EdgeInsets.only(left: 10, right: 10),
+                  height: 100.0,
+                  width: 400,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    // adding borders around the widget
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1.0,
+                    ),
+                  ),
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: widget.task.predecessors!.length,
+                    itemBuilder: ((context, index) => Stack(
+                          children: [
+                            Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                        "${widget.task.predecessors![index].description}")
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        )),
+                  ),
+                ),
+              ),
+              Container(
+                // margin: EdgeInsets.only(top: 20),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: Icon(
+                        Icons.edit_attributes_outlined,
+                        size: 32,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 40),
+                      child: Text(
+                        "Progress: ",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(5),
+                //decoration: BoxDecoration(border: BorderRadius()),
+                child: Container(
+                  margin: EdgeInsets.only(left: 10, right: 10, bottom: 20),
                   height: 100.0,
                   width: 400,
                   decoration: BoxDecoration(
@@ -406,67 +527,6 @@ class _DetailTaskOnProgessState extends State<DetailTaskOnProgess> {
                             ),
                           ],
                         )),
-                  ),
-                ),
-              ),
-              Container(
-                child: Divider(
-                  height: 1,
-                  thickness: 0.2,
-                  indent: 1,
-                  endIndent: 0,
-                  color: Colors.black,
-                ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.attach_file_rounded),
-                        ),
-                        Text(
-                          "Kehoachchitiet.pdf",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.comment_outlined),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.help_outlined),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 10, right: 10),
-                child: SizedBox(
-                  height: 50,
-                  width: maxwidth,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        elevation: 1,
-                        // : BorderRadius.circular(10),
-                        backgroundColor: Color.fromRGBO(146, 252, 161, 1)),
-                    child: Text(
-                      'Performed',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
                   ),
                 ),
               ),
