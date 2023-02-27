@@ -201,7 +201,7 @@ class _DetailProjectState extends State<DetailProject> {
                         radius: 24,
                         space: 35,
                         images: [
-                          NetworkImage("https://i.pravatar.cc/300?img=5")
+                        // NetworkImage("https://i.pravatar.cc/300?img=5")
                         ],
                       ),
                     ),

@@ -77,11 +77,16 @@ class _CreateTaskState extends State<CreateTask> {
 
   List<UserModel> usersList = UtilStorage.users;
   List<TaskModel> tasksList = UtilStorage.tasks;
+  List<ProjectModel> projectList = UtilStorage.projects;
 
   //List<UserModel> usersList = [];
 
-  late List<MultiSelectItem<UserModel>> _userItems = [];
+  late List<MultiSelectItem<ProjectModel>> _projectItems = [];
+
   late List<MultiSelectItem<TaskModel>> _taskItems = [];
+  late List<ProjectModel> projects = [];
+  late List<ProjectTeam> projectTeams = [];
+  late List<MultiSelectItem<ProjectTeam>> _projectTeamItems = [];
 
   @override
   void initState() {
@@ -94,10 +99,19 @@ class _CreateTaskState extends State<CreateTask> {
     _tasknamecontroller = TextEditingController();
     _longdesccontroller = TextEditingController();
 
-    _userItems = usersList
-        .map((user) =>
-            MultiSelectItem<UserModel>(user, user.description.toString()))
-        .toList();
+    Networking.getInstance()
+        .getProjectDetailByProjectCode(widget.project.code.toString())
+        .then((projectData) {
+      setState(() {
+        projects = projectData;
+        projectTeams = projects[0].projectTeam!;
+
+        _projectTeamItems = projectTeams
+            .map((project) => MultiSelectItem<ProjectTeam>(
+                project, project.description.toString()))
+            .toList();
+      });
+    });
 
     _taskItems = tasksList
         .map((task) =>
@@ -355,7 +369,7 @@ class _CreateTaskState extends State<CreateTask> {
                         padding: const EdgeInsets.all(10.0),
                         child: MultiSelectDialogField(
                           searchable: true,
-                          items: _userItems,
+                          items: _projectTeamItems,
                           dialogHeight: 200,
                           title: const Text(
                             "Select Performer ",
@@ -383,7 +397,7 @@ class _CreateTaskState extends State<CreateTask> {
                           ),
                           onConfirm: (values) {
                             setState(() {
-                              if (mounted) usersList = values;
+                              if (mounted) projectTeams = values;
                               performersList = [];
 
                               for (var userItem in usersList) {

@@ -220,9 +220,8 @@ class Networking {
     return taskList;
   }
 
-  // Get Oroject Task by Task Code
+  // Get Project Task by Task Code
   Future<List<TaskModel>> getProjectTaskByTaskCode(String code) async {
-    
     String basicAuth =
         'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
     Map<String, String> requestHeaders = {'authorization': basicAuth};
@@ -316,10 +315,30 @@ class Networking {
             ManagerInformationModel.fromJson(jsonDecode(response.body));
         return managerInfor;
       }
-    } 
-    else {
+    } else {
       // Fail
       return false;
     }
+  }
+
+// Get project by project code.
+  Future<List<ProjectModel>> getProjectDetailByProjectCode(String code) async {
+    String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
+    Map<String, String> requestHeaders = {'authorization': basicAuth};
+    List<ProjectModel> projectList = [];
+
+    final response = await http.get(
+        Uri.parse('$host/v1/ProjectDetails?Project=$code'),
+        headers: requestHeaders);
+    UtilStorage.projects.clear();
+    if (response.statusCode == 200) {
+      for (var projectItem in jsonDecode(response.body)) {
+        projectList.add(ProjectModel.fromJson(projectItem));
+      }
+
+      UtilStorage.projects.addAll(projectList);
+    }
+    return projectList;
   }
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables, must_be_immutable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables, must_be_immutable, non_constant_identifier_names
 
 import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/Task/detail_task_done.dart';
@@ -31,6 +31,37 @@ class TasksWidget extends StatefulWidget {
 
 class _TasksWidgetState extends State<TasksWidget> {
   List<TaskModel> tasks = [];
+  static TextStyle defaultAvatarText = const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      fontFamily: 'Roboto, sans-serif',
+      color: Colors.white,
+      height: 1.45);
+  Widget DefaultAvatar(String name, {int size = 20}) {
+    var names = name.split(" ");
+
+    String defaultString = "";
+
+    if (name.isEmpty) {
+      defaultString = "";
+    } else if (names.length < 2) {
+      defaultString = names[0].toUpperCase()[0];
+    } else {
+      defaultString =
+          names[0].toUpperCase()[0] + names[names.length - 1].toUpperCase()[0];
+    }
+    return Container(
+      height: 40,
+      width: 40,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+      child: Center(
+        child: Text(
+          defaultString,
+          style: defaultAvatarText,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,34 +154,70 @@ class _TasksWidgetState extends State<TasksWidget> {
                 ),
                 Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Icon(Icons.calendar_month),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Text(
-                        '${widget.task.projectTaskBegin} -  ${widget.task.projectTaskFinal}',
-                        style: TextStyle(
-                          fontSize: 16,
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Icon(Icons.calendar_month),
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Text(
+                            'Start Date: ${widget.task.projectTaskBegin}',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 40),
+                          child: Icon(Icons.calendar_month),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Text(
+                            'End Date: ${widget.task.projectTaskFinal}',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: Text(
+                          "Performer: ",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        )),
                     Container(
                       margin: EdgeInsets.all(20),
-                      child: Row(children: [
-                        FacePile(
-                          radius: 20,
-                          space: 20,
-                          images: [
-                            NetworkImage("https://i.pravatar.cc/300?img=1"),
-                            NetworkImage("https://i.pravatar.cc/300?img=2"),
-                            NetworkImage("https://i.pravatar.cc/300?img=3"),
-                            NetworkImage("https://i.pravatar.cc/300?img=4"),
-                            NetworkImage("https://i.pravatar.cc/300?img=5"),
-                          ],
-                        ),
-                      ]),
+                      height: 50,
+                      width: 250,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.all(8),
+                        itemCount: widget.task.performers!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Row(
+                            children: [
+                              DefaultAvatar(widget
+                                  .task.performers![index].description
+                                  .toString())
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),

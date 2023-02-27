@@ -14,7 +14,7 @@ import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 import '../../../routers/router.dart';
-import '../../widgets/GanttchartWidget/gantt_chart_task_item.dart';
+
 
 enum FilterItem { iteminitiated, itemplanning, itemPerforming, itemfinish }
 
@@ -122,9 +122,7 @@ class _ProjectState extends State<Project> {
             color: Colors.black,
             icon: Icon(Icons.arrow_back_outlined),
             splashColor: Colors.grey,
-            onPressed: () {
-            
-            },
+            onPressed: () {},
           ),
           actions: [],
           backgroundColor: Colors.white,
@@ -179,7 +177,7 @@ class _ProjectState extends State<Project> {
                         ),
                         onSelected: (FilterItem item) {
                           setState(() {
-                            selectedMenu = item;
+                            if (mounted) selectedMenu = item;
                           });
                         },
                         itemBuilder: (BuildContext context) =>

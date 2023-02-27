@@ -9,7 +9,7 @@ import 'package:dms/models/task_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
-import 'gantt_chart_task_item.dart';
+
 
 //style configuration
 TextStyle monthText = const TextStyle(

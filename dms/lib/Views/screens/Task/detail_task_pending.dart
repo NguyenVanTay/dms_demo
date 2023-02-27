@@ -24,6 +24,42 @@ class DetailTaskPendding extends StatefulWidget {
 
 class _DetailTaskPenddingState extends State<DetailTaskPendding> {
   late List<TaskModel> tasks = [];
+  static TextStyle defaultAvatarText = const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      fontFamily: 'Roboto, sans-serif',
+      color: Colors.white,
+      height: 1.45);
+  Widget DefaultAvatar(String name, {String teacherName = "", int size = 18}) {
+    var names = name.split(" ");
+    // while (names.length < 2) {
+    //   names.add(" ");
+    // }
+    String defaultString = "";
+    // String defaultString =
+    //     names[0].toUpperCase()[0] + names[names.length - 1].toUpperCase()[0];
+
+    if (name.length < 1) {
+      defaultString = "";
+    } else if (names.length < 2) {
+      defaultString = names[0].toUpperCase()[0];
+    } else {
+      defaultString =
+          names[0].toUpperCase()[0] + names[names.length - 1].toUpperCase()[0];
+    }
+    return Container(
+      height: 30,
+      width: 30,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+      child: Center(
+        child: Text(
+          defaultString,
+          style: defaultAvatarText,
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -203,16 +239,22 @@ class _DetailTaskPenddingState extends State<DetailTaskPendding> {
                     ),
                   ),
                   Container(
-                    child: FacePile(
-                      radius: 24,
-                      space: 35,
-                      images: [
-                        NetworkImage("https://i.pravatar.cc/300?img=1"),
-                        NetworkImage("https://i.pravatar.cc/300?img=2"),
-                        NetworkImage("https://i.pravatar.cc/300?img=3"),
-                        NetworkImage("https://i.pravatar.cc/300?img=4"),
-                        NetworkImage("https://i.pravatar.cc/300?img=5"),
-                      ],
+                    height: 50,
+                    width: 200,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(8),
+                      itemCount: widget.task.performers!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Row(
+                          children: [
+                            DefaultAvatar(widget
+                                .task.performers![index].description
+                                .toString())
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ]),
@@ -321,7 +363,7 @@ class _DetailTaskPenddingState extends State<DetailTaskPendding> {
                     Container(
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        "Lương Duy Liêm",
+                        "${widget.task.reviewer}",
                         style: TextStyle(
                           fontSize: 18,
                         ),

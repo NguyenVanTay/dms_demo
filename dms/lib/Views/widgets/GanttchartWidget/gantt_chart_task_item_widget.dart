@@ -31,7 +31,7 @@ class GanttChartTaskItemWidget extends StatelessWidget {
 
     // khoang cach giua startDate -- endDate
     dateDiff = endDate!.difference(startDate!).inDays + 2;
-    print(endDate);
+   
   }
 
   @override
@@ -59,8 +59,8 @@ class GanttChartTaskItemWidget extends StatelessWidget {
                       color: color,
                       // ignore: prefer_const_constructors
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(5.0),
-                        bottomLeft: Radius.circular(5.0),
+                        topLeft: const Radius.circular(5.0),
+                        bottomLeft: const Radius.circular(5.0),
                       ),
                     ),
                     width: taskWidth *

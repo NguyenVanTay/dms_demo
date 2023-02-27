@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import, unused_local_variable, must_be_immutable, unnecessary_string_interpolations
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_new, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_import, unused_local_variable, must_be_immutable, unnecessary_string_interpolations, non_constant_identifier_names
 
 import 'package:dms/Views/widgets/Task/task_widget.dart';
 import 'package:dms/models/statusmodel.dart';
@@ -27,6 +27,39 @@ class SendTask extends StatefulWidget {
 
 class _SendTaskState extends State<SendTask> {
   late List<TaskModel> tasks = [];
+  static TextStyle defaultAvatarText = const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      fontFamily: 'Roboto, sans-serif',
+      color: Colors.white,
+      height: 1.45);
+  Widget DefaultAvatar(String name, {String teacherName = "", int size = 18}) {
+    var names = name.split(" ");
+   
+    String defaultString = "";
+ 
+
+    if (name.isEmpty) {
+      defaultString = "";
+    } else if (names.length < 2) {
+      defaultString = names[0].toUpperCase()[0];
+    } else {
+      defaultString =
+          names[0].toUpperCase()[0] + names[names.length - 1].toUpperCase()[0];
+    }
+    return Container(
+      height: 30,
+      width: 30,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+      child: Center(
+        child: Text(
+          defaultString,
+          style: defaultAvatarText,
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -156,17 +189,17 @@ class _SendTaskState extends State<SendTask> {
                     ),
                   ),
                   Container(
-                    child: FacePile(
-                      radius: 24,
-                      space: 35,
-                      images: [
-                        NetworkImage("https://i.pravatar.cc/300?img=1"),
-                        NetworkImage("https://i.pravatar.cc/300?img=2"),
-                        NetworkImage("https://i.pravatar.cc/300?img=3"),
-                        NetworkImage("https://i.pravatar.cc/300?img=4"),
-                        NetworkImage("https://i.pravatar.cc/300?img=5"),
-                      ],
-                    ),
+                    margin: EdgeInsets.all(20),
+                    child: Row(children: [
+                      DefaultAvatar(
+                          widget.task.performers![0].description.toString()),
+                      DefaultAvatar(
+                          widget.task.performers![0].description.toString()),
+                      DefaultAvatar(
+                          widget.task.performers![0].description.toString()),
+                      DefaultAvatar(
+                          widget.task.performers![0].description.toString())
+                    ]),
                   ),
                 ]),
               ),

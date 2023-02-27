@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables, must_be_immutable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables, must_be_immutable, non_constant_identifier_names
 
 import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/Project/detail_project.dart';
@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../../models/task_model.dart';
-import '../../../models/util_storage.dart';
+
 import '../../../network/network_request.dart';
 import '../../screens/Task/tasks.dart';
-import '../GanttchartWidget/gantt_chart_task_item.dart';
+
 
 double? height;
 double? width;
@@ -36,6 +36,42 @@ class ProjectWidget extends StatefulWidget {
 
 class _ProjectWidgetState extends State<ProjectWidget> {
   //late List<TaskModel> task = UtilStorage.tasks;
+  static TextStyle defaultAvatarText = const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      fontFamily: 'Roboto, sans-serif',
+      color: Colors.white,
+      height: 1.45);
+  Widget DefaultAvatar(String name, {String teacherName = "", int size = 20}) {
+    var names = name.split(" ");
+    // while (names.length < 2) {
+    //   names.add(" ");
+    // }
+    String defaultString = "";
+    // String defaultString =
+    //     names[0].toUpperCase()[0] + names[names.length - 1].toUpperCase()[0];
+
+    if (name.length < 1) {
+      defaultString = "";
+    } else if (names.length < 2) {
+      defaultString = names[0].toUpperCase()[0];
+    } else {
+      defaultString =
+          names[0].toUpperCase()[0] + names[names.length - 1].toUpperCase()[0];
+    }
+    return Container(
+      height: 40,
+      width: 40,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+      child: Center(
+        child: Text(
+          defaultString,
+          style: defaultAvatarText,
+        ),
+      ),
+    );
+  }
+
   List<TaskModel> tasks = <TaskModel>[];
   List<ProjectModel> projects = <ProjectModel>[];
   @override
@@ -131,47 +167,9 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                             child: Text('Gantt Chart'),
                             onTap: () {
                               Get.to(() => GanttChart(
-                                        taskItems: tasks,
-                                        project: widget.project,
-                                      )
-                                  // taskItems: [
-                                  //   GanttChartTaskItem(
-                                  //       startDate: DateTime(2023, 1, 24),
-                                  //       endDate: DateTime(2023, 2, 29),
-                                  //       percent: 100,
-                                  //       taskDescription: "Project Planning",
-                                  //       onProgressColor: Colors.green,
-                                  //       restProgressColor:
-                                  //           Colors.green.shade200),
-                                  //   GanttChartTaskItem(
-                                  //       startDate: DateTime(2023, 1, 24),
-                                  //       endDate: DateTime(2023, 2, 29),
-                                  //       percent: 50,
-                                  //       taskDescription:
-                                  //           "Project Equipment Check",
-                                  //       onProgressColor: Colors.yellow,
-                                  //       restProgressColor:
-                                  //           Colors.yellow.shade200),
-                                  //   GanttChartTaskItem(
-                                  //       startDate: DateTime(2023, 1, 24),
-                                  //       endDate: DateTime(2023, 2, 29),
-                                  //       percent: 50,
-                                  //       taskDescription:
-                                  //           "Project Equipment Check",
-                                  //       onProgressColor: Colors.yellow,
-                                  //       restProgressColor:
-                                  //           Colors.yellow.shade200),
-                                  //   GanttChartTaskItem(
-                                  //       startDate: DateTime(2023, 1, 24),
-                                  //       endDate: DateTime(2023, 2, 29),
-                                  //       percent: 50,
-                                  //       taskDescription:
-                                  //           "Project Equipment Check",
-                                  //       onProgressColor: Colors.yellow,
-                                  //       restProgressColor:
-                                  //           Colors.yellow.shade200),
-                                  // ],
-                                  );
+                                    taskItems: tasks,
+                                    project: widget.project,
+                                  ));
                             },
                           ),
                         ),
@@ -230,11 +228,14 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                     ),
                     GestureDetector(
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 120, bottom: 5),
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage("images/dog.jpg"),
-                        ),
-                      ),
+                          padding: const EdgeInsets.only(left: 120, bottom: 5),
+                          child: Row(
+                            children: [
+                              DefaultAvatar(
+                                widget.project.manager.toString(),
+                              ),
+                            ],
+                          )),
                       onTap: () => {},
                     )
                   ],
