@@ -110,7 +110,7 @@ class _AllTasksState extends State<AllTasks> {
                           TaskWidget(
                               taskName: "On Process",
                               status: "status",
-                              dealine: DateTime.now())
+                              dealine: "2022-02-02")
                         ],
                       ),
                     ],
