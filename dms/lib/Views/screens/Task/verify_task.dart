@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, unnecessary_new, sized_box_for_whitespace, unused_import, unused_local_variable
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, unnecessary_new, sized_box_for_whitespace, unused_import, unused_local_variable, non_constant_identifier_names, must_be_immutable
 
 import 'dart:math';
 
@@ -7,18 +7,53 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
+import '../../../models/task_model.dart';
+
 enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
 
 class VerifyTask extends StatefulWidget {
-  const VerifyTask({super.key});
+  TaskModel task;
+  VerifyTask({required this.task, super.key});
 
   @override
   State<VerifyTask> createState() => _VerifyTaskState();
 }
 
 class _VerifyTaskState extends State<VerifyTask> {
+  static TextStyle defaultAvatarText = const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      fontFamily: 'Roboto, sans-serif',
+      color: Colors.white,
+      height: 1.45);
+  Widget DefaultAvatar(String name, {String teacherName = "", int size = 18}) {
+    var names = name.split(" ");
+
+    String defaultString = "";
+
+    if (name.isEmpty) {
+      defaultString = "";
+    } else if (names.length < 2) {
+      defaultString = names[0].toUpperCase()[0];
+    } else {
+      defaultString =
+          names[0].toUpperCase()[0] + names[names.length - 1].toUpperCase()[0];
+    }
+    return Container(
+      height: 30,
+      width: 30,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+      child: Center(
+        child: Text(
+          defaultString,
+          style: defaultAvatarText,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double maxheight = MediaQuery.of(context).size.height;
@@ -28,7 +63,7 @@ class _VerifyTaskState extends State<VerifyTask> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            "Send Task",
+            "Approve Task",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -81,64 +116,85 @@ class _VerifyTaskState extends State<VerifyTask> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 20, left: 10),
+                  margin: EdgeInsets.only(top: 10, left: 10, bottom: 10),
                   child: Text(
-                    "Develop a detailed plan for the program",
+                    "${widget.task.description}",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
             ),
             Container(
-              margin: EdgeInsets.only(left: 10, top: 30),
-              child: Row(
+              margin: EdgeInsets.only(left: 10),
+              child: Column(
                 children: [
-                  Icon(Icons.calendar_month_outlined),
-                  Text("11.08.2022 - 30.10.2022"),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 30),
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Icon(
-                      Icons.group_outlined,
-                      size: 32,
-                    ),
+                  Row(
+                    children: [
+                      Icon(Icons.calendar_month_outlined),
+                      Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: Text(
+                          "Start Date : ${widget.task.projectTaskBegin.toString()}",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Text(
-                      "Performers: ",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: FacePile(
-                      radius: 24,
-                      space: 35,
-                      images: [
-                        NetworkImage("https://i.pravatar.cc/300?img=1"),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Text(
-                      "Nguyen Ngoc Yen",
-                      style: TextStyle(fontSize: 18),
-                    ),
+                  Row(
+                    children: [
+                      Icon(Icons.calendar_month_outlined),
+                      Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: Text(
+                          "End Date   : ${widget.task.projectTaskFinal.toString()}",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
                   )
                 ],
               ),
             ),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Icon(
+                    Icons.group_outlined,
+                    size: 32,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(
+                    "Performers: ",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Container(
+                  // margin: EdgeInsets.all(20),
+                  height: 50,
+                  width: 200,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(8),
+                    itemCount: widget.task.performers!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Row(
+                        children: [
+                          DefaultAvatar(widget
+                              .task.performers![index].description
+                              .toString())
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
             Container(
-              margin: EdgeInsets.only(top: 30),
+              margin: EdgeInsets.only(top: 20),
               child: Row(
                 children: [
                   Container(
@@ -158,14 +214,14 @@ class _VerifyTaskState extends State<VerifyTask> {
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 20),
-                    child: Text("Pending approval",
+                    child: Text("${widget.task.taskStatus}",
                         style: TextStyle(fontSize: 18)),
                   ),
                 ],
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 30),
+              margin: EdgeInsets.only(top: 20),
               child: Row(
                 children: [
                   Container(
@@ -204,7 +260,7 @@ class _VerifyTaskState extends State<VerifyTask> {
                   height: maxheight,
                   margin: EdgeInsets.all(5),
                   child: Text(
-                    "Build a plan for media phase 1 and phase 2",
+                    "${widget.task.description}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 16.0,
@@ -213,48 +269,55 @@ class _VerifyTaskState extends State<VerifyTask> {
                 ),
               ),
             ),
-            Container(
-                margin: EdgeInsets.only(left: 10),
-                child: Row(
-                  children: [
-                    OutlinedButton(
-                        onPressed: () {},
-                        child: Text("Media_phase1.xlsx",
-                            style: TextStyle(color: Colors.black)))
-                  ],
-                )),
-            Container(
-                margin: EdgeInsets.only(left: 10),
-                child: Row(
-                  children: [
-                    OutlinedButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Media_phase2.xlsx",
-                          style: TextStyle(color: Colors.black),
-                        ))
-                  ],
-                )),
-            Container(
-              padding: EdgeInsets.only(left: 150, right: 150),
-              margin: EdgeInsets.only(top: 160),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Color.fromRGBO(146, 252, 161, 1),
-              ),
-              //  color: Color.fromRGBO(),
-              child: TextButton(
-                style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 20, left: 10, right: 10),
+                  height: 50,
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  decoration: BoxDecoration(
+                    // vien xung qunah
+                    border: Border.all(width: 0.03, color: Colors.black),
+                    borderRadius: BorderRadius.circular(10),
+
+                    color: Color.fromRGBO(146, 252, 161, 1),
+                  ),
+                  child: TextButton(
+                    child: Text(
+                      "Approve Task",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                    onPressed: () async {},
+                  ),
                 ),
-                onPressed: () {},
-                child: Text(
-                  'Verify',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                Container(
+                  margin: EdgeInsets.only(top: 20, left: 10, right: 10),
+                  height: 50,
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  decoration: BoxDecoration(
+                    // vien xung qunah
+                    border: Border.all(width: 0.03, color: Colors.black),
+                    borderRadius: BorderRadius.circular(10),
+
+                    color: Colors.grey.shade400,
+                  ),
+                  child: TextButton(
+                    child: Text(
+                      "Re-Execute",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                    onPressed: () async {},
+                  ),
                 ),
-              ),
-            ),
+              ],
+            )
           ],
         ),
       ),

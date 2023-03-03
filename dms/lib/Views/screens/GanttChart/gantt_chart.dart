@@ -21,9 +21,9 @@ class GanttChart extends StatefulWidget {
 }
 
 class _GanttChartState extends State<GanttChart> {
-  static const double MONTH_ROW_HEIGHT = 30;
-  static const double DAY_ROW_HEIGHT = 30;
-  static const double DAY_WIDTH = 60;
+  static const double MONTH_ROW_HEIGHT = 30.00;
+  static const double DAY_ROW_HEIGHT = 30.00;
+  static const double DAY_WIDTH = 60.00;
 
   List<TaskModel> taskItems = [];
   List<ProjectModel> projectItems = [];

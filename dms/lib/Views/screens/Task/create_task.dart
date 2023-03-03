@@ -38,6 +38,18 @@ List<DropdownMenuItem<String>> get dropdownPreviousTask {
   return preItem;
 }
 
+// List User dropdown.
+List<DropdownMenuItem<String>> get dropdownUserItems {
+  List<DropdownMenuItem<String>> userItem = UtilStorage.users
+      .map(
+        (e) => DropdownMenuItem(
+            child: Text(e.description ?? ""), value: e.description ?? ""),
+      )
+      .toList();
+
+  return userItem;
+}
+
 class CreateTask extends StatefulWidget {
   ProjectModel project;
   TaskModel? task;
@@ -78,6 +90,7 @@ class _CreateTaskState extends State<CreateTask> {
   List<UserModel> usersList = UtilStorage.users;
   List<TaskModel> tasksList = UtilStorage.tasks;
   List<ProjectModel> projectList = UtilStorage.projects;
+  String? user = UtilStorage.users[0].description;
 
   //List<UserModel> usersList = [];
 
@@ -150,7 +163,7 @@ class _CreateTaskState extends State<CreateTask> {
               icon: const Icon(Icons.arrow_back_outlined),
               splashColor: Colors.grey,
               onPressed: () {
-                Get.back();
+                Get.to(() => Tasks(project: widget.project));
               },
             ),
             actions: [
@@ -400,7 +413,7 @@ class _CreateTaskState extends State<CreateTask> {
                               if (mounted) projectTeams = values;
                               performersList = [];
 
-                              for (var userItem in usersList) {
+                              for (var userItem in projectTeams) {
                                 performersList.add(userItem.description);
                               }
                               performers = performersList.toString().substring(
@@ -412,6 +425,49 @@ class _CreateTaskState extends State<CreateTask> {
                         ),
                       )
                     ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: 10, right: 10, bottom: 10, top: 10),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Reviewer ",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                    child: DropdownButtonFormField(
+                        validator: (value) {
+                          if (value == null || value == "") {
+                            return "Please select Reviewer.";
+                          } else
+                            return null;
+                        },
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        dropdownColor: Colors.white,
+                        value: user,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            if (mounted) user = newValue!;
+                          });
+                        },
+                        items: dropdownUserItems),
                   ),
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 15, 10, 5),
@@ -532,6 +588,7 @@ class _CreateTaskState extends State<CreateTask> {
             DateFormat('hhmmss').format(_startTime!),
         "ProjectTaskFinal": DateFormat('yyyyMMdd').format(_endDate!) +
             DateFormat('hhmmss').format(_endTime!),
+        "Reviewer": user,
       };
 
       var result = await Networking.getInstance().createTask(data);

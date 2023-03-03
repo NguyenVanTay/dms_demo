@@ -341,4 +341,26 @@ class Networking {
     }
     return projectList;
   }
+
+  // Get. Send Task by Project Manager
+  Future<bool> sendTaskByPM(String code) async {
+    String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$_userName:$_password'))}';
+    Map<String, String> requestHeaders = {'authorization': basicAuth};
+
+    final response = await http.get(
+        Uri.parse(
+          '$host/v1/ProjectTaskHanndle?ProjectTask=$code',
+        ),
+        headers: requestHeaders);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      //sussess
+      return true;
+    } else {
+      // Faild
+
+      return false;
+    }
+  }
 }

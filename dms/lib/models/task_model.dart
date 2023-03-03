@@ -14,6 +14,7 @@ class TaskModel {
   String? reviewer;
   String? taskStatus;
   String? percent;
+  
 
   TaskModel({
     this.predecessors,

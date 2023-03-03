@@ -1,20 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, unnecessary_this, prefer_typing_uninitialized_variables, must_be_immutable, non_constant_identifier_names
 
-import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
-import 'package:dms/Views/screens/Task/detail_task_done.dart';
-import 'package:dms/Views/screens/Task/detail_task_not_start.dart';
-import 'package:dms/Views/screens/Task/detail_task_onprogress.dart';
-import 'package:dms/Views/screens/Task/detail_task_pending.dart';
-import 'package:dms/Views/screens/Task/send_task.dart';
+import 'package:dms/Views/screens/Task/detail_task.dart';
 import 'package:dms/Views/screens/Task/verify_task.dart';
-
 import 'package:dms/models/task_model.dart';
-import 'package:face_pile/face_pile.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-double? height;
-double? width;
+import '../../../models/projectmodel.dart';
 
 enum MoreTaskItem { view, edit, delete, gantt }
 
@@ -22,15 +15,15 @@ MoreTaskItem? selectedMenu;
 
 class TasksWidget extends StatefulWidget {
   TaskModel task;
+  ProjectModel project;
 
-  TasksWidget({required this.task, super.key});
+  TasksWidget({required this.task, required this.project, super.key});
 
   @override
   State<TasksWidget> createState() => _TasksWidgetState();
 }
 
 class _TasksWidgetState extends State<TasksWidget> {
-  List<TaskModel> tasks = [];
   static TextStyle defaultAvatarText = const TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w600,
@@ -67,29 +60,22 @@ class _TasksWidgetState extends State<TasksWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.task.taskStatus == 'Not Started') {
-          Get.to(() => SendTask(
-                task: widget.task,
-                //task: widget.task,
-              ));
-        } else if (widget.task.taskStatus == 'In Progress') {
-          Get.to(() => DetailTaskOnProgess(
+        if (widget.task.taskStatus == "Finished" ||
+            widget.task.taskStatus == "Overdue") {
+          Get.to(() => VerifyTask(
                 task: widget.task,
               ));
-        } else if (widget.task.taskStatus == 'Finished') {
-          Get.to(() => VerifyTask(
-              //task: widget.task,
-              ));
-        } else if (widget.task.taskStatus == 'Overdue') {
-          Get.to(() => VerifyTask(
-              //task: widget.task,
+        } else {
+          Get.to(() => DetailTask(
+                task: widget.task,
+                project: widget.project,
               ));
         }
       },
       child: Container(
         margin: EdgeInsets.all(10),
-        height: height,
-        width: width,
+        // height: height,
+        // width: width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Colors.white,

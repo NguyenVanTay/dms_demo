@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unnecessary_new, unused_local_variable, unused_import, avoid_print, must_be_immutable
 
 import 'package:dms/Views/screens/Project/create_project.dart';
+import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
 import 'package:dms/Views/screens/Task/create_task.dart';
 import 'package:dms/Views/widgets/Project/projectwidget.dart';
@@ -56,10 +57,10 @@ class _TasksState extends State<Tasks> {
     });
   }
 
-  List<TaskModel> filterTaskByStateNotStart() {
+  List<TaskModel> filterTaskByTasknotApproved() {
     filterListTask.clear();
     for (var taskItem in filterTaskListUtil) {
-      if (taskItem.taskStatus == 'Not Started') {
+      if (taskItem.taskStatus == 'Project Task not Approved') {
         filterListTask.add(taskItem);
       }
     }
@@ -150,7 +151,7 @@ class _TasksState extends State<Tasks> {
             icon: Icon(Icons.arrow_back_outlined),
             splashColor: Colors.grey,
             onPressed: () {
-              Get.back();
+              Get.to(() => Project());
             },
           ),
           actions: [],
@@ -197,11 +198,11 @@ class _TasksState extends State<Tasks> {
                         ),
                         PopupMenuItem<FilterItem>(
                           value: FilterItem.itemTaskNotStart,
-                          child: Text('Not started'),
+                          child: Text('Project Task not Approved'),
                           onTap: () {
                             if (mounted) {
                               setState(() {
-                                tasks = filterTaskByStateNotStart();
+                                tasks = filterTaskByTasknotApproved();
                               });
                             }
                           },
@@ -257,6 +258,7 @@ class _TasksState extends State<Tasks> {
                         children: [
                           TasksWidget(
                             task: formatDateTask(tasks[index]),
+                            project: widget.project,
                           ),
                         ],
                       ),
