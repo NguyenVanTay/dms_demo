@@ -11,6 +11,9 @@ import '../../network/network_request.dart';
 import 'Calendar/calendar_widget.dart';
 import 'Account/acountpage.dart';
 import 'fogetpassword.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+final storage = new FlutterSecureStorage();
 
 class Page extends StatefulWidget {
   //const Page({super.key});
@@ -337,6 +340,12 @@ class _LoginState extends State<Login> {
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else {
                           // Login sucess
+
+                          await storage.write(
+                              key: "username", value: _userController.text);
+                          await storage.write(
+                              key: "password", value: _passWordController.text);
+
                           if (result.role == "Developer") {
                             // Login by role developer - open UI performer
 

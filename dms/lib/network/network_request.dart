@@ -10,6 +10,7 @@ import 'package:dms/models/typemodel.dart';
 import 'package:dms/models/usermodel.dart';
 import 'package:dms/models/performerinformation.dart';
 import 'package:dms/models/managerinformation.dart';
+import 'package:dms/models/taskonuser_model.dart';
 import 'package:dms/models/util_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -318,5 +319,22 @@ class Networking {
       // Fail
       return false;
     }
+  }
+
+  Future<List<TaskOnUserModel>> getProjectTaskByUser(
+      String username, String password) async {
+    String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$username:$password'))}';
+    Map<String, String> requestHeaders = {'authorization': basicAuth};
+    List<TaskOnUserModel> taskList = [];
+
+    final response = await http.get(Uri.parse('$host/v1/ProjectTaskByUser'),
+        headers: requestHeaders);
+    if (response.statusCode == 200) {
+      for (var taskItem in jsonDecode(response.body)) {
+        taskList.add(TaskOnUserModel.fromJson(taskItem));
+      }
+    }
+    return taskList;
   }
 }

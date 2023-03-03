@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 class TaskWidget extends StatelessWidget {
   String taskName;
   String status;
-  DateTime dealine;
+  String dealine;
 
   TaskWidget(
       {required this.taskName,
@@ -16,7 +16,9 @@ class TaskWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double maxWidth = MediaQuery.of(context).size.width;
     return Container(
+      //width: maxWidth * 0.98,
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -51,22 +53,25 @@ class TaskWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
+                    Container(
+                      width: maxWidth * 0.91 - 20,
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Text(
                         taskName,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Text(
-                      status,
+                      "Status: " + status,
                       style: TextStyle(
                         fontSize: 16,
                       ),
                     ),
                     Text(
-                      DateFormat.yMMMMEEEEd().format(dealine),
+                      dealine,
                       style: TextStyle(
                         fontSize: 16,
                       ),

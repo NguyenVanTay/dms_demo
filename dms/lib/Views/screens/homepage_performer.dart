@@ -5,10 +5,14 @@ import 'package:dms/Views/screens/Task/all_tasks.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/default_transitions.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../../network/network_request.dart';
+import '../../models/taskonuser_model.dart';
 import 'package:intl/intl.dart';
 import '../../routers/router.dart';
 import '../widgets/boxwidget.dart';
 import '../widgets/Task/taskwidget.dart';
+import "dart:async";
 
 class HomePagePerformer extends StatefulWidget {
   String name;
@@ -31,6 +35,21 @@ class HomePagePerformer extends StatefulWidget {
 }
 
 class _HomePagePerformerState extends State<HomePagePerformer> {
+  String username = "";
+  String password = "";
+  final _storage = new FlutterSecureStorage();
+
+  Future<void> _readusername() async {
+    final user;
+    user = await _storage.read(key: 'username');
+    username = user;
+  }
+
+  Future<void> _readpassword() async {
+    final pass = await _storage.read(key: 'password');
+    password = pass!;
+  }
+
   static TextStyle defaultAvatarText = const TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w600,
@@ -67,10 +86,32 @@ class _HomePagePerformerState extends State<HomePagePerformer> {
     );
   }
 
+  List<TaskOnUserModel> taskList = [];
+
+  Future<void> _gettask() async {
+    await _readusername();
+    await _readpassword();
+    Networking.getInstance()
+        .getProjectTaskByUser(username, password)
+        .then((list) {
+      setState(() {
+        taskList = list;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _gettask();
+  }
+
   @override
   Widget build(BuildContext context) {
+    //List<TaskOnUserModel> taskList = [];
+
     Size size = MediaQuery.of(context).size;
-    int items = 10;
+    int items = taskList.length;
     //int currentSelectionItem = 0;
 
     return SafeArea(
@@ -253,17 +294,24 @@ class _HomePagePerformerState extends State<HomePagePerformer> {
                         height: size.height * 0.45,
                         //margin: EdgeInsets.only(top: 0),
                         child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: items,
-                            itemBuilder: (context, index) => Stack(children: [
-                                  Column(children: [
-                                    TaskWidget(
-                                        taskName: "Develop a master plan",
-                                        status: 'On Process',
-                                        dealine: DateTime.now()),
-                                  ])
-                                ])))
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: items,
+                          itemBuilder: (context, index) => Wrap(
+                            children: [
+                              InkWell(
+                                child: TaskWidget(
+                                    taskName:
+                                        taskList[index].description.toString(),
+                                    status:
+                                        taskList[index].taskStatus.toString(),
+                                    dealine: taskList[index]
+                                        .projectTaskFinal
+                                        .toString()),
+                              ),
+                            ],
+                          ),
+                        )),
                   ]))
             ])));
   }

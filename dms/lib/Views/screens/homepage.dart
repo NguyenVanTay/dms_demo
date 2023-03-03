@@ -4,9 +4,12 @@ import 'package:carbon_icons/carbon_icons.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
 import 'package:dms/Views/widgets/Project/projectwidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:intl/intl.dart';
+import '../../network/network_request.dart';
+import '../../models/taskonuser_model.dart';
 import '../../routers/router.dart';
 import '../widgets/boxwidget.dart';
 import '../widgets/Task/taskwidget.dart';
@@ -36,6 +39,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String username = "";
+  String password = "";
+  final _storage = new FlutterSecureStorage();
+
+  Future<void> _readusername() async {
+    final user;
+    user = await _storage.read(key: 'username');
+    username = user;
+  }
+
+  Future<void> _readpassword() async {
+    final pass = await _storage.read(key: 'password');
+    password = pass!;
+  }
+
   static TextStyle defaultAvatarText = const TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w600,
@@ -72,10 +90,30 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  List<TaskOnUserModel> taskList = [];
+
+  Future<void> _gettask() async {
+    await _readusername();
+    await _readpassword();
+    Networking.getInstance()
+        .getProjectTaskByUser(username, password)
+        .then((list) {
+      setState(() {
+        taskList = list;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _gettask();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    int items = 10;
+    int items = taskList.length;
     //int currentSelectionItem = 0;
 
     return SafeArea(
@@ -284,9 +322,15 @@ class _HomePageState extends State<HomePage> {
                             itemBuilder: (context, index) => Stack(children: [
                                   Column(children: [
                                     TaskWidget(
-                                        taskName: "Develop a master plan",
-                                        status: 'On Process',
-                                        dealine: DateTime.now()),
+                                        taskName: taskList[index]
+                                            .description
+                                            .toString(),
+                                        status: taskList[index]
+                                            .taskStatus
+                                            .toString(),
+                                        dealine: taskList[index]
+                                            .projectTaskFinal
+                                            .toString()),
                                   ])
                                 ])))
                   ]))
