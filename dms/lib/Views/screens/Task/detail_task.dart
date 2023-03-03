@@ -37,6 +37,25 @@ class _DetailTaskState extends State<DetailTask> {
     }
   }
 
+  Color _statusColor = Colors.grey;
+  Color statusColor() {
+    if (widget.task.taskStatus!.contains("Finished")) {
+      _statusColor = const Color.fromRGBO(146, 252, 161, 1);
+    } else if (widget.task.taskStatus!.contains("Progress")) {
+      _statusColor = const Color.fromRGBO(185, 247, 255, 1);
+      if (DateTime.parse(widget.task.projectTaskFinal!)
+              .difference(DateTime.now())
+              .inDays <=
+          1) {
+        _statusColor = Colors.yellow.shade400;
+      }
+    } else if (widget.task.taskStatus!.contains("Overdue")) {
+      _statusColor = const Color.fromRGBO(255, 124, 124, 1);
+    }
+
+    return _statusColor;
+  }
+
   visibleProgress(String status) {
     if (status == "In Progress") {
       return true;
@@ -128,6 +147,31 @@ class _DetailTaskState extends State<DetailTask> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              Visibility(
+                visible: visibleProgress(widget.task.taskStatus.toString()),
+                child: Container(
+                  margin: EdgeInsets.only(top: 10, left: 10, right: 300),
+                  height: 35,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color.fromRGBO(255, 124, 124, 0.3),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Overdue",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(214, 70, 70, 1),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
