@@ -12,7 +12,6 @@ import '../../../models/task_model.dart';
 import '../../../network/network_request.dart';
 import '../../screens/Task/tasks.dart';
 
-
 double? height;
 double? width;
 
@@ -220,7 +219,7 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
-                        "${widget.project.projectBegin} -  ${widget.project.projectFinal}",
+                        "${widget.project.projectBegin!.split("-").reversed.join("-")} -  ${widget.project.projectFinal!.split("-").reversed.join("-")}",
                         style: TextStyle(
                           fontSize: 16,
                         ),

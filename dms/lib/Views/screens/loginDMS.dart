@@ -1,4 +1,4 @@
-// ignore_for_file: sort_child_properties_last, avoid_print, prefer_final_fields, unused_field, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
+// ignore_for_file: sort_child_properties_last, avoid_print, prefer_final_fields, unused_field, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, use_build_context_synchronously, must_be_immutable, duplicate_ignore
 
 import 'package:dms/Views/screens/GanttChart/gantt_chart.dart';
 import 'package:dms/Views/screens/homepage.dart';
@@ -6,6 +6,7 @@ import 'package:dms/Views/screens/homepage_performer.dart';
 import 'package:dms/Views/screens/Project/project.dart';
 import 'package:dms/Views/screens/register.dart';
 import 'package:dms/models/projectmodel.dart';
+import 'package:dms/models/task_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../network/network_request.dart';
@@ -23,16 +24,19 @@ class Page extends StatefulWidget {
   String taskOfPendingapproval;
   String taskOfTaskfromme;
   String taskOfVerify;
+  TaskModel task;
 
   Page(
-      {required this.name,
+      {super.key,
+      required this.name,
       required this.role,
       required this.taskOfOnprocess,
       required this.taskOfOverdue,
       required this.taskOfNotaccepted,
       required this.taskOfPendingapproval,
       required this.taskOfTaskfromme,
-      required this.taskOfVerify});
+      required this.taskOfVerify,
+      required this.task});
   @override
   State<Page> createState() => _PageState();
 }
@@ -48,8 +52,9 @@ class _PageState extends State<Page> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _itemWidget = [
+    List<Widget> itemWidget = [
       HomePage(
+        task: widget.task,
         name: widget.name,
         role: widget.role,
         taskOfNotaccepted: widget.taskOfNotaccepted,
@@ -70,7 +75,7 @@ class _PageState extends State<Page> {
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
-      body: _itemWidget.elementAt(_selectIndex),
+      body: itemWidget.elementAt(_selectIndex),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: [
@@ -114,7 +119,8 @@ class PagePerformer extends StatefulWidget {
   String taskOfPendingapproval;
 
   PagePerformer(
-      {required this.name,
+      {super.key,
+      required this.name,
       required this.role,
       required this.taskOfOnprocess,
       required this.taskOfOverdue,
@@ -135,7 +141,7 @@ class _PagePerformerState extends State<PagePerformer> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _itemWidget = [
+    List<Widget> itemWidget = [
       HomePagePerformer(
         name: widget.name,
         role: widget.role,
@@ -154,7 +160,7 @@ class _PagePerformerState extends State<PagePerformer> {
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
-      body: _itemWidget.elementAt(_selectIndex),
+      body: itemWidget.elementAt(_selectIndex),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: [
@@ -356,6 +362,7 @@ class _LoginState extends State<Login> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Page(
+                                        task: TaskModel(),
                                         name: result.name,
                                         role: result.role,
                                         taskOfNotaccepted: result.notAcceptTask,

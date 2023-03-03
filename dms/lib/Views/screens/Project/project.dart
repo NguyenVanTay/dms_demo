@@ -37,11 +37,23 @@ class _ProjectState extends State<Project> {
   List<ProjectModel> filterProjectListUtil = UtilStorage.projects;
 
   List<TaskModel> tasks = <TaskModel>[];
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
+    Networking.getInstance().getAllProject().then((projectData) {
+      setState(() {
+        if (mounted) projects = projectData;
+      });
+    });
     super.initState();
+  }
 
+  Future<void> refresh() async {
+    setState(() {
+      tasks.clear();
+    });
     Networking.getInstance().getAllProject().then((projectData) {
       setState(() {
         if (mounted) projects = projectData;
@@ -100,7 +112,6 @@ class _ProjectState extends State<Project> {
     return task;
   }
 
-  int items = 10;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -122,135 +133,143 @@ class _ProjectState extends State<Project> {
             color: Colors.black,
             icon: Icon(Icons.arrow_back_outlined),
             splashColor: Colors.grey,
-            onPressed: () {},
+            onPressed: () {
+              //Get.back();
+            },
           ),
           actions: [],
           backgroundColor: Colors.white,
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            child: Column(children: [
-              GestureDetector(
-                onTap: () {
-                  Get.to(CreateProject());
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: 10,
-                        bottom: 10,
-                        left: 10,
-                      ),
-                      height: 35,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Color.fromRGBO(146, 252, 161, 1),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            size: 24,
-                            color: Color.fromRGBO(0, 169, 0, 1),
-                          ),
-                          Text(
-                            "Create",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+        body: RefreshIndicator(
+          key: _refreshIndicatorKey,
+          onRefresh: refresh,
+          strokeWidth: 4.0,
+          // notificationPredicate :
+          child: SingleChildScrollView(
+            child: Container(
+              child: Column(children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.to(CreateProject());
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: 10,
+                          bottom: 10,
+                          left: 10,
+                        ),
+                        height: 35,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Color.fromRGBO(146, 252, 161, 1),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Icon(
+                              Icons.add,
+                              size: 24,
                               color: Color.fromRGBO(0, 169, 0, 1),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: PopupMenuButton<FilterItem>(
-                        initialValue: selectedMenu,
-                        icon: Icon(
-                          Icons.filter_alt_outlined,
-                          color: Colors.black,
+                            Text(
+                              "Create",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(0, 169, 0, 1),
+                              ),
+                            ),
+                          ],
                         ),
-                        onSelected: (FilterItem item) {
-                          setState(() {
-                            if (mounted) selectedMenu = item;
-                          });
-                        },
-                        itemBuilder: (BuildContext context) =>
-                            <PopupMenuEntry<FilterItem>>[
-                          PopupMenuItem<FilterItem>(
-                            value: FilterItem.iteminitiated,
-                            child: Text('All Project'),
-                            onTap: () {
-                              setState(() {
-                                projects = filterProjectListUtil;
-                              });
-                            },
-                          ),
-                          PopupMenuItem<FilterItem>(
-                            value: FilterItem.itemplanning,
-                            child: Text('Not started'),
-                            onTap: () {
-                              if (mounted) {
-                                setState(() {
-                                  projects = filterProjectByStatePlanning();
-                                });
-                              }
-                            },
-                          ),
-                          PopupMenuItem<FilterItem>(
-                            value: FilterItem.itemPerforming,
-                            child: Text('In progress'),
-                            onTap: () {
-                              if (mounted) {
-                                setState(() {
-                                  projects = filterProjectByStatePerforming();
-                                });
-                              }
-                            },
-                          ),
-                          PopupMenuItem<FilterItem>(
-                            value: FilterItem.itemfinish,
-                            child: Text('Finished'),
-                            onTap: () {
-                              if (mounted) {
-                                setState(() {
-                                  projects = filterProjectByStateFinished();
-                                });
-                              }
-                            },
-                          ),
-                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: height * 0.75,
-                margin: EdgeInsets.only(top: 10),
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: projects.length,
-                  itemBuilder: (context, index) => Stack(
-                    children: [
-                      Column(
-                        children: [
-                          ProjectWidget(
-                            project: formatDate(projects[index]),
-                          )
-                        ],
+                      Container(
+                        child: PopupMenuButton<FilterItem>(
+                          initialValue: selectedMenu,
+                          icon: Icon(
+                            Icons.filter_alt_outlined,
+                            color: Colors.black,
+                          ),
+                          onSelected: (FilterItem item) {
+                            setState(() {
+                              if (mounted) selectedMenu = item;
+                            });
+                          },
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<FilterItem>>[
+                            PopupMenuItem<FilterItem>(
+                              value: FilterItem.iteminitiated,
+                              child: Text('All Project'),
+                              onTap: () {
+                                setState(() {
+                                  projects = filterProjectListUtil;
+                                });
+                              },
+                            ),
+                            PopupMenuItem<FilterItem>(
+                              value: FilterItem.itemplanning,
+                              child: Text('Not started'),
+                              onTap: () {
+                                if (mounted) {
+                                  setState(() {
+                                    projects = filterProjectByStatePlanning();
+                                  });
+                                }
+                              },
+                            ),
+                            PopupMenuItem<FilterItem>(
+                              value: FilterItem.itemPerforming,
+                              child: Text('In progress'),
+                              onTap: () {
+                                if (mounted) {
+                                  setState(() {
+                                    projects = filterProjectByStatePerforming();
+                                  });
+                                }
+                              },
+                            ),
+                            PopupMenuItem<FilterItem>(
+                              value: FilterItem.itemfinish,
+                              child: Text('Finished'),
+                              onTap: () {
+                                if (mounted) {
+                                  setState(() {
+                                    projects = filterProjectByStateFinished();
+                                  });
+                                }
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ),
-            ]),
+                Container(
+                  height: height * 0.75,
+                  margin: EdgeInsets.only(top: 10),
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: projects.length,
+                    itemBuilder: (context, index) => Stack(
+                      children: [
+                        Column(
+                          children: [
+                            ProjectWidget(
+                              project: formatDate(projects[index]),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            ),
           ),
         ),
       ),
