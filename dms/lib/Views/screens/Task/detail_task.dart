@@ -38,19 +38,24 @@ class _DetailTaskState extends State<DetailTask> {
   }
 
   Color _statusColor = Colors.grey;
+
   Color statusColor() {
-    if (widget.task.taskStatus!.contains("Finished")) {
-      _statusColor = const Color.fromRGBO(146, 252, 161, 1);
-    } else if (widget.task.taskStatus!.contains("Progress")) {
-      _statusColor = const Color.fromRGBO(185, 247, 255, 1);
-      if (DateTime.parse(widget.task.projectTaskFinal!)
-              .difference(DateTime.now())
-              .inDays <=
-          1) {
-        _statusColor = Colors.yellow.shade400;
-      }
-    } else if (widget.task.taskStatus!.contains("Overdue")) {
-      _statusColor = const Color.fromRGBO(255, 124, 124, 1);
+    //if(DateTime.parse(widget.task.projectTaskFinal!))
+
+    // if (widget.task.taskStatus!.contains("Finished")) {
+    //   _statusColor = const Color.fromRGBO(146, 252, 161, 1);
+    // } else if (widget.task.taskStatus!.contains("Progress")) {
+    //   _statusColor = const Color.fromRGBO(185, 247, 255, 1);
+    if (DateTime.parse(widget.task.projectTaskFinal!)
+            .difference(DateTime.now())
+            .inDays >
+        1) {
+      _statusColor = Colors.green;
+    } else if (DateTime.parse(widget.task.projectTaskFinal!)
+            .difference(DateTime.now())
+            .inDays <=
+        1) {
+      _statusColor = Colors.red;
     }
 
     return _statusColor;
@@ -155,17 +160,19 @@ class _DetailTaskState extends State<DetailTask> {
                   width: 100,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Color.fromRGBO(255, 124, 124, 0.3),
+                    color: _statusColor,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        "Overdue",
+                        widget.task.taskStatus == "Overdue"
+                            ? "Overdue"
+                            : "Undue",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(214, 70, 70, 1),
+                          color: _statusColor.withAlpha(1),
                         ),
                       ),
                     ],

@@ -53,9 +53,9 @@ class _GanttChartState extends State<GanttChart> {
 
       // xu ly mau cua  theo trang thai cua task.
       Color taskcolor = Colors.grey;
-      if (taskItems[index].taskStatus!.contains("Finished")) {
+      if (taskItems[index].taskStatus!.contains("Progress")) {
         taskcolor = const Color.fromRGBO(146, 252, 161, 1);
-      } else if (taskItems[index].taskStatus!.contains("Progress")) {
+      } else if (taskItems[index].taskStatus!.contains("Finished")) {
         taskcolor = const Color.fromRGBO(185, 247, 255, 1);
         if (DateTime.parse(taskItems[index].projectTaskFinal!)
                 .difference(DateTime.now())
@@ -232,7 +232,7 @@ class _GanttChartState extends State<GanttChart> {
                               child: Align(
                                 alignment: Alignment.center,
                                 child: const Text(
-                                  "Finished",
+                                  "In Progress",
                                   style: TextStyle(),
                                 ),
                               ),
@@ -257,7 +257,7 @@ class _GanttChartState extends State<GanttChart> {
                               child: Align(
                                 alignment: Alignment.center,
                                 child: const Text(
-                                  "In Progress",
+                                  "Finished",
                                   style: TextStyle(),
                                 ),
                               ),
