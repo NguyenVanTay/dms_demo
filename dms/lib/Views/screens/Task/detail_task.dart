@@ -28,7 +28,6 @@ class DetailTask extends StatefulWidget {
 }
 
 class _DetailTaskState extends State<DetailTask> {
-
   // late bool _isShow = true;
   visibleButton(String status) {
     if (status == "Not Started" || status == "Project Task not Approved") {
@@ -38,8 +37,40 @@ class _DetailTaskState extends State<DetailTask> {
     }
   }
 
+  Color _statusColor = Colors.grey;
+
+  Color statusColor() {
+    //if(DateTime.parse(widget.task.projectTaskFinal!))
+
+    // if (widget.task.taskStatus!.contains("Finished")) {
+    //   _statusColor = const Color.fromRGBO(146, 252, 161, 1);
+    // } else if (widget.task.taskStatus!.contains("Progress")) {
+    //   _statusColor = const Color.fromRGBO(185, 247, 255, 1);
+    if (DateTime.parse(widget.task.projectTaskFinal!)
+            .difference(DateTime.now())
+            .inDays >
+        1) {
+      _statusColor = Colors.green;
+    } else if (DateTime.parse(widget.task.projectTaskFinal!)
+            .difference(DateTime.now())
+            .inDays <=
+        1) {
+      _statusColor = Colors.red;
+    }
+
+    return _statusColor;
+  }
+
   visibleProgress(String status) {
     if (status == "In Progress") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  visibleDiscusstion(String status) {
+    if (status == "Finished") {
       return true;
     } else {
       return false;
@@ -121,6 +152,33 @@ class _DetailTaskState extends State<DetailTask> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              Visibility(
+                visible: visibleProgress(widget.task.taskStatus.toString()),
+                child: Container(
+                  margin: EdgeInsets.only(top: 10, left: 10, right: 300),
+                  height: 35,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: _statusColor,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        widget.task.taskStatus == "Overdue"
+                            ? "Overdue"
+                            : "Undue",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: _statusColor.withAlpha(1),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -170,7 +228,7 @@ class _DetailTaskState extends State<DetailTask> {
                         Container(
                           margin: EdgeInsets.only(left: 10),
                           child: Text(
-                            "Start Date : ${widget.task.projectTaskBegin.toString()}",
+                            "Start Date : ${widget.task.projectTaskBegin!.split("-").reversed.join("-")}",
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
@@ -182,7 +240,7 @@ class _DetailTaskState extends State<DetailTask> {
                         Container(
                           margin: EdgeInsets.only(left: 10),
                           child: Text(
-                            "End Date   : ${widget.task.projectTaskFinal.toString()}",
+                            "End Date   : ${widget.task.projectTaskFinal!.split("-").reversed.join("-")}",
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
@@ -191,7 +249,6 @@ class _DetailTaskState extends State<DetailTask> {
                   ],
                 ),
               ),
-             
               Row(
                 children: [
                   Container(
@@ -336,12 +393,127 @@ class _DetailTaskState extends State<DetailTask> {
                   ],
                 ),
               ),
-
+              Visibility(
+                visible: visibleDiscusstion(widget.task.taskStatus.toString()),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 10, bottom: 10),
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Icon(
+                              Icons.adjust_sharp,
+                              size: 32,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Text(
+                              "Progress: ",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                      height: 100,
+                      width: 400,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        // adding borders around the widget
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1.0,
+                        ),
+                      ),
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: widget.task.progress!.length,
+                        itemBuilder: ((context, index) => Stack(
+                              children: [
+                                Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(
+                                          "${widget.task.projectTaskFinal!.split("-").reversed.join("-")} ",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                        Text(
+                                          " ${widget.task.performers![index].description} ",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                        Text(
+                                          "${widget.task.progress![index].progress ?? " "}",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                      ),
+                    ),
+                    Divider(
+                      thickness: 0.1,
+                      color: Colors.black,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 20),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.attach_file)),
+                                Container(child: Text("Name file")),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.comment_outlined)),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.live_help_outlined))
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Visibility(
                 visible: visibleProgress(widget.task.taskStatus.toString()),
-                // maintainSize: true,
-                // maintainAnimation: true,
-                // maintainState: true,
                 child: Column(
                   children: [
                     Container(
@@ -391,7 +563,7 @@ class _DetailTaskState extends State<DetailTask> {
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         Text(
-                                          "${widget.task.projectTaskFinal} ",
+                                          "${widget.task.projectTaskFinal!.split("-").reversed.join("-")} ",
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 16.0,

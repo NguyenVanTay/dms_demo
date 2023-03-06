@@ -18,7 +18,8 @@ class _AllTasksState extends State<AllTasks> {
   int items = 10;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -121,6 +122,6 @@ class _AllTasksState extends State<AllTasks> {
           ),
         ),
       ),
-    );
+    ));
   }
 }

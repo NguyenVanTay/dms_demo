@@ -1,14 +1,9 @@
-import 'package:dms/Views/screens/Project/project.dart';
-import 'package:dms/Views/screens/Task/all_tasks.dart';
-
-import 'package:dms/Views/screens/homepage.dart';
 import 'package:dms/Views/screens/login.dart';
 
 import 'package:dms/network/network_request.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'Views/screens/GanttChart/gantt_chart.dart';
 import 'controllers/providers/event_provider.dart';
 
 //DateTime get _now => DateTime.now();
@@ -32,15 +27,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (context) => EventProvider())],
-      child: GetMaterialApp(
-        initialRoute: '/',
-        getPages: [
-          //GetPage(name: '/', page: () => HomePage()),
-          GetPage(name: '/alltask', page: () => AllTasks()),
-          GetPage(name: '/project', page: () => const Project()),
-        ],
+      child: const GetMaterialApp(
+        // initialRoute: '/',
+        // getPages: [
+        //   //GetPage(name: '/', page: () => HomePage()),
+        //   GetPage(name: '/alltask', page: () => AllTasks()),
+        //   GetPage(name: '/project', page: () => const Project()),
+        // ],
         debugShowCheckedModeBanner: false,
-        home: const Login(),
+        home: Login(),
       ),
     );
   }

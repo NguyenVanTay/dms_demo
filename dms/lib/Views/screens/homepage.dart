@@ -1,12 +1,15 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_new, unused_import
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors, avoid_unnecessary_containers, sized_box_for_whitespace, unnecessary_new, unused_import, non_constant_identifier_names, must_be_immutable
 
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:dms/Views/screens/Task/all_tasks.dart';
+import 'package:dms/Views/screens/Task/verify_task.dart';
 import 'package:dms/Views/widgets/Project/projectwidget.dart';
+import 'package:dms/models/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/default_transitions.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import '../../network/network_request.dart';
 import '../../models/taskonuser_model.dart';
@@ -23,6 +26,7 @@ class HomePage extends StatefulWidget {
   String taskOfPendingapproval;
   String taskOfTaskfromme;
   String taskOfVerify;
+  TaskModel task;
 
   HomePage(
       {required this.name,
@@ -32,7 +36,8 @@ class HomePage extends StatefulWidget {
       required this.taskOfNotaccepted,
       required this.taskOfPendingapproval,
       required this.taskOfTaskfromme,
-      required this.taskOfVerify});
+      required this.taskOfVerify,
+      required this.task});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -69,7 +74,7 @@ class _HomePageState extends State<HomePage> {
     // String defaultString =
     //     names[0].toUpperCase()[0] + names[names.length - 1].toUpperCase()[0];
 
-    if (name.length < 1) {
+    if (name.isEmpty) {
       defaultString = "";
     } else if (names.length < 2) {
       defaultString = names[0].toUpperCase()[0];
@@ -274,6 +279,9 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           GestureDetector(
+                            onTap: () {
+                              Get.to(() => VerifyTask(task: widget.task));
+                            },
                             child: Box(
                               title: "Verify",
                               icon: Icon(Icons.check_circle_outline),

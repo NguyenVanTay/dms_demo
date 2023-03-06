@@ -134,7 +134,7 @@ class _VerifyTaskState extends State<VerifyTask> {
                       Container(
                         margin: EdgeInsets.only(left: 10),
                         child: Text(
-                          "Start Date : ${widget.task.projectTaskBegin.toString()}",
+                          "Start Date : ${widget.task.projectTaskBegin!.split("-").reversed.join(" - ")}",
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
@@ -146,7 +146,7 @@ class _VerifyTaskState extends State<VerifyTask> {
                       Container(
                         margin: EdgeInsets.only(left: 10),
                         child: Text(
-                          "End Date   : ${widget.task.projectTaskFinal.toString()}",
+                          "End Date   : ${widget.task.projectTaskFinal!.split("-").reversed.join(" - ")}",
                           style: TextStyle(fontSize: 16),
                         ),
                       ),

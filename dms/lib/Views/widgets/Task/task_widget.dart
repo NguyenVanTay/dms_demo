@@ -60,17 +60,10 @@ class _TasksWidgetState extends State<TasksWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.task.taskStatus == "Finished" ||
-            widget.task.taskStatus == "Overdue") {
-          Get.to(() => VerifyTask(
-                task: widget.task,
-              ));
-        } else {
-          Get.to(() => DetailTask(
-                task: widget.task,
-                project: widget.project,
-              ));
-        }
+        Get.to(() => DetailTask(
+              task: widget.task,
+              project: widget.project,
+            ));
       },
       child: Container(
         margin: EdgeInsets.all(10),
@@ -149,7 +142,7 @@ class _TasksWidgetState extends State<TasksWidget> {
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
-                            'Start Date: ${widget.task.projectTaskBegin}',
+                            'Start Date: ${widget.task.projectTaskBegin!.split("-").reversed.join('-')}',
                             style: TextStyle(
                               fontSize: 14,
                             ),
@@ -166,7 +159,7 @@ class _TasksWidgetState extends State<TasksWidget> {
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
-                            'End Date: ${widget.task.projectTaskFinal}',
+                            'End Date: ${widget.task.projectTaskFinal!.split("-").reversed.join('-')}',
                             style: TextStyle(
                               fontSize: 14,
                             ),

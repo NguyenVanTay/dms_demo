@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:face_pile/face_pile.dart';
@@ -155,7 +156,7 @@ class _DetailProjectState extends State<DetailProject> {
                         Container(
                           margin: EdgeInsets.only(left: 10),
                           child: Text(
-                            "Start Date : ${widget.project.projectBegin.toString()}",
+                            "Start Date : ${(widget.project.projectBegin!.split("-").reversed.join("-"))}",
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
@@ -167,7 +168,7 @@ class _DetailProjectState extends State<DetailProject> {
                         Container(
                           margin: EdgeInsets.only(left: 10),
                           child: Text(
-                            "End Date   : ${widget.project.projectFinal.toString()}",
+                            "End Date   : ${(widget.project.projectFinal!.split("-").reversed.join("-"))}",
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
@@ -201,7 +202,7 @@ class _DetailProjectState extends State<DetailProject> {
                         radius: 24,
                         space: 35,
                         images: [
-                        // NetworkImage("https://i.pravatar.cc/300?img=5")
+                          // NetworkImage("https://i.pravatar.cc/300?img=5")
                         ],
                       ),
                     ),

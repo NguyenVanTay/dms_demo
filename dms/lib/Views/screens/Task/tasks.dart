@@ -118,7 +118,20 @@ class _TasksState extends State<Tasks> {
     return project;
   }
 
-  int items = 10;
+  Future refresh() async {
+    setState(() {
+      tasks.clear();
+    });
+
+    Networking.getInstance()
+        .getProjectTaskByProjectCode(widget.project.code.toString())
+        .then((taskData) {
+      setState(() {
+        tasks = taskData;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -126,150 +139,153 @@ class _TasksState extends State<Tasks> {
 
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Get.to(
-              CreateTask(
-                project: widget.project,
-              ),
-            );
-          },
-          child: Icon(Icons.add),
-        ),
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            "Tasks",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          leading: IconButton(
-            color: Colors.black,
-            icon: Icon(Icons.arrow_back_outlined),
-            splashColor: Colors.grey,
+          floatingActionButton: FloatingActionButton(
             onPressed: () {
-              Get.to(() => Project());
+              Get.to(
+                CreateTask(
+                  project: widget.project,
+                ),
+              );
             },
+            child: Icon(Icons.add),
           ),
-          actions: [],
-          backgroundColor: Colors.white,
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text(
-                        "${widget.project.description}",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        maxLines: 2,
-                      )),
-                  Container(
-                    child: PopupMenuButton<FilterItem>(
-                      initialValue: selectedMenu,
-                      icon: Icon(
-                        Icons.filter_alt_outlined,
-                        color: Colors.black,
-                      ),
-                      onSelected: (FilterItem item) {
-                        setState(() {
-                          selectedMenu = item;
-                        });
-                      },
-                      itemBuilder: (BuildContext context) =>
-                          <PopupMenuEntry<FilterItem>>[
-                        PopupMenuItem<FilterItem>(
-                          value: FilterItem.itemAllTask,
-                          child: Text('All Task'),
-                          onTap: () {
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(
+              "Tasks",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            leading: IconButton(
+              color: Colors.black,
+              icon: Icon(Icons.arrow_back_outlined),
+              splashColor: Colors.grey,
+              onPressed: () {
+                Get.to(() => Project());
+              },
+            ),
+            actions: [],
+            backgroundColor: Colors.white,
+          ),
+          body: RefreshIndicator(
+            
+            onRefresh: refresh,
+            child: SingleChildScrollView(
+              child: Container(
+                child: Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            "${widget.project.description}",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 2,
+                          )),
+                      Container(
+                        child: PopupMenuButton<FilterItem>(
+                          initialValue: selectedMenu,
+                          icon: Icon(
+                            Icons.filter_alt_outlined,
+                            color: Colors.black,
+                          ),
+                          onSelected: (FilterItem item) {
                             setState(() {
-                              tasks = filterTaskListUtil;
+                              selectedMenu = item;
                             });
                           },
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<FilterItem>>[
+                            PopupMenuItem<FilterItem>(
+                              value: FilterItem.itemAllTask,
+                              child: Text('All Task'),
+                              onTap: () {
+                                setState(() {
+                                  tasks = filterTaskListUtil;
+                                });
+                              },
+                            ),
+                            PopupMenuItem<FilterItem>(
+                              value: FilterItem.itemTaskNotStart,
+                              child: Text('Project Task not Approved'),
+                              onTap: () {
+                                if (mounted) {
+                                  setState(() {
+                                    tasks = filterTaskByTasknotApproved();
+                                  });
+                                }
+                              },
+                            ),
+                            PopupMenuItem<FilterItem>(
+                              value: FilterItem.itemTaskInProgress,
+                              child: Text('In progress'),
+                              onTap: () {
+                                if (mounted) {
+                                  setState(() {
+                                    tasks = filterTaskByStateInProgress();
+                                  });
+                                }
+                              },
+                            ),
+                            PopupMenuItem<FilterItem>(
+                              value: FilterItem.itemTaskFinish,
+                              child: Text('Finish'),
+                              onTap: () {
+                                if (mounted) {
+                                  setState(() {
+                                    tasks = filterTaskByStateFinished();
+                                  });
+                                }
+                              },
+                            ),
+                            PopupMenuItem<FilterItem>(
+                              value: FilterItem.itemTaskOverdue,
+                              child: Text('Overdue'),
+                              onTap: () {
+                                if (mounted) {
+                                  setState(() {
+                                    tasks = filterTaskByStateOverdue();
+                                  });
+                                }
+                              },
+                            ),
+                          ],
                         ),
-                        PopupMenuItem<FilterItem>(
-                          value: FilterItem.itemTaskNotStart,
-                          child: Text('Project Task not Approved'),
-                          onTap: () {
-                            if (mounted) {
-                              setState(() {
-                                tasks = filterTaskByTasknotApproved();
-                              });
-                            }
-                          },
-                        ),
-                        PopupMenuItem<FilterItem>(
-                          value: FilterItem.itemTaskInProgress,
-                          child: Text('In progress'),
-                          onTap: () {
-                            if (mounted) {
-                              setState(() {
-                                tasks = filterTaskByStateInProgress();
-                              });
-                            }
-                          },
-                        ),
-                        PopupMenuItem<FilterItem>(
-                          value: FilterItem.itemTaskFinish,
-                          child: Text('Finish'),
-                          onTap: () {
-                            if (mounted) {
-                              setState(() {
-                                tasks = filterTaskByStateFinished();
-                              });
-                            }
-                          },
-                        ),
-                        PopupMenuItem<FilterItem>(
-                          value: FilterItem.itemTaskOverdue,
-                          child: Text('Overdue'),
-                          onTap: () {
-                            if (mounted) {
-                              setState(() {
-                                tasks = filterTaskByStateOverdue();
-                              });
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                height: height * 0.75,
-                margin: EdgeInsets.only(top: 10),
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: tasks.length,
-                  itemBuilder: (context, index) => Stack(
-                    children: [
-                      Column(
-                        children: [
-                          TasksWidget(
-                            task: formatDateTask(tasks[index]),
-                            project: widget.project,
-                          ),
-                        ],
                       ),
                     ],
                   ),
-                ),
+                  Container(
+                    height: height * 0.75,
+                    margin: EdgeInsets.only(top: 10),
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: tasks.length,
+                      itemBuilder: (context, index) => Stack(
+                        children: [
+                          Column(
+                            children: [
+                              TasksWidget(
+                                task: formatDateTask(tasks[index]),
+                                project: widget.project,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ]),
               ),
-            ]),
-          ),
-        ),
-      ),
+            ),
+          )),
     );
   }
 }
