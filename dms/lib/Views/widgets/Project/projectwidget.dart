@@ -227,7 +227,7 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                     ),
                     GestureDetector(
                       child: Padding(
-                          padding: const EdgeInsets.only(left: 120, bottom: 5),
+                          padding: const EdgeInsets.only(left: 100, bottom: 5),
                           child: Row(
                             children: [
                               DefaultAvatar(

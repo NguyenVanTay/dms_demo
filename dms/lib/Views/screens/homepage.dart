@@ -11,6 +11,8 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import '../../models/projectmodel.dart';
+import '../../models/util_storage.dart';
 import '../../network/network_request.dart';
 import '../../models/taskonuser_model.dart';
 import '../../routers/router.dart';
@@ -44,6 +46,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //-- Dashboard information
+  String _taskOfOnprocess = "0";
+  String _taskOfOverdue = "0";
+  String _taskOfNotaccepted = "0";
+  String _taskOfPendingapproval = "0";
+  String _taskOfTaskfromme = "0";
+  String _taskOfVerify = "0";
+
+  //-- Get login information
   String username = "";
   String password = "";
   final _storage = new FlutterSecureStorage();
@@ -59,6 +70,10 @@ class _HomePageState extends State<HomePage> {
     password = pass!;
   }
 
+  //-- Get project
+  List<ProjectModel> projects = <ProjectModel>[];
+
+  //-- create avatar --
   static TextStyle defaultAvatarText = const TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w600,
@@ -71,8 +86,6 @@ class _HomePageState extends State<HomePage> {
     //   names.add(" ");
     // }
     String defaultString = "";
-    // String defaultString =
-    //     names[0].toUpperCase()[0] + names[names.length - 1].toUpperCase()[0];
 
     if (name.isEmpty) {
       defaultString = "";
@@ -95,24 +108,66 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // -- Get task on user
+  List<TaskOnUserModel> _tempListOfTask = [];
   List<TaskOnUserModel> taskList = [];
 
   Future<void> _gettask() async {
     await _readusername();
     await _readpassword();
-    Networking.getInstance()
+    await Networking.getInstance()
         .getProjectTaskByUser(username, password)
         .then((list) {
       setState(() {
         taskList = list;
       });
     });
+    _getprojectlist();
+  }
+
+  String? project_chossen = "";
+
+  Future<void> _getproject() async {
+    await Networking.getInstance().getAllProject().then((projectData) {
+      setState(() {
+        if (mounted) projects = projectData;
+      });
+    });
+  }
+
+  List<String> projectList = [];
+
+  // List Type dropdown
+
+  void _getprojectlist() async {
+    await _getproject();
+    ProjectModel all = ProjectModel.fromJson(
+        {"Description": "All project", "Code": "00000000000"});
+    projects.add(all);
+    for (int i = 0; i < projects.length; i++) {
+      projectList.add(projects[i].description.toString());
+    }
+    project_chossen = projects[projects.length - 1].code;
+    _taskOfTaskfromme = _gettaskFromme(project_chossen.toString());
+    _taskOfVerify = _gettaskVerify(project_chossen.toString());
+  }
+
+  List<DropdownMenuItem<String>> get dropdownProjectItems {
+    List<DropdownMenuItem<String>> projectItem = projects
+        .map(
+          (e) => DropdownMenuItem(
+              child: Text(e.description ?? ""), value: e.code ?? ""),
+        )
+        .toList();
+
+    return projectItem;
   }
 
   @override
   void initState() {
     super.initState();
     _gettask();
+    //_getprojectlist();
   }
 
   @override
@@ -200,30 +255,50 @@ class _HomePageState extends State<HomePage> {
                       height: 5,
                     ),
 
-                    // container name project.
-                    Container(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                          Row(children: [
-                            Text(
-                              "Project:",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            )
-                          ]),
-                          Row(children: [
-                            Text(
-                              overflow: TextOverflow.ellipsis,
-                              "MoonSoon Festival Spring 2022 ",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontStyle: FontStyle.italic,
-                              ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          "Project:",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 10, right: 0),
+                          child: DropdownButton<String>(
+                            alignment: Alignment.centerRight,
+                            value: project_chossen,
+                            icon: const Icon(Icons.expand_more),
+                            elevation: 16,
+                            style: const TextStyle(color: Colors.black),
+                            underline: Container(
+                              height: 2,
+                              color: Colors.white,
                             ),
-                            Icon(Icons.expand_more),
-                          ])
-                        ])),
+                            onChanged: (String? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                project_chossen = value!;
+                                _tempListOfTask =
+                                    _buildSearchList(project_chossen!);
+                                _taskOfTaskfromme =
+                                    _gettaskFromme(project_chossen!);
+                                _taskOfVerify =
+                                    _gettaskVerify(project_chossen!);
+                              });
+                            },
+                            items: projects.map<DropdownMenuItem<String>>(
+                                (ProjectModel item) {
+                              return DropdownMenuItem<String>(
+                                value: item.code,
+                                child: Text(item.description.toString()),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+                    ),
+
                     SizedBox(
                       height: 5,
                     ),
@@ -275,7 +350,7 @@ class _HomePageState extends State<HomePage> {
                               title: "Task from me",
                               icon: Icon(Icons.input_outlined),
                               color: Color.fromRGBO(255, 225, 190, 1),
-                              task: widget.taskOfTaskfromme,
+                              task: _taskOfTaskfromme,
                             ),
                           ),
                           GestureDetector(
@@ -286,7 +361,7 @@ class _HomePageState extends State<HomePage> {
                               title: "Verify",
                               icon: Icon(Icons.check_circle_outline),
                               color: Color.fromRGBO(228, 228, 228, 1),
-                              task: widget.taskOfVerify,
+                              task: _taskOfVerify,
                             ),
                           ),
                         ],
@@ -326,22 +401,165 @@ class _HomePageState extends State<HomePage> {
                         child: ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            itemCount: items,
+                            itemCount: (project_chossen != "00000000000")
+                                ? _tempListOfTask.length
+                                : taskList.length,
                             itemBuilder: (context, index) => Stack(children: [
                                   Column(children: [
-                                    TaskWidget(
-                                        taskName: taskList[index]
-                                            .description
-                                            .toString(),
-                                        status: taskList[index]
-                                            .taskStatus
-                                            .toString(),
-                                        dealine: taskList[index]
-                                            .projectTaskFinal
-                                            .toString()),
+                                    (project_chossen != "00000000000")
+                                        ? TaskWidget(
+                                            taskName: _tempListOfTask[index]
+                                                .description
+                                                .toString(),
+                                            status: _tempListOfTask[index]
+                                                .taskStatus
+                                                .toString(),
+                                            dealine: _tempListOfTask[index]
+                                                .projectTaskFinal
+                                                .toString())
+                                        : TaskWidget(
+                                            taskName: taskList[index]
+                                                .description
+                                                .toString(),
+                                            status: taskList[index]
+                                                .taskStatus
+                                                .toString(),
+                                            dealine: taskList[index]
+                                                .projectTaskFinal
+                                                .toString()),
                                   ])
                                 ])))
                   ]))
             ])));
+  }
+
+  List<TaskOnUserModel> _buildSearchList(String projectcode) {
+    //final _searchList = List.filled(3, null, growable: false);
+    if (projectcode == '00000000000') {
+      return taskList;
+    }
+    List<TaskOnUserModel> _searchList = <TaskOnUserModel>[];
+    for (int i = 0; i < taskList.length; i++) {
+      String? pcode = taskList[i].projectcode;
+      if (pcode.toString().toLowerCase().contains(projectcode.toLowerCase())) {
+        _searchList.add(taskList[i]);
+      }
+    }
+    return _searchList;
+  }
+
+  String _gettaskOnprogress(String projectcode) {
+    //final _searchList = List.filled(3, null, growable: false);
+    String task = "0";
+    if (projectcode == '00000000000') {
+      int tmp = 0;
+      if (taskList.length != 0) {
+        for (int i = 0; i < taskList.length; i++) {
+          if (taskList[i].taskStatus == "In Progress") tmp = tmp + 1;
+        }
+      }
+      task = tmp.toString();
+    } else {
+      int tmp = 0;
+      if (_tempListOfTask.length != 0) {
+        for (int i = 0; i < _tempListOfTask.length; i++) {
+          if (_tempListOfTask[i].taskStatus == "In Progress") tmp = tmp + 1;
+        }
+      }
+      task = tmp.toString();
+    }
+    return task;
+  }
+
+  String _gettaskOverdue(String projectcode) {
+    //final _searchList = List.filled(3, null, growable: false);
+    String task = "0";
+    if (projectcode == '00000000000') {
+      int tmp = 0;
+      if (taskList.length != 0) {
+        for (int i = 0; i < taskList.length; i++) {
+          if (taskList[i].taskStatus == "In Progress") tmp = tmp + 1;
+        }
+      }
+      task = tmp.toString();
+    } else {
+      int tmp = 0;
+      if (_tempListOfTask.length != 0) {
+        for (int i = 0; i < _tempListOfTask.length; i++) {
+          if (_tempListOfTask[i].taskStatus == "In Progress") tmp = tmp + 1;
+        }
+      }
+      task = tmp.toString();
+    }
+    return task;
+  }
+
+  String _gettaskNotaccept(String projectcode) {
+    //final _searchList = List.filled(3, null, growable: false);
+    String task = "0";
+    if (projectcode == '00000000000') {
+      int tmp = 0;
+      if (taskList.isNotEmpty) {
+        for (int i = 0; i < taskList.length; i++) {
+          if (taskList[i].taskStatus == "Assigned") tmp = tmp + 1;
+        }
+      }
+      task = tmp.toString();
+    } else {
+      int tmp = 0;
+      if (_tempListOfTask.isNotEmpty) {
+        for (int i = 0; i < _tempListOfTask.length; i++) {
+          if (_tempListOfTask[i].taskStatus == "Assigned") tmp = tmp + 1;
+        }
+      }
+      task = tmp.toString();
+    }
+    return task;
+  }
+
+  String _gettaskFromme(String projectcode) {
+    //final _searchList = List.filled(3, null, growable: false);
+    String task = "0";
+    if (projectcode == '00000000000') {
+      int tmp = 0;
+      if (taskList.isNotEmpty) {
+        for (int i = 0; i < taskList.length; i++) {
+          if (taskList[i].isTaskAuthor = true) tmp = tmp + 1;
+        }
+      }
+      task = tmp.toString();
+    } else {
+      int tmp = 0;
+      if (_tempListOfTask.isNotEmpty) {
+        for (int i = 0; i < _tempListOfTask.length; i++) {
+          if (_tempListOfTask[i].isTaskAuthor = true) tmp = tmp + 1;
+        }
+      }
+      task = tmp.toString();
+    }
+    return task;
+  }
+
+  String _gettaskVerify(String projectcode) {
+    //final _searchList = List.filled(3, null, growable: false);
+    String task = "0";
+    if (projectcode == '00000000000') {
+      int tmp = 0;
+      if (taskList.isNotEmpty) {
+        for (int i = 0; i < taskList.length; i++) {
+          if (taskList[i].isTaskReview = true) tmp = tmp + 1;
+        }
+      }
+      task = tmp.toString();
+    } else {
+      int tmp = 0;
+      if (_tempListOfTask.isNotEmpty) {
+        for (int i = 0; i < _tempListOfTask.length; i++) {
+          if (_tempListOfTask[i].isTaskReview = true) tmp = tmp + 1;
+        }
+      }
+      task = tmp.toString();
+    }
+    return task;
   }
 }

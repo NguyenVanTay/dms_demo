@@ -2,10 +2,14 @@
 
 class TaskOnUserModel {
   List<Predecessors>? predecessors;
+  bool? isTaskAuthor;
+  bool? isTaskReview;
   String? projectTaskFinal;
   String? projectTaskBegin;
   String? importance;
   String? longDesc;
+  String? project;
+  String? projectcode;
   List<Performers>? performers;
   String? description;
   String? code;
@@ -15,10 +19,14 @@ class TaskOnUserModel {
 
   TaskOnUserModel({
     this.predecessors,
+    this.isTaskAuthor,
+    this.isTaskReview,
     this.projectTaskFinal,
     this.projectTaskBegin,
     this.importance,
     this.longDesc,
+    this.project,
+    this.projectcode,
     this.performers,
     this.description,
     this.code,
@@ -34,10 +42,14 @@ class TaskOnUserModel {
         predecessors!.add(new Predecessors.fromJson(v));
       });
     }
+    isTaskAuthor = json['IsTaskAuthor'];
+    isTaskReview = json['IsTaskReview'];
     projectTaskFinal = json['ProjectTaskFinal'];
     projectTaskBegin = json['ProjectTaskBegin'];
     importance = json['Importance'];
     longDesc = json['LongDesc'];
+    project = json['Project'];
+    projectcode = json['ProjectCode'];
     if (json['Performers'] != null) {
       performers = <Performers>[];
       json['Performers'].forEach((v) {
