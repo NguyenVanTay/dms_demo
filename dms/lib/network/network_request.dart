@@ -231,13 +231,13 @@ class Networking {
     final response = await http.get(
         Uri.parse('$host/v1/ProjectTaskDetails?ProjectTask=$code'),
         headers: requestHeaders);
-    UtilStorage.tasks.clear();
+    //UtilStorage.tasks.clear();
     if (response.statusCode == 200) {
       for (var taskItem in jsonDecode(response.body)) {
         taskList.add(TaskModel.fromJson(taskItem));
       }
 
-      UtilStorage.tasks.addAll(taskList);
+      //UtilStorage.tasks.addAll(taskList);
     }
     return taskList;
   }

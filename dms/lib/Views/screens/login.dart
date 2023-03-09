@@ -235,7 +235,7 @@ class _LoginState extends State<Login> {
                       //     height: deviceHeight * 0.2),
                       Text("Welcome back,",
                           style: Theme.of(context).textTheme.headline4),
-                      Text("Document Management System",
+                      Text("Project Management System",
                           style: Theme.of(context).textTheme.headline5),
                     ],
                   ),

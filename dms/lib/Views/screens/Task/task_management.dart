@@ -109,9 +109,11 @@ class _AllTasksState extends State<AllTasks> {
                         children: [
                           // use widget TaskWidget with items count = 10
                           TaskWidget(
-                              taskName: "On Process",
-                              status: "status",
-                              dealine: "2022-02-02")
+                            taskName: "On Process",
+                            status: "status",
+                            dealine: "2022-02-02",
+                            taskcode: '00000000',
+                          )
                         ],
                       ),
                     ],

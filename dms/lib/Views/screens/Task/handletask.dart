@@ -16,17 +16,18 @@ enum SampleItem { itemOne, itemTwo, itemThree }
 
 SampleItem? selectedMenu;
 
-class DetailTask extends StatefulWidget {
+class HandlelTask extends StatefulWidget {
   TaskModel task;
-  ProjectModel project;
 
-  DetailTask({required this.task, required this.project, super.key});
+  HandlelTask({required this.task, super.key});
 
   @override
-  State<DetailTask> createState() => _DetailTaskState();
+  State<HandlelTask> createState() => _HandlelTaskState();
 }
 
-class _DetailTaskState extends State<DetailTask> {
+class _HandlelTaskState extends State<HandlelTask> {
+  //List<TaskModel> task = [];
+
   // late bool _isShow = true;
   visibleButton(String status) {
     if (status == "Not Started" || status == "Project Task not Approved") {
@@ -108,17 +109,28 @@ class _DetailTaskState extends State<DetailTask> {
     );
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Networking.getInstance()
-  //       .getProjectTaskByTaskCode(widget.task.code.toString())
+  // Future<void> _gettask() async {
+  //   await Networking.getInstance()
+  //       .getProjectTaskByTaskCode(widget.taskcode.toString())
   //       .then((taskData) {
   //     setState(() {
-  //       tasks = taskData;
+  //       if (mounted) task = taskData;
   //     });
   //   });
   // }
+
+  @override
+  void initState() {
+    //_gettask();
+    super.initState();
+    // Networking.getInstance()
+    //     .getProjectTaskByTaskCode(widget.taskcode.toString())
+    //     .then((taskData) {
+    //   setState(() {
+    //     task = taskData;
+    //   });
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,10 +214,7 @@ class _DetailTaskState extends State<DetailTask> {
                       child: CircularPercentIndicator(
                         radius: 60.0,
                         lineWidth: 15.0,
-                        percent: double.parse('${widget.task.percent}'
-                                .replaceAll("\"\"", "")
-                                .replaceAll("%", "")) /
-                            100,
+                        percent: 0.9,
                         center: new Text(
                           "${widget.task.percent}",
                           style: TextStyle(
@@ -724,7 +733,7 @@ class _DetailTaskState extends State<DetailTask> {
                               ),
                             );
                           }
-                          Get.to(() => Tasks(project: widget.project));
+                          // Get.to(() => Tasks(project: widget.project));
 
                           // Get.to(Tasks(
                           //   project: ProjectModel,

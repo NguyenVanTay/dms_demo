@@ -301,13 +301,14 @@ class _HomePagePerformerState extends State<HomePagePerformer> {
                             children: [
                               InkWell(
                                 child: TaskWidget(
-                                    taskName:
-                                        taskList[index].description.toString(),
-                                    status:
-                                        taskList[index].taskStatus.toString(),
-                                    dealine: taskList[index]
-                                        .projectTaskFinal
-                                        .toString()),
+                                  taskName:
+                                      taskList[index].description.toString(),
+                                  status: taskList[index].taskStatus.toString(),
+                                  dealine: taskList[index]
+                                      .projectTaskFinal
+                                      .toString(),
+                                  taskcode: taskList[index].code.toString(),
+                                ),
                               ),
                             ],
                           ),
