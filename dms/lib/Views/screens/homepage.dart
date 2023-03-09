@@ -358,7 +358,7 @@ class _HomePageState extends State<HomePage> {
                               Get.to(() => VerifyTask(task: widget.task));
                             },
                             child: Box(
-                              title: "Verify",
+                              title: "Review",
                               icon: Icon(Icons.check_circle_outline),
                               color: Color.fromRGBO(228, 228, 228, 1),
                               task: _taskOfVerify,
@@ -416,7 +416,11 @@ class _HomePageState extends State<HomePage> {
                                                 .toString(),
                                             dealine: _tempListOfTask[index]
                                                 .projectTaskFinal
-                                                .toString())
+                                                .toString(),
+                                            taskcode: _tempListOfTask[index]
+                                                .code
+                                                .toString(),
+                                          )
                                         : TaskWidget(
                                             taskName: taskList[index]
                                                 .description
@@ -426,7 +430,10 @@ class _HomePageState extends State<HomePage> {
                                                 .toString(),
                                             dealine: taskList[index]
                                                 .projectTaskFinal
-                                                .toString()),
+                                                .toString(),
+                                            taskcode:
+                                                taskList[index].code.toString(),
+                                          ),
                                   ])
                                 ])))
                   ]))
@@ -455,7 +462,11 @@ class _HomePageState extends State<HomePage> {
       int tmp = 0;
       if (taskList.length != 0) {
         for (int i = 0; i < taskList.length; i++) {
-          if (taskList[i].taskStatus == "In Progress") tmp = tmp + 1;
+          if ((((taskList[i].isTaskAuthor == true) &&
+                      (taskList[i].currentPerformerDescription ==
+                          widget.name)) ||
+                  (taskList[i].isTaskAuthor == false)) &&
+              (taskList[i].taskStatus == "In Progress")) tmp = tmp + 1;
         }
       }
       task = tmp.toString();
@@ -463,7 +474,11 @@ class _HomePageState extends State<HomePage> {
       int tmp = 0;
       if (_tempListOfTask.length != 0) {
         for (int i = 0; i < _tempListOfTask.length; i++) {
-          if (_tempListOfTask[i].taskStatus == "In Progress") tmp = tmp + 1;
+          if ((((_tempListOfTask[i].isTaskAuthor == true) &&
+                      (_tempListOfTask[i].currentPerformerDescription ==
+                          widget.name)) ||
+                  (_tempListOfTask[i].isTaskAuthor == false)) &&
+              (_tempListOfTask[i].taskStatus == "In Progress")) tmp = tmp + 1;
         }
       }
       task = tmp.toString();
@@ -495,6 +510,37 @@ class _HomePageState extends State<HomePage> {
   }
 
   String _gettaskNotaccept(String projectcode) {
+    //final _searchList = List.filled(3, null, growable: false);
+    String task = "0";
+    if (projectcode == '00000000000') {
+      int tmp = 0;
+      if (taskList.isNotEmpty) {
+        for (int i = 0; i < taskList.length; i++) {
+          if ((((taskList[i].isTaskAuthor == true) &&
+                      (taskList[i].currentPerformerDescription ==
+                          widget.name)) ||
+                  (taskList[i].isTaskAuthor == false)) &&
+              (taskList[i].taskStatus == "Assigned")) tmp = tmp + 1;
+        }
+      }
+      task = tmp.toString();
+    } else {
+      int tmp = 0;
+      if (_tempListOfTask.isNotEmpty) {
+        for (int i = 0; i < _tempListOfTask.length; i++) {
+          if ((((_tempListOfTask[i].isTaskAuthor == true) &&
+                      (_tempListOfTask[i].currentPerformerDescription ==
+                          widget.name)) ||
+                  (_tempListOfTask[i].isTaskAuthor == false)) &&
+              (_tempListOfTask[i].taskStatus == "Assigned")) tmp = tmp + 1;
+        }
+      }
+      task = tmp.toString();
+    }
+    return task;
+  }
+
+  String _gettaskPendingapproval(String projectcode) {
     //final _searchList = List.filled(3, null, growable: false);
     String task = "0";
     if (projectcode == '00000000000') {

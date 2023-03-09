@@ -6,6 +6,7 @@ class TaskOnUserModel {
   bool? isTaskReview;
   String? projectTaskFinal;
   String? projectTaskBegin;
+  String? currentPerformerDescription;
   String? importance;
   String? longDesc;
   String? project;
@@ -23,6 +24,7 @@ class TaskOnUserModel {
     this.isTaskReview,
     this.projectTaskFinal,
     this.projectTaskBegin,
+    this.currentPerformerDescription,
     this.importance,
     this.longDesc,
     this.project,
@@ -46,6 +48,7 @@ class TaskOnUserModel {
     isTaskReview = json['IsTaskReview'];
     projectTaskFinal = json['ProjectTaskFinal'];
     projectTaskBegin = json['ProjectTaskBegin'];
+    currentPerformerDescription = json['CurrentPerformerDescription'];
     importance = json['Importance'];
     longDesc = json['LongDesc'];
     project = json['Project'];
