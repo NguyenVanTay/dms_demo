@@ -18,6 +18,7 @@ import '../../models/taskonuser_model.dart';
 import '../../routers/router.dart';
 import '../widgets/boxwidget.dart';
 import '../widgets/Task/taskwidget.dart';
+import 'Task/task_management.dart';
 
 class HomePage extends StatefulWidget {
   String name;
@@ -387,7 +388,7 @@ class _HomePageState extends State<HomePage> {
                             child: IconButton(
                               icon: Icon(Icons.arrow_forward),
                               onPressed: () {
-                                Get.to(AllTasks());
+                                Get.to(TaskManagement());
                               },
                             ),
                           ),

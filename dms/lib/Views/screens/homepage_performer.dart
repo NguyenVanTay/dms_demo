@@ -14,6 +14,8 @@ import '../widgets/boxwidget.dart';
 import '../widgets/Task/taskwidget.dart';
 import "dart:async";
 
+import 'Task/task_management.dart';
+
 class HomePagePerformer extends StatefulWidget {
   String name;
   String role;
@@ -282,7 +284,7 @@ class _HomePagePerformerState extends State<HomePagePerformer> {
                             child: IconButton(
                               icon: Icon(Icons.arrow_forward),
                               onPressed: () {
-                                Get.to(AllTasks());
+                                Get.to(TaskManagement());
                               },
                             ),
                           ),
